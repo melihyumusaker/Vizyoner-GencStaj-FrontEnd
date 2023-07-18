@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "352405295079",
+    "project_id": "vizyonergenc-80bc2",
+    "storage_bucket": "vizyonergenc-80bc2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:352405295079:android:e775fa34503b9b8852b742",
+        "android_client_info": {
+          "package_name": "com.example.proje"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "352405295079-knet6987sn24mchl52mm1kjvp95me74v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCWrR66Ic0b7uj7FBFxHHF68LTm1Twx4LE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "352405295079-knet6987sn24mchl52mm1kjvp95me74v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
