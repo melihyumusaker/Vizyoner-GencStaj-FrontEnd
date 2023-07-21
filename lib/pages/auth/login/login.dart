@@ -1,7 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
-import 'package:proje/main.dart';
 import 'package:proje/pages/auth/singup/singup.dart';
 import 'package:proje/pages/screens/home_page.dart';
 
@@ -26,18 +24,18 @@ class _LoginState extends State<Login> {
         height: MediaQuery.of(context).size.height,
         decoration: const BoxDecoration(
             gradient: LinearGradient(colors: [
-          Colors.blue,
-          Colors.white,
+          Color(0xFFACBFE6),
+          Color(0xFF6688CC),
         ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
         child: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.fromLTRB(
-                20, MediaQuery.of(context).size.height * 0.2, 20, 0),
+                10, MediaQuery.of(context).size.height * 0.1, 10, 0),
             child: Column(
               children: <Widget>[
                 Container(
-                  height: 200,
-                  width: 200,
+                  height: 250,
+                  width: 250,
                   child: const Image(
                     image: NetworkImage(
                         "https://vizyonergenc.com/company/vg800600.png"),
@@ -47,18 +45,18 @@ class _LoginState extends State<Login> {
                 const SizedBox(
                   height: 30,
                 ),
-                reusableTextField("Enter UserName", Icons.person_outline, false,
-                    _emailTextController),
+                reusableTextField("Mailinizi Giriniz", Icons.person_outline,
+                    false, _emailTextController),
                 const SizedBox(
                   height: 20,
                 ),
-                reusableTextField("Enter Password", Icons.lock_outline, true,
+                reusableTextField("Şifrenizi Giriniz", Icons.lock_outline, true,
                     _passwordTextController),
                 const SizedBox(
                   height: 5,
                 ),
                 forgetPassword(context),
-                firebaseUIButton(context, "Sign In", () {
+                firebaseUIButton(context, "Giriş Yap", () {
                   FirebaseAuth.instance
                       .signInWithEmailAndPassword(
                           email: _emailTextController.text,
@@ -83,16 +81,17 @@ class _LoginState extends State<Login> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const Text("Don't have account?",
-            style: TextStyle(color: Colors.white70)),
+        const Text("Hesabınız yok mu?",
+            style: TextStyle(color: Color(0xFFACBFE6))),
         GestureDetector(
           onTap: () {
             Navigator.push(context,
                 MaterialPageRoute(builder: (context) => const Signup()));
           },
           child: const Text(
-            " Sign Up",
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+            " Kayıt ol",
+            style: TextStyle(
+                color: Color(0xFFACBFE6), fontWeight: FontWeight.bold),
           ),
         )
       ],
@@ -106,7 +105,7 @@ class _LoginState extends State<Login> {
       alignment: Alignment.bottomRight,
       child: TextButton(
         child: const Text(
-          "Forgot Password?",
+          "Şifremi Unuttum",
           style: TextStyle(color: Colors.white70),
           textAlign: TextAlign.right,
         ),

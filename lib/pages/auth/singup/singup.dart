@@ -1,7 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:proje/main.dart';
 import 'package:proje/pages/screens/home_page.dart';
 
 import '../../../utils/reuseable_widgets/auth_reuseable_widgets.dart';
@@ -25,7 +23,7 @@ class _SignupState extends State<Signup> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         title: const Text(
-          "Sign Up",
+          "Kayıt Ol",
           style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
         ),
       ),
@@ -34,8 +32,8 @@ class _SignupState extends State<Signup> {
           height: MediaQuery.of(context).size.height,
           decoration: const BoxDecoration(
               gradient: LinearGradient(colors: [
-            Colors.blue,
-            Colors.white,
+            Color(0xFFACBFE6),
+            Color(0xFF6688CC),
           ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
           child: SingleChildScrollView(
               child: Padding(
@@ -45,22 +43,22 @@ class _SignupState extends State<Signup> {
                 const SizedBox(
                   height: 20,
                 ),
-                reusableTextField("Enter UserName", Icons.person_outline, false,
-                    _userNameTextController),
+                reusableTextField("Adınız Soyadınız", Icons.person_outline,
+                    false, _userNameTextController),
                 const SizedBox(
                   height: 20,
                 ),
-                reusableTextField("Enter Email Id", Icons.person_outline, false,
-                    _emailTextController),
+                reusableTextField("Mailinizi Giriniz", Icons.person_outline,
+                    false, _emailTextController),
                 const SizedBox(
                   height: 20,
                 ),
-                reusableTextField("Enter Password", Icons.lock_outlined, true,
-                    _passwordTextController),
+                reusableTextField("Şifrenizi Giriniz", Icons.lock_outlined,
+                    true, _passwordTextController),
                 const SizedBox(
                   height: 20,
                 ),
-                firebaseUIButton(context, "Sign Up", () {
+                firebaseUIButton(context, "Kayıt Ol", () {
                   FirebaseAuth.instance
                       .createUserWithEmailAndPassword(
                           email: _emailTextController.text,
