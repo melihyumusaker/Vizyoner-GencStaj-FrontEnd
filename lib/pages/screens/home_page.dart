@@ -2,8 +2,8 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
-import 'package:proje/pages/auth/singup/singup.dart';
 import 'package:flutter/material.dart';
+import 'package:proje/pages/auth/singup/singup.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
