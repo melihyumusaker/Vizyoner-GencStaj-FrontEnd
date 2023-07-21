@@ -19,7 +19,7 @@ class _HakkimizdaState extends State<Hakkimizda> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: OurColor.bgColor,
         appBar: _appBarWidget(),
         body: SingleChildScrollView(
           child: Container(

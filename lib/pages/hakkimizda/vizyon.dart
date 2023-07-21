@@ -11,7 +11,7 @@ class Vizyon extends StatelessWidget {
       body: Stack(children: [
         _bgimage(context),
         Column(children: [
-          SizedBox(height: 20),
+          SizedBox(height: 70),
           _logo(context),
           _vizyonText(),
         ]),
@@ -38,7 +38,7 @@ class Vizyon extends StatelessWidget {
         _text,
         textAlign: TextAlign.justify,
         style: const TextStyle(
-          fontSize: 20,
+          fontSize: 18,
         ),
       ),
     );
@@ -46,13 +46,13 @@ class Vizyon extends StatelessWidget {
 
   Container _logo(BuildContext context) {
     return Container(
-        height: MediaQuery.of(context).size.height * 1 / 3,
-        width: MediaQuery.of(context).size.height * 1 / 3,
+        height: MediaQuery.of(context).size.height * 1 / 4,
+        width: MediaQuery.of(context).size.height * 1 / 4,
         child: Image.asset("assets/images/vizyonergenc.png"));
   }
 
   final String _text =
-      "Vizyoner Genç Projesi; günden güne küresel bir marka haline gelen Türk Savunma Sanayii’nin ulaştığı yetkinlik seviyesinin sürdürülebilir kılınmasının, üstlenilen iddialı projelerin başarıyla tamamlanmasının ve ileri teknoloji alanında ülkemizin takip eden değil, yön veren konumuna yükselmesinin ancak ve ancak sektörün yüksek nitelikli insan kaynağına erişim sağlayabilmesi durumunda mümkün olacağı düşüncesinden yola çıkarak başlatılmıştır.";
+      "   Vizyoner Genç Projesi; günden güne küresel bir marka haline gelen Türk Savunma Sanayii’nin ulaştığı yetkinlik seviyesinin sürdürülebilir kılınmasının, üstlenilen iddialı projelerin başarıyla tamamlanmasının ve ileri teknoloji alanında ülkemizin takip eden değil, yön veren konumuna yükselmesinin ancak ve ancak sektörün yüksek nitelikli insan kaynağına erişim sağlayabilmesi durumunda mümkün olacağı düşüncesinden yola çıkarak başlatılmıştır.";
 }
 
 AppBar _appBarWidget(BuildContext context) {
