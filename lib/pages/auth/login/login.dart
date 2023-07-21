@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:proje/pages/auth/singup/singup.dart';
-import 'package:proje/pages/screens/home_page.dart';
+import 'package:proje/pages/screens/side_bar.dart';
 
 import '../../../utils/reuseable_widgets/auth_reuseable_widgets.dart';
 import '../reset_password/reset_password.dart';
@@ -63,7 +63,7 @@ class _LoginState extends State<Login> {
                           password: _passwordTextController.text)
                       .then((value) {
                     Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => HomeScreen()));
+                        MaterialPageRoute(builder: (context) => SideBar()));
                   }).onError((error, stackTrace) {
                     print("Error ${error.toString()}");
                   });
