@@ -51,7 +51,7 @@ Container firebaseUIButton(BuildContext context, String title, Function onTap) {
       },
       child: Text(
         title,
-        style: const TextStyle(
+        style:  TextStyle(
             color: Colors.black87, fontWeight: FontWeight.bold, fontSize: 16),
       ),
       style: ButtonStyle(
