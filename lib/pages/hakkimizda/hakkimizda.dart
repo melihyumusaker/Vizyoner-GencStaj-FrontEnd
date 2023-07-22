@@ -50,7 +50,7 @@ class _HakkimizdaState extends State<Hakkimizda> {
   }
 
   Text _adresimizText() {
-    return Text(
+    return const Text(
       "Adresimiz",
       style: TextStyle(
           fontFamily: 'OpenSans', fontSize: 20, color: Colors.black54),

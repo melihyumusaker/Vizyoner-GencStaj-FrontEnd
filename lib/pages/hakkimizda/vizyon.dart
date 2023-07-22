@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:proje/themecolors/colors.dart';
 
 class Vizyon extends StatelessWidget {
-  Vizyon({super.key});
+  const Vizyon({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -11,7 +11,7 @@ class Vizyon extends StatelessWidget {
       body: Stack(children: [
         _bgimage(context),
         Column(children: [
-          SizedBox(height: 70),
+          const SizedBox(height: 70),
           _logo(context),
           _vizyonText(),
         ]),

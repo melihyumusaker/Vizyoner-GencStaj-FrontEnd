@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:proje/themecolors/colors.dart';
 
+// ignore: must_be_immutable
 class Misyon extends StatelessWidget {
   Misyon({super.key});
 
@@ -51,7 +52,7 @@ class Misyon extends StatelessWidget {
         child: Image.asset("assets/images/vizyonergenc.png"));
   }
 
-  String _text =
+  final String _text =
       "   Türk Savunma Sanayii’nin amiral gemisi konumundaki Türk Silahlı Kuvvetlerini Güçlendirme Vakfı şirketleri başta olmak üzere sektörün önde gelen kurum ve kuruluşlarının; genç profesyoneller ve sektörde görev almak isteyen yüksek nitelikli bireylerle buluşma noktası haline gelmeyi hedefleyen Vizyoner Genç, bu çerçevede hem staj ile eğitim programları hem de istihdam çalışmalarıyla gerek ülkemize gerekse de sektöre hizmet etmeyi sürdürmektedir.";
 }
 
