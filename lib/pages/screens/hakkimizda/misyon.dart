@@ -3,7 +3,7 @@ import 'package:proje/themecolors/colors.dart';
 
 // ignore: must_be_immutable
 class Misyon extends StatelessWidget {
-  Misyon({super.key});
+  const Misyon({super.key});
 
   @override
   Widget build(BuildContext context) {

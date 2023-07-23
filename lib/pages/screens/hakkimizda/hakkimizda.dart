@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:proje/pages/hakkimizda/misyon.dart';
-import 'package:proje/pages/hakkimizda/vizyon.dart';
+import 'package:proje/pages/screens/hakkimizda/misyon.dart';
+import 'package:proje/pages/screens/hakkimizda/vizyon.dart';
 import 'package:proje/themecolors/colors.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -61,7 +60,7 @@ class _HakkimizdaState extends State<Hakkimizda> {
     return GestureDetector(
       onTap: () {
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => Vizyon()));
+            context, MaterialPageRoute(builder: (context) => const Vizyon()));
       },
       child: Container(
         height: MediaQuery.of(context).size.height * 1 / 15,
@@ -98,7 +97,7 @@ class _HakkimizdaState extends State<Hakkimizda> {
     return InkWell(
       onTap: () {
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => Misyon()));
+            context, MaterialPageRoute(builder: (context) => const Misyon()));
       },
       child: Container(
         height: MediaQuery.of(context).size.height * 1 / 15,
@@ -158,7 +157,7 @@ class _HakkimizdaState extends State<Hakkimizda> {
                 await launchUrl(url);
               }
             },
-            child: Container(
+            child: SizedBox(
               height: 48,
               width: 80,
               child: InkWell(
@@ -204,11 +203,9 @@ class _HakkimizdaState extends State<Hakkimizda> {
               final Uri url = Uri(scheme: 'tel', path: "0312 424 19 62");
               if (await canLaunchUrl(url)) {
                 await launchUrl(url);
-              } else {
-                print("olmadı");
-              }
+              } else {}
             },
-            child: Container(
+            child: SizedBox(
               height: 50,
               width: 50,
               child: Image.asset("assets/images/phone.png"),

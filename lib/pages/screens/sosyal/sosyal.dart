@@ -65,7 +65,7 @@ class _SosyalState extends State<Sosyal> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => BlogDetay()));
+                                    builder: (context) => const BlogDetay()));
                           },
                           child: SizedBox(
                             height: 130,
@@ -118,7 +118,8 @@ class _SosyalState extends State<Sosyal> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => EtkinlikDetay()));
+                                    builder: (context) =>
+                                        const EtkinlikDetay()));
                           },
                           child: SizedBox(
                             height: 130,
