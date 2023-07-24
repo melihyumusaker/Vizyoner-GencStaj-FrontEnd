@@ -37,6 +37,7 @@ class _SosyalState extends State<Sosyal> {
     String displayedTitle =
         text.length > 10 ? "${text.substring(0, 10)} ..." : text;
     return Card(
+      color: OurColor.cardColor,
       elevation: 20.0,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -49,6 +50,7 @@ class _SosyalState extends State<Sosyal> {
             ),
           ),
           Card(
+            color: OurColor.cardColor,
             elevation: 100,
             child: SizedBox(
               height: 180,
@@ -90,6 +92,7 @@ class _SosyalState extends State<Sosyal> {
     String displayedTitle =
         text.length > 10 ? "${text.substring(0, 12)} ..." : text;
     return Card(
+      color: OurColor.cardColor,
       elevation: 20.0,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -102,6 +105,7 @@ class _SosyalState extends State<Sosyal> {
             ),
           ),
           Card(
+            color: OurColor.cardColor,
             elevation: 100,
             child: SizedBox(
               height: 180,

@@ -1,5 +1,9 @@
- // import 'package:ex_flutter/pages/sidebarAyarlar.dart';
+// import 'package:ex_flutter/pages/sidebarAyarlar.dart';
 import 'package:flutter/material.dart';
+import 'package:proje/pages/screens/hakkimizda/hakkimizda.dart';
+import 'package:proje/pages/screens/sidebar/sidebar_settings.dart';
+import 'package:proje/pages/screens/sidebar/support.dart';
+import 'package:quickalert/quickalert.dart';
 
 class SideBar extends StatefulWidget {
   const SideBar({super.key});
@@ -21,10 +25,10 @@ class _SideBar extends State<SideBar> {
       drawer: _Drawer(),
     );
   }
+
   Widget _Drawer() {
     return Drawer(
         child: Container(
-      
       height: double.infinity,
       color: Color(0xFF6688CC),
       child: SafeArea(
@@ -95,7 +99,10 @@ class _SideBar extends State<SideBar> {
                 padding: const EdgeInsets.only(left: 1.0),
               ),
               ListTile(
-                onTap: () {},
+                onTap: () => {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => Destek())),
+                },
                 leading: SizedBox(
                   height: 34,
                   width: 34,
@@ -104,7 +111,10 @@ class _SideBar extends State<SideBar> {
                 title: Text("Destek"),
               ),
               ListTile(
-                onTap: () {},
+                onTap: () => {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => Hakkimizda()))
+                },
                 leading: SizedBox(
                   height: 34,
                   width: 34,
@@ -113,7 +123,10 @@ class _SideBar extends State<SideBar> {
                 title: Text("Hakkımızda"),
               ),
               ListTile(
-                onTap: () {},
+                onTap: () => {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => SideBarAyarlar()))
+                },
                 leading: SizedBox(
                   height: 34,
                   width: 34,
@@ -122,7 +135,9 @@ class _SideBar extends State<SideBar> {
                 title: Text("Ayarlar"),
               ),
               ListTile(
-                onTap: () {},
+                onTap: () {
+                  logOutButton();
+                },
                 leading: SizedBox(
                   height: 34,
                   width: 34,
@@ -158,6 +173,18 @@ class _SideBar extends State<SideBar> {
           color: Colors.white,
         ),
       ),
+    );
+  }
+
+  void logOutButton() {
+    QuickAlert.show(
+      context: context,
+      title: "Bilgilendirme",
+      type: QuickAlertType.info,
+      text: 'Çıkış Yapmak İstediğinizden Emin Misiniz?',
+      confirmBtnText: "Çıkış Yap",
+      //autoCloseDuration: const Duration(seconds: 10),
+      onConfirmBtnTap: () {},
     );
   }
 }
