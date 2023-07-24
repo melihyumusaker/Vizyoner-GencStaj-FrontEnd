@@ -16,7 +16,7 @@ class _IsState extends State<Is> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: OurColor.bgColor,
+        backgroundColor: Colors.white,
         appBar: _isAppBar(context),
         body: Container(
           padding: const EdgeInsets.all(15),

@@ -8,5 +8,7 @@ class OurColor {
 
   static Color thirdColor = const Color(0xFFACBFE6);
 
-  static Color bgColor = const Color(0xFFE1F2F7);
+  static Color bgColor = Colors.white;
+
+  static Color cardColor = const Color(0xFFE1F2F7);
 }
