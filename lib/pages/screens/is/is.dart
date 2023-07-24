@@ -24,15 +24,36 @@ class _IsState extends State<Is> {
             children: [
               _ilansirketbuttons(context),
               const SizedBox(height: 20),
-              _pageValue == 0
-                  ? _ilanCardBuilder()
-                  : Container(
-                      width: 150,
-                      height: 150,
-                      color: Colors.red,
-                    ),
+              _pageValue == 0 ? _ilanCardBuilder() : _sirketCardBuilder()
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+//_sirketCardBuilder(context),
+  Card _sirketCard(BuildContext context) {
+    return Card(
+      color: OurColor.thirdColor,
+      elevation: 25,
+      margin: const EdgeInsets.all(15),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(18),
+      ),
+      child: Container(
+        padding: const EdgeInsets.all(25),
+        width: (MediaQuery.of(context).size.width / 2) - 70,
+        height: 170,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            SizedBox(
+              width: (MediaQuery.of(context).size.width / 2) - 140,
+              child: Image.asset("assets/images/facebook.jpg"),
+            ),
+            ElevatedButton(onPressed: () {}, child: const Text("Detay.."))
+          ],
         ),
       ),
     );
@@ -55,7 +76,8 @@ class _IsState extends State<Is> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const IsIlanDetay()));
+                      builder: (context) => const IsIlanDetay(),
+                    ));
               },
               child: SizedBox(
                 width: 200,
@@ -160,7 +182,9 @@ class _IsState extends State<Is> {
                   textStyle: const TextStyle(fontSize: 18),
                   padding:
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                  backgroundColor: OurColor.secondColor,
+                  backgroundColor: _pageValue == 1
+                      ? OurColor.thirdColor
+                      : OurColor.secondColor,
                   foregroundColor: Colors.white,
                   elevation: 20,
                   shape: RoundedRectangleBorder(
@@ -185,7 +209,9 @@ class _IsState extends State<Is> {
                     textStyle: const TextStyle(fontSize: 18),
                     padding: const EdgeInsets.symmetric(
                         horizontal: 20, vertical: 10),
-                    backgroundColor: OurColor.secondColor,
+                    backgroundColor: _pageValue == 0
+                        ? OurColor.thirdColor
+                        : OurColor.secondColor,
                     elevation: 20,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
@@ -232,6 +258,68 @@ class _IsState extends State<Is> {
             color: Colors.white,
           ),
         ),
+      ),
+    );
+  }
+
+  Expanded _sirketCardBuilder() {
+    return Expanded(
+      child: ListView.builder(
+        itemCount: 8,
+        itemBuilder: (BuildContext context, int index) {
+          return Card(
+            color: OurColor.thirdColor,
+            elevation: 25,
+            margin: const EdgeInsets.all(15),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(18),
+            ),
+            child: SizedBox(
+              width: 100,
+              height: 220,
+              child: Row(
+                children: [
+                  Expanded(
+                    flex: 10,
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Container(
+                            height: 170,
+                            width: 150,
+                            child: Image.asset("assets/images/facebook.jpg"),
+                          ),
+                          Container(
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                shadowColor: Colors.blue,
+                                textStyle: const TextStyle(fontSize: 18),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 20, vertical: 10),
+                                backgroundColor: OurColor.secondColor,
+                                foregroundColor: Colors.white,
+                                elevation: 20,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => const IsIlanDetay(),
+                                    ));
+                              },
+                              child: Text("Detay.."),
+                            ),
+                          )
+                        ]),
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
       ),
     );
   }
