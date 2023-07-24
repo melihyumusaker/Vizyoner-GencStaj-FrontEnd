@@ -108,6 +108,15 @@ class _SideBar extends State<SideBar> {
                 leading: SizedBox(
                   height: 34,
                   width: 34,
+                  child: Icon(Icons.edit_document),
+                ),
+                title: Text("Hakkımızda"),
+              ),
+              ListTile(
+                onTap: () {},
+                leading: SizedBox(
+                  height: 34,
+                  width: 34,
                   child: Icon(Icons.settings),
                 ),
                 title: Text("Ayarlar"),
