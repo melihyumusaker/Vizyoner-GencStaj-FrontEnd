@@ -4,11 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:proje/pages/screens/hakkimizda/hakkimizda.dart';
 import 'package:proje/pages/screens/is/is.dart';
 import 'package:proje/pages/screens/is/isilandetay.dart';
-import 'package:proje/pages/screens/is/sirketdetay.dart';
 import 'package:proje/pages/screens/side_bar.dart';
-import 'package:proje/pages/screens/sosyal/blogdetay.dart';
-import 'package:proje/pages/screens/sosyal/etkinlikdetay.dart';
-import 'package:proje/pages/screens/sosyal/sosyal.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -39,7 +35,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const Is(),
+      home: const Sosyal(),
     );
   }
 }

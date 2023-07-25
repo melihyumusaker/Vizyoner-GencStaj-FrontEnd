@@ -263,13 +263,6 @@ AppBar _appBarWidget() {
     title: Padding(
       padding: const EdgeInsets.only(right: 50),
       child: ListTile(
-        leading: IconButton(
-          onPressed: () {},
-          icon: const Icon(
-            Icons.arrow_back_ios_new,
-            color: Colors.white,
-          ),
-        ),
         title: const Center(
           child: Text(
             'Hakkımızda',
