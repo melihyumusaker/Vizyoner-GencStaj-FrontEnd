@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:proje/pages/screens/home_page.dart';
+import 'package:proje/pages/screens/home_screen/home_page.dart';
 
 import '../../../utils/reuseable_widgets/auth_reuseable_widgets.dart';
 
