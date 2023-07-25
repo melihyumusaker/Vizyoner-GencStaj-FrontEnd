@@ -100,7 +100,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     infoCardForMainPage(),
-                    const Center(
+                     Center(
                       child: Column(
                         children: [
                           Padding(
@@ -113,7 +113,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             padding: EdgeInsets.all(10.0),
                             child: Image(
                                 image: NetworkImage(
-                                    "https://vizyonergenc.com/storage/1400746/WmHNOeqS4fenlh5jhZNTZa3NDd6Rvh5EIBgjwuYG.jpeg")),
+                                    "https://vizyonergenc.com/storage/1400746/WmHNOeqS4fenlh5jhZNTZa3NDd6Rvh5EIBgjwuYG.jpeg"),),
                           )
                         ],
                       ),
