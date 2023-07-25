@@ -1,10 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:proje/pages/auth/login/login.dart';
-import 'package:proje/pages/hakkimizda/hakkimizda.dart';
-import 'package:proje/pages/hakkimizda/misyon.dart';
-import 'package:proje/pages/hakkimizda/vizyon.dart';
+import 'package:proje/pages/screens/home_screen/home_page.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -35,7 +32,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: Hakkimizda(),
+      home: HomeScreen(),
     );
   }
 }
