@@ -34,7 +34,6 @@ class _SideBarAyarlar extends State<SideBarAyarlar> {
                     btnOkOnPress: () {},
                     btnCancelText: "Hayır",
                     btnOkText: "Evet",
-                    
                   ).show();
                 },
                 text: "Hesap Sil",
