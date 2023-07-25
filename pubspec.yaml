@@ -48,7 +48,6 @@ dependencies:
   animated_bottom_navigation_bar: ^1.2.0
   awesome_dialog: ^3.1.0
   quickalert: ^1.0.1
-  animated_bottom_navigation_bar: ^1.2.0
 
 dev_dependencies:
   flutter_test:

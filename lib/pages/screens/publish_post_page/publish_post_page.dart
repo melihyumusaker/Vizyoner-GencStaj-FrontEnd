@@ -61,7 +61,7 @@ class _PublishPostState extends State<PublishPost> {
                       builder: (BuildContext context) {
                         return AlertDialog(
                           title: const Text('Thanks!'),
-                          shadowColor: OurColor.firstColor,
+                       //   shadowColor: OurColor.firstColor,
                           content: Text(
                               'You typed "$value", which has length ${value.characters.length}.'),
                           actions: <Widget>[
