@@ -5,6 +5,8 @@ import 'package:proje/pages/screens/sidebar/sidebar_settings.dart';
 import 'package:proje/pages/screens/sidebar/support.dart';
 import 'package:quickalert/quickalert.dart';
 
+// 123.satır
+
 class SideBar extends StatefulWidget {
   const SideBar({super.key});
 
@@ -118,7 +120,7 @@ class _SideBar extends State<SideBar> {
                 leading: SizedBox(
                   height: 34,
                   width: 34,
-                  child: Icon(Icons.edit_document),
+                  child: Icon(Icons.abc_outlined),
                 ),
                 title: Text("Hakkımızda"),
               ),
