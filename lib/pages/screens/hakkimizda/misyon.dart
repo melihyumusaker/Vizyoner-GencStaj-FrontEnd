@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:proje/themecolors/colors.dart';
 
+// ignore: must_be_immutable
 class Misyon extends StatelessWidget {
-  Misyon({super.key});
+  const Misyon({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -11,7 +12,7 @@ class Misyon extends StatelessWidget {
       body: Stack(children: [
         _bgimage(context),
         Column(children: [
-          const SizedBox(height: 20),
+          const SizedBox(height: 70),
           _logo(context),
           _misyonText(),
         ]),
@@ -38,7 +39,7 @@ class Misyon extends StatelessWidget {
         _text,
         textAlign: TextAlign.justify,
         style: const TextStyle(
-          fontSize: 20,
+          fontSize: 18,
         ),
       ),
     );
@@ -46,13 +47,13 @@ class Misyon extends StatelessWidget {
 
   Container _logo(BuildContext context) {
     return Container(
-        height: MediaQuery.of(context).size.height * 1 / 3,
-        width: MediaQuery.of(context).size.height * 1 / 3,
+        height: MediaQuery.of(context).size.height * 1 / 4,
+        width: MediaQuery.of(context).size.height * 1 / 4,
         child: Image.asset("assets/images/vizyonergenc.png"));
   }
 
-  String _text =
-      "Türk Savunma Sanayii’nin amiral gemisi konumundaki Türk Silahlı Kuvvetlerini Güçlendirme Vakfı şirketleri başta olmak üzere sektörün önde gelen kurum ve kuruluşlarının; genç profesyoneller ve sektörde görev almak isteyen yüksek nitelikli bireylerle buluşma noktası haline gelmeyi hedefleyen Vizyoner Genç, bu çerçevede hem staj ile eğitim programları hem de istihdam çalışmalarıyla gerek ülkemize gerekse de sektöre hizmet etmeyi sürdürmektedir.";
+  final String _text =
+      "   Türk Savunma Sanayii’nin amiral gemisi konumundaki Türk Silahlı Kuvvetlerini Güçlendirme Vakfı şirketleri başta olmak üzere sektörün önde gelen kurum ve kuruluşlarının; genç profesyoneller ve sektörde görev almak isteyen yüksek nitelikli bireylerle buluşma noktası haline gelmeyi hedefleyen Vizyoner Genç, bu çerçevede hem staj ile eğitim programları hem de istihdam çalışmalarıyla gerek ülkemize gerekse de sektöre hizmet etmeyi sürdürmektedir.";
 }
 
 AppBar _appBarWidget(BuildContext context) {
