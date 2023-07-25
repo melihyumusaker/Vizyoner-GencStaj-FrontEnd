@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:proje/pages/screens/is/isilandetay.dart';
+import 'package:proje/pages/screens/is/sirketdetay.dart';
 import 'package:proje/themecolors/colors.dart';
 
 class Is extends StatefulWidget {
@@ -307,7 +308,7 @@ class _IsState extends State<Is> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => const IsIlanDetay(),
+                                      builder: (context) => const SirketDetay(),
                                     ));
                               },
                               child: Text("Detay.."),
