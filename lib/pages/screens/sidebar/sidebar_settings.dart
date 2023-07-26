@@ -1,5 +1,6 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:proje/pages/auth/singup/singup.dart';
 
 class SideBarAyarlar extends StatefulWidget {
   const SideBarAyarlar({super.key});
@@ -31,7 +32,7 @@ class _SideBarAyarlar extends State<SideBarAyarlar> {
                     title: "Dikkat",
                     desc: "Hesabı silmek istediğinizden emin misiniz?",
                     btnCancelOnPress: () {},
-                    btnOkOnPress: () {},
+                    btnOkOnPress: () => {Navigator.push(context, MaterialPageRoute(builder: (context)=> Signup()))},
                     btnCancelText: "Hayır",
                     btnOkText: "Evet",
                   ).show();
