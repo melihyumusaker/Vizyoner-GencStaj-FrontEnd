@@ -1,4 +1,3 @@
-// import 'package:ex_flutter/pages/sidebarAyarlar.dart';
 import 'package:flutter/material.dart';
 import 'package:proje/pages/screens/hakkimizda/hakkimizda.dart';
 import 'package:proje/pages/screens/sidebar/sidebar_settings.dart';
