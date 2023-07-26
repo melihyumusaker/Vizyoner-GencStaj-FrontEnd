@@ -1,8 +1,14 @@
 // ignore_for_file: library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
+import 'package:proje/pages/auth/login/login.dart';
 import 'package:proje/pages/screens/bottom_nav_bar/animated_bottom_navigation_bar.dart';
+import 'package:proje/pages/screens/hakkimizda/hakkimizda.dart';
+import 'package:proje/pages/screens/notifications.dart';
 import 'package:proje/pages/screens/search_page/search.dart';
+import 'package:proje/pages/screens/sidebar/sidebar_settings.dart';
+import 'package:proje/pages/screens/sidebar/support.dart';
+import 'package:quickalert/quickalert.dart';
 
 import '../../../themecolors/colors.dart';
 
@@ -18,24 +24,25 @@ class _HomeScreenState extends State<HomeScreen> {
   List<MoltenTab> _tabs = [
     MoltenTab(
       icon: Icon(Icons.home),
-      title: Text('Ana Sayfa'),
+      title: Text('Ana Sayfa' , style: TextStyle(fontFamily: "OpenSans" , fontWeight: FontWeight.bold),),
       // Optional title for the selected tab
     ),
     MoltenTab(
       icon: Icon(Icons.person),
-      title: Text('Pofil'),
+      title: Text('Profil', style: TextStyle(fontFamily: "OpenSans" , fontWeight: FontWeight.bold),),
     ),
     MoltenTab(
       icon: Icon(Icons.add),
-      title: Text('Yayınla'),
+      title: Text('Yayınla', style: TextStyle(fontFamily: "OpenSans" , fontWeight: FontWeight.bold),),
     ),
     MoltenTab(
       icon: Icon(Icons.people),
-      title: Text('Sosyal'),
+      title: Text('Sosyal', style: TextStyle(fontFamily: "OpenSans" , fontWeight: FontWeight.bold),),
     ),
     MoltenTab(
       icon: Icon(Icons.work),
-      title: Text('İş'),
+      title: Text('İş', style: TextStyle(fontFamily: "OpenSans" , fontWeight: FontWeight.bold),),
+      
     ),
   ];
   @override
@@ -70,7 +77,10 @@ class _HomeScreenState extends State<HomeScreen> {
             IconButton(
               icon: const Icon(Icons.notifications_active),
               tooltip: 'Bildirimler',
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => Notifications()));
+              },
             ),
           ],
         ),
@@ -100,7 +110,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     infoCardForMainPage(),
-                     Center(
+                    Center(
                       child: Column(
                         children: [
                           Padding(
@@ -112,8 +122,9 @@ class _HomeScreenState extends State<HomeScreen> {
                           Padding(
                             padding: EdgeInsets.all(10.0),
                             child: Image(
-                                image: NetworkImage(
-                                    "https://vizyonergenc.com/storage/1400746/WmHNOeqS4fenlh5jhZNTZa3NDd6Rvh5EIBgjwuYG.jpeg"),),
+                              image: NetworkImage(
+                                  "https://vizyonergenc.com/storage/1400746/WmHNOeqS4fenlh5jhZNTZa3NDd6Rvh5EIBgjwuYG.jpeg"),
+                            ),
                           )
                         ],
                       ),
@@ -241,7 +252,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 padding: EdgeInsets.only(left: 1.0),
               ),
               ListTile(
-                onTap: () {},
+                onTap: () => {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => Destek())),
+                },
                 leading: const SizedBox(
                   height: 34,
                   width: 34,
@@ -250,7 +264,22 @@ class _HomeScreenState extends State<HomeScreen> {
                 title: Text("Destek"),
               ),
               ListTile(
-                onTap: () {},
+                onTap: () => {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => Hakkimizda())),
+                },
+                leading: const SizedBox(
+                  height: 34,
+                  width: 34,
+                  child: Icon(Icons.description),
+                ),
+                title: Text("Hakkımızda"),
+              ),
+              ListTile(
+                onTap: () => {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => SideBarAyarlar()))
+                },
                 leading: const SizedBox(
                   height: 34,
                   width: 34,
@@ -259,7 +288,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 title: Text("Ayarlar"),
               ),
               ListTile(
-                onTap: () {},
+                onTap: () {
+                  logOutButton();
+                },
                 leading: const SizedBox(
                   height: 34,
                   width: 34,
@@ -297,6 +328,18 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+
+  void logOutButton() {
+    QuickAlert.show(
+      context: context,
+      title: "Bilgilendirme",
+      type: QuickAlertType.info,
+      text: 'Çıkış Yapmak İstediğinizden Emin Misiniz?',
+      confirmBtnText: "Çıkış Yap",
+      //autoCloseDuration: const Duration(seconds: 10),
+      onConfirmBtnTap: () => {Navigator.push(context, MaterialPageRoute(builder: (context)=>Login()))},
+    );
+  }
 }
 
 Widget infoCardForMainPage() {
@@ -314,7 +357,7 @@ Widget infoCardForMainPage() {
       ),
     ),
     subtitle: Text(
-      "3 dakika Önce",
+      "3 dakika önce",
       style: TextStyle(
         color: OurColor.firstColor,
       ),
