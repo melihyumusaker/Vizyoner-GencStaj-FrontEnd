@@ -1,10 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:proje/pages/screens/hakkimizda/hakkimizda.dart';
-import 'package:proje/pages/screens/is/is.dart';
-import 'package:proje/pages/screens/is/isilandetay.dart';
-import 'package:proje/pages/screens/side_bar.dart';
 import 'package:proje/pages/screens/sosyal/sosyal.dart';
 
 Future main() async {
