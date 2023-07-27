@@ -19,25 +19,25 @@ class _GroupPageState extends State<GroupPage> {
 
   final List<MoltenTab> _tabs = [
     MoltenTab(
-      icon: Icon(Icons.home),
-      title: Text('Ana Sayfa'),
+      icon: const Icon(Icons.home),
+      title: const Text('Ana Sayfa'),
       // Optional title for the selected tab
     ),
     MoltenTab(
-      icon: Icon(Icons.person),
-      title: Text('Pofil'),
+      icon: const Icon(Icons.person),
+      title: const Text('Pofil'),
     ),
     MoltenTab(
-      icon: Icon(Icons.add),
-      title: Text('Yayınla'),
+      icon: const Icon(Icons.add),
+      title: const Text('Yayınla'),
     ),
     MoltenTab(
-      icon: Icon(Icons.people),
-      title: Text('Sosyal'),
+      icon: const Icon(Icons.people),
+      title: const Text('Sosyal'),
     ),
     MoltenTab(
-      icon: Icon(Icons.work),
-      title: Text('İş'),
+      icon: const Icon(Icons.work),
+      title: const Text('İş'),
     ),
   ];
 
@@ -116,7 +116,7 @@ class _GroupPageState extends State<GroupPage> {
             itemCount: 2,
             itemBuilder: (BuildContext context, int index) {
               return Card(
-                margin: EdgeInsets.all(30),
+                margin: const EdgeInsets.all(30),
                 elevation: 20,
                 shadowColor: Colors.black,
                 clipBehavior: Clip.hardEdge,
@@ -124,9 +124,9 @@ class _GroupPageState extends State<GroupPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     infoCardForMainPage(),
-                    const Center(
+                    Center(
                       child: Column(
-                        children: [
+                        children: const [
                           Padding(
                             padding: EdgeInsets.all(10.0),
                             child: Text(
@@ -142,8 +142,8 @@ class _GroupPageState extends State<GroupPage> {
                         ],
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 10),
+                    const Padding(
+                      padding: EdgeInsets.only(left: 10),
                       child: Text("13 beğeni"),
                     ),
                     const Divider(
@@ -224,7 +224,7 @@ class _GroupPageState extends State<GroupPage> {
                   width: 34,
                   child: Icon(Icons.person_add_alt),
                 ),
-                title: Text("Yeni Bağlantı Ekle"),
+                title: const Text("Yeni Bağlantı Ekle"),
               ),
             ],
           ),
@@ -248,7 +248,7 @@ class _GroupPageState extends State<GroupPage> {
                   width: 34,
                   child: Icon(Icons.assignment_ind),
                 ),
-                title: Text("Duyurular"),
+                title: const Text("Duyurular"),
               ),
               Text(
                 "Hesap".toUpperCase(),
@@ -271,7 +271,7 @@ class _GroupPageState extends State<GroupPage> {
                   width: 34,
                   child: Icon(Icons.help_outline_rounded),
                 ),
-                title: Text("Destek"),
+                title: const Text("Destek"),
               ),
               ListTile(
                 onTap: () {},
@@ -280,7 +280,7 @@ class _GroupPageState extends State<GroupPage> {
                   width: 34,
                   child: Icon(Icons.settings),
                 ),
-                title: Text("Ayarlar"),
+                title: const Text("Ayarlar"),
               ),
               ListTile(
                 onTap: () {},
@@ -289,7 +289,7 @@ class _GroupPageState extends State<GroupPage> {
                   width: 34,
                   child: Icon(Icons.exit_to_app),
                 ),
-                title: Text("Çıkış"),
+                title: const Text("Çıkış"),
               ),
             ],
           )
@@ -303,7 +303,7 @@ class _GroupPageState extends State<GroupPage> {
   Widget infoCard() {
     return const ListTile(
       leading: CircleAvatar(
-        backgroundColor: Color(0xACBFE6),
+        backgroundColor: Color(0x00acbfe6),
         radius: 25,
         backgroundImage: AssetImage('assets/images/circlee.jpg'),
       ),
@@ -326,7 +326,7 @@ class _GroupPageState extends State<GroupPage> {
 Widget infoCardForMainPage() {
   return ListTile(
     leading: const CircleAvatar(
-      backgroundColor: Color(0xACBFE6),
+      backgroundColor: Color(0x00acbfe6),
       radius: 25,
       backgroundImage: NetworkImage(
           'https://play-lh.googleusercontent.com/7429diO-GMzarMlzzfDf7bgeApqwJGibfq3BKqPCa9lS9hd3gLIimTSe5hz9burHeg'),
