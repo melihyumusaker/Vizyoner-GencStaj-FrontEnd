@@ -62,7 +62,7 @@ class BlogDetay extends StatelessWidget {
         child: ListTile(
           leading: IconButton(
             onPressed: () {
-              Navigator.pop(context);
+             Navigator.pop(context);
             },
             icon: const Icon(
               Icons.arrow_back_ios_new,

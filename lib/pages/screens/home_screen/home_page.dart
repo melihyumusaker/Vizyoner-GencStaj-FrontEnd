@@ -1,15 +1,16 @@
 // ignore_for_file: library_private_types_in_public_api
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 5a67a539653f875883400f267585f369598bbd80
 import 'package:flutter/material.dart';
-import 'package:proje/pages/auth/login/login.dart';
 import 'package:proje/pages/screens/bottom_nav_bar/animated_bottom_navigation_bar.dart';
 import 'package:proje/pages/screens/hakkimizda/hakkimizda.dart';
 import 'package:proje/pages/screens/notifications.dart';
 import 'package:proje/pages/screens/search_page/search.dart';
 import 'package:proje/pages/screens/sidebar/sidebar_settings.dart';
 import 'package:proje/pages/screens/sidebar/support.dart';
-import 'package:quickalert/quickalert.dart';
 import 'package:proje/pages/screens/sosyal/sosyal.dart';
 
 import '../../../themecolors/colors.dart';
