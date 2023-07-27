@@ -1,26 +1,20 @@
-// ignore_for_file: library_private_types_in_public_api
-
 import 'package:flutter/material.dart';
 import 'package:proje/pages/screens/bottom_nav_bar/animated_bottom_navigation_bar.dart';
-import 'package:proje/pages/screens/hakkimizda/hakkimizda.dart';
-import 'package:proje/pages/screens/notifications.dart';
-import 'package:proje/pages/screens/search_page/search.dart';
-import 'package:proje/pages/screens/sidebar/sidebar_settings.dart';
-import 'package:proje/pages/screens/sidebar/support.dart';
 import 'package:proje/pages/screens/sosyal/sosyal.dart';
-
 import '../../../themecolors/colors.dart';
+import '../home_screen/home_page.dart';
 import '../is/is.dart';
+import '../notifications.dart';
 import '../publish_post_page/publish_post_page.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+class GroupPage extends StatefulWidget {
+  const GroupPage({Key? key}) : super(key: key);
 
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  _GroupPageState createState() => _GroupPageState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _GroupPageState extends State<GroupPage> {
   int _currentIndex = 0; // Keep track of the selected tab index
 
   final List<MoltenTab> _tabs = [
@@ -54,27 +48,27 @@ class _HomeScreenState extends State<HomeScreen> {
 
     switch (index) {
       case 0:
-        Navigator.of(context as BuildContext).pushReplacement(MaterialPageRoute(
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
           builder: (context) => const HomeScreen(),
         ));
         break;
       case 1:
-        Navigator.of(context as BuildContext).pushReplacement(MaterialPageRoute(
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
           builder: (context) => const HomeScreen(),
         ));
         break;
       case 2:
-        Navigator.of(context as BuildContext).pushReplacement(MaterialPageRoute(
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
           builder: (context) => const PublishPost(),
         ));
         break;
       case 3:
-        Navigator.of(context as BuildContext).pushReplacement(MaterialPageRoute(
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
           builder: (context) => const Sosyal(),
         ));
         break;
       case 4:
-        Navigator.of(context as BuildContext).pushReplacement(MaterialPageRoute(
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
           builder: (context) => const Is(),
         ));
         break;
@@ -94,28 +88,16 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
           ),
-          title: TextButton(
-            style: TextButton.styleFrom(
-                textStyle: const TextStyle(fontSize: 20),
-                backgroundColor: Colors.transparent),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const SearchPage()),
-              );
-            },
-            child: const Text('Ara', style: TextStyle(color: Colors.white)),
-          ),
-
-          // you can put any Widget
-
           actions: <Widget>[
             IconButton(
               icon: const Icon(Icons.notifications_active),
               tooltip: 'Bildirimler',
               onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => Notifications()));
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const Notifications()),
+                );
               },
             ),
           ],
@@ -142,7 +124,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     infoCardForMainPage(),
-                    Center(
+                    const Center(
                       child: Column(
                         children: [
                           Padding(
@@ -154,9 +136,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           Padding(
                             padding: EdgeInsets.all(10.0),
                             child: Image(
-                              image: NetworkImage(
-                                  "https://vizyonergenc.com/storage/1400746/WmHNOeqS4fenlh5jhZNTZa3NDd6Rvh5EIBgjwuYG.jpeg"),
-                            ),
+                                image: NetworkImage(
+                                    "https://vizyonergenc.com/storage/1400746/WmHNOeqS4fenlh5jhZNTZa3NDd6Rvh5EIBgjwuYG.jpeg")),
                           )
                         ],
                       ),
@@ -231,7 +212,7 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               Text(
                 "Sosyal".toUpperCase(),
-                style: Theme.of(context as BuildContext)
+                style: Theme.of(context)
                     .textTheme
                     .titleMedium!
                     .copyWith(color: Colors.white),
@@ -252,7 +233,7 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               Text(
                 "İçerik".toUpperCase(),
-                style: Theme.of(context as BuildContext)
+                style: Theme.of(context)
                     .textTheme
                     .titleMedium!
                     .copyWith(color: Colors.white),
@@ -271,7 +252,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               Text(
                 "Hesap".toUpperCase(),
-                style: Theme.of(context as BuildContext)
+                style: Theme.of(context)
                     .textTheme
                     .titleMedium!
                     .copyWith(color: Colors.white),
@@ -284,10 +265,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 padding: EdgeInsets.only(left: 1.0),
               ),
               ListTile(
-                onTap: () => {
-                  Navigator.push(context as BuildContext,
-                      MaterialPageRoute(builder: (context) => Destek())),
-                },
+                onTap: () {},
                 leading: const SizedBox(
                   height: 34,
                   width: 34,
@@ -296,22 +274,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 title: Text("Destek"),
               ),
               ListTile(
-                onTap: () => {
-                  Navigator.push(context as BuildContext,
-                      MaterialPageRoute(builder: (context) => Hakkimizda())),
-                },
-                leading: const SizedBox(
-                  height: 34,
-                  width: 34,
-                  child: Icon(Icons.description),
-                ),
-                title: Text("Hakkımızda"),
-              ),
-              ListTile(
-                onTap: () => {
-                  Navigator.push(context as BuildContext,
-                      MaterialPageRoute(builder: (context) => SideBarAyarlar()))
-                },
+                onTap: () {},
                 leading: const SizedBox(
                   height: 34,
                   width: 34,
@@ -320,9 +283,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 title: Text("Ayarlar"),
               ),
               ListTile(
-                onTap: () {
-                  
-                },
+                onTap: () {},
                 leading: const SizedBox(
                   height: 34,
                   width: 34,
@@ -377,7 +338,7 @@ Widget infoCardForMainPage() {
       ),
     ),
     subtitle: Text(
-      "3 dakika önce",
+      "3 dakika Önce",
       style: TextStyle(
         color: OurColor.firstColor,
       ),

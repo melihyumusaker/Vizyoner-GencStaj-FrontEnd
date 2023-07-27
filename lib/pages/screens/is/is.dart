@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:proje/pages/screens/home_screen/home_page.dart';
 import 'package:proje/pages/screens/is/isilandetay.dart';
 import 'package:proje/pages/screens/is/sirketdetay.dart';
 import 'package:proje/themecolors/colors.dart';
@@ -211,7 +212,10 @@ class _IsState extends State<Is> {
       title: ListTile(
         leading: IconButton(
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const HomeScreen()),
+            );
           },
           icon: const Icon(
             Icons.arrow_back_ios_new,
