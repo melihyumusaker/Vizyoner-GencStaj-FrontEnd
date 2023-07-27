@@ -54,27 +54,27 @@ class _HomeScreenState extends State<HomeScreen> {
 
     switch (index) {
       case 0:
-        Navigator.of(context as BuildContext).pushReplacement(MaterialPageRoute(
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
           builder: (context) => const HomeScreen(),
         ));
         break;
       case 1:
-        Navigator.of(context as BuildContext).pushReplacement(MaterialPageRoute(
+        Navigator.of(context ).pushReplacement(MaterialPageRoute(
           builder: (context) => const HomeScreen(),
         ));
         break;
       case 2:
-        Navigator.of(context as BuildContext).pushReplacement(MaterialPageRoute(
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
           builder: (context) => const PublishPost(),
         ));
         break;
       case 3:
-        Navigator.of(context as BuildContext).pushReplacement(MaterialPageRoute(
+        Navigator.of(context ).pushReplacement(MaterialPageRoute(
           builder: (context) => const Sosyal(),
         ));
         break;
       case 4:
-        Navigator.of(context as BuildContext).pushReplacement(MaterialPageRoute(
+        Navigator.of(context ).pushReplacement(MaterialPageRoute(
           builder: (context) => const Is(),
         ));
         break;
@@ -115,13 +115,13 @@ class _HomeScreenState extends State<HomeScreen> {
               tooltip: 'Bildirimler',
               onPressed: () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => Notifications()));
+                    MaterialPageRoute(builder: (context) => const Notifications()));
               },
             ),
           ],
         ),
         bottomNavigationBar: MoltenBottomNavigationBar(
-          // Pass the required properties to the MoltenBottomNavigationBar
+        
           tabs: _tabs,
 
           selectedIndex: _currentIndex,
@@ -134,7 +134,7 @@ class _HomeScreenState extends State<HomeScreen> {
             itemCount: 2,
             itemBuilder: (BuildContext context, int index) {
               return Card(
-                margin: EdgeInsets.all(30),
+                margin: const EdgeInsets.all(30),
                 elevation: 20,
                 shadowColor: Colors.black,
                 clipBehavior: Clip.hardEdge,
@@ -231,7 +231,7 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               Text(
                 "Sosyal".toUpperCase(),
-                style: Theme.of(context as BuildContext)
+                style: Theme.of(context)
                     .textTheme
                     .titleMedium!
                     .copyWith(color: Colors.white),
@@ -252,7 +252,7 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               Text(
                 "İçerik".toUpperCase(),
-                style: Theme.of(context as BuildContext)
+                style: Theme.of(context)
                     .textTheme
                     .titleMedium!
                     .copyWith(color: Colors.white),
@@ -271,7 +271,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               Text(
                 "Hesap".toUpperCase(),
-                style: Theme.of(context as BuildContext)
+                style: Theme.of(context )
                     .textTheme
                     .titleMedium!
                     .copyWith(color: Colors.white),
@@ -285,7 +285,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               ListTile(
                 onTap: () => {
-                  Navigator.push(context as BuildContext,
+                  Navigator.push(context ,
                       MaterialPageRoute(builder: (context) => Destek())),
                 },
                 leading: const SizedBox(
@@ -297,7 +297,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               ListTile(
                 onTap: () => {
-                  Navigator.push(context as BuildContext,
+                  Navigator.push(context,
                       MaterialPageRoute(builder: (context) => Hakkimizda())),
                 },
                 leading: const SizedBox(
@@ -309,7 +309,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               ListTile(
                 onTap: () => {
-                  Navigator.push(context as BuildContext,
+                  Navigator.push(context ,
                       MaterialPageRoute(builder: (context) => SideBarAyarlar()))
                 },
                 leading: const SizedBox(
