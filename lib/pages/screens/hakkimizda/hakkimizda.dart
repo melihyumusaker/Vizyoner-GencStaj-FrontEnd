@@ -261,7 +261,7 @@ AppBar _appBarWidget() {
   return AppBar(
     backgroundColor: OurColor.firstColor,
     title: Padding(
-      padding: const EdgeInsets.only(right: 50),
+      padding: const EdgeInsets.only(right: 4),
       child: ListTile(
         title: const Center(
           child: Text(
