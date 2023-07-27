@@ -6,6 +6,9 @@ import 'package:image_picker/image_picker.dart';
 import 'package:proje/pages/screens/home_screen/home_page.dart';
 
 import '../../../themecolors/colors.dart';
+import '../bottom_nav_bar/animated_bottom_navigation_bar.dart';
+import '../is/is.dart';
+import '../sosyal/sosyal.dart';
 
 class PublishPost extends StatefulWidget {
   const PublishPost({Key? key}) : super(key: key);
@@ -19,20 +22,82 @@ final List<String> dropdownOptions = [
 ];
 
 class _PublishPostState extends State<PublishPost> {
-  File? _imageFile;
-  Future<void> _pickImage() async {
-    final ImagePicker _picker = ImagePicker();
-    final XFile? pickedImage =
-        await _picker.pickImage(source: ImageSource.gallery);
+  int _currentIndex = 0; // Keep track of the selected tab index
 
-    if (pickedImage != null) {
-      // Do something with the picked image
-      // For example, you can display it in an Image widget
-      // or save the image URL to use it later for posting.
+  final List<MoltenTab> _tabs = [
+    MoltenTab(
+      icon: Icon(Icons.home),
+      title: Text('Ana Sayfa'),
+      // Optional title for the selected tab
+    ),
+    MoltenTab(
+      icon: Icon(Icons.person),
+      title: Text('Pofil'),
+    ),
+    MoltenTab(
+      icon: Icon(Icons.add),
+      title: Text('Yayınla'),
+    ),
+    MoltenTab(
+      icon: Icon(Icons.people),
+      title: Text('Sosyal'),
+    ),
+    MoltenTab(
+      icon: Icon(Icons.work),
+      title: Text('İş'),
+    ),
+  ];
+
+  void _onTabChange(int index) {
+    setState(() {
+      _currentIndex = index;
+    });
+
+    switch (index) {
+      case 0:
+        Navigator.of(context as BuildContext).pushReplacement(MaterialPageRoute(
+          builder: (context) => const HomeScreen(),
+        ));
+        break;
+      case 1:
+        Navigator.of(context as BuildContext).pushReplacement(MaterialPageRoute(
+          builder: (context) => const HomeScreen(),
+        ));
+        break;
+      case 2:
+        Navigator.of(context as BuildContext).pushReplacement(MaterialPageRoute(
+          builder: (context) => const PublishPost(),
+        ));
+        break;
+      case 3:
+        Navigator.of(context as BuildContext).pushReplacement(MaterialPageRoute(
+          builder: (context) => const Sosyal(),
+        ));
+        break;
+      case 4:
+        Navigator.of(context as BuildContext).pushReplacement(MaterialPageRoute(
+          builder: (context) => const Is(),
+        ));
+        break;
+    }
+  }
+
+  File? _image;
+
+  Future<void> _getImageFromGallery() async {
+    var image = await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (image != null) {
       setState(() {
-        // Store the image file in a variable to use it later.
-        _imageFile = File(pickedImage.path);
-        // Now you can display the image in your container or somewhere else.
+        _image = File(image.path);
+      });
+    }
+  }
+
+  Future<void> _getImageFromCamera() async {
+    var image = await ImagePicker().pickImage(source: ImageSource.camera);
+    if (image != null) {
+      setState(() {
+        _image = File(image.path);
       });
     }
   }
@@ -98,6 +163,13 @@ class _PublishPostState extends State<PublishPost> {
             ),
           ],
         ),
+        bottomNavigationBar: MoltenBottomNavigationBar(
+          // Pass the required properties to the MoltenBottomNavigationBar
+          tabs: _tabs,
+
+          selectedIndex: _currentIndex,
+          onTabChange: _onTabChange,
+        ),
         body: Column(
           children: [
             infoCardForPostPage(),
@@ -134,16 +206,15 @@ class _PublishPostState extends State<PublishPost> {
             const SizedBox(
               height: 15,
             ),
-            Expanded(
-              child: Container(
-                height: 150,
-                width: MediaQuery.of(context).size.width - 75,
-                child: _imageFile != null
-                    ? Image.file(_imageFile!) // Display the picked image
-                    : Text(
-                        'No image selected'), // Display a message if no image is picked
-              ),
-            ),
+            _image != null
+                ? Image.file(
+                    _image!,
+                    height: 200,
+                  )
+                : const Icon(
+                    Icons.photo,
+                    size: 100,
+                  ),
             const SizedBox(
               height: 25,
             ),
@@ -157,11 +228,11 @@ class _PublishPostState extends State<PublishPost> {
                   children: [
                     IconButton(
                       icon: Icon(Icons.photo),
-                      onPressed: _pickImage,
+                      onPressed: _getImageFromGallery,
                     ),
                     IconButton(
                       icon: Icon(Icons.camera_alt),
-                      onPressed: () {},
+                      onPressed: _getImageFromCamera,
                     ),
                     IconButton(
                       icon: Icon(Icons.public),

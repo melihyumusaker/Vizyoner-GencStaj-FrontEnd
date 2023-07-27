@@ -6,10 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:proje/themecolors/colors.dart';
 
 class MoltenBottomNavigationBar extends StatelessWidget {
-  /// specify a Height for the bar, Default is kBottomNavigationBarHeight
   final double barHeight;
-
-  /// specify a Height for the Dome above tabs, Default is 15.0
   final double domeHeight;
 
   /// If [domeWidth] is null, it will be set to 100
@@ -25,10 +22,6 @@ class MoltenBottomNavigationBar extends StatelessWidget {
 
   /// Spacing around the bar, Default is [EdgeInsets.zero]
   final EdgeInsets margin;
-
-  /// specify a color to be used as a background color, Default is Theme.bottomAppBarColor
-  ///
-  /// If the opacity is less than 1, it will automatically be 1
   final Color? barColor;
 
   /// List of [MoltenTab], each wil have an icon as the main widget, selcted color and unselected color
@@ -39,17 +32,9 @@ class MoltenBottomNavigationBar extends StatelessWidget {
 
   /// A callback function that will be triggered whenever a [MoltenTab] is clicked, and will return it's index.
   final Function(int index) onTabChange;
-
-  /// Select a [Curve] value for the dome animation. Default is [Curves.linear]
   final Curve curve;
-
-  /// How long the animation should last, Default is Duration(milliseconds: 150)
   final Duration? duration;
-
-  /// Applied to all 4 border sides, Default is 0
   final double borderSize;
-
-  /// Applied to all border sides
   final Color? borderColor;
 
   /// How much each angle is curved.
