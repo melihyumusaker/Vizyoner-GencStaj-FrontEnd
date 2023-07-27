@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:js';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -21,9 +20,9 @@ final List<String> dropdownOptions = [
 class _PublishPostState extends State<PublishPost> {
   File? _imageFile;
   Future<void> _pickImage() async {
-    final ImagePicker _picker = ImagePicker();
+    final ImagePicker picker = ImagePicker();
     final XFile? pickedImage =
-        await _picker.pickImage(source: ImageSource.gallery);
+        await picker.pickImage(source: ImageSource.gallery);
 
     if (pickedImage != null) {
       // Do something with the picked image
@@ -56,7 +55,7 @@ class _PublishPostState extends State<PublishPost> {
     return Scaffold(
         appBar: AppBar(
           leading: IconButton(
-            icon: Icon(Icons.arrow_back),
+            icon: const Icon(Icons.arrow_back),
             onPressed: () {
               Navigator.push(
                 context,
@@ -83,7 +82,7 @@ class _PublishPostState extends State<PublishPost> {
                   //print('Selected Option: $selectedOption');
                 },
                 child: Container(
-                  padding: EdgeInsets.all(5),
+                  padding: const EdgeInsets.all(5),
                   decoration: BoxDecoration(
                     color: Colors.transparent,
                     borderRadius: BorderRadius.circular(4),
@@ -103,7 +102,7 @@ class _PublishPostState extends State<PublishPost> {
             infoCardForPostPage(),
             Padding(
               padding: const EdgeInsets.all(16.0),
-              child: Container(
+              child: SizedBox(
                 height: 300,
                 child: TextField(
                   maxLength: 100,
@@ -135,36 +134,36 @@ class _PublishPostState extends State<PublishPost> {
               height: 15,
             ),
             Expanded(
-              child: Container(
+              child: SizedBox(
                 height: 150,
                 width: MediaQuery.of(context).size.width - 75,
                 child: _imageFile != null
                     ? Image.file(_imageFile!) // Display the picked image
-                    : Text(
+                    : const Text(
                         'No image selected'), // Display a message if no image is picked
               ),
             ),
             const SizedBox(
               height: 25,
             ),
-            Container(
+            SizedBox(
               height: 50,
               width: MediaQuery.of(context).size.width - 75,
               child: Padding(
-                padding: EdgeInsets.only(bottom: 0),
+                padding: const EdgeInsets.only(bottom: 0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     IconButton(
-                      icon: Icon(Icons.photo),
+                      icon: const Icon(Icons.photo),
                       onPressed: _pickImage,
                     ),
                     IconButton(
-                      icon: Icon(Icons.camera_alt),
+                      icon: const Icon(Icons.camera_alt),
                       onPressed: () {},
                     ),
                     IconButton(
-                      icon: Icon(Icons.public),
+                      icon: const Icon(Icons.public),
                       onPressed: () {},
                     ),
                   ],
@@ -179,7 +178,7 @@ class _PublishPostState extends State<PublishPost> {
 Widget infoCardForPostPage() {
   return ListTile(
     leading: const CircleAvatar(
-      backgroundColor: Color(0xACBFE6),
+      backgroundColor: Color(0x00acbfe6),
       radius: 25,
       backgroundImage: NetworkImage(
           'https://play-lh.googleusercontent.com/7429diO-GMzarMlzzfDf7bgeApqwJGibfq3BKqPCa9lS9hd3gLIimTSe5hz9burHeg'),
@@ -196,7 +195,7 @@ Widget infoCardForPostPage() {
 Widget infoCard() {
   return const ListTile(
     leading: CircleAvatar(
-      backgroundColor: Color(0xACBFE6),
+      backgroundColor: Color(0x00acbfe6),
       radius: 25,
       backgroundImage: AssetImage('assets/images/circlee.jpg'),
     ),
@@ -215,7 +214,7 @@ Widget infoCard() {
   );
 }
 
-Widget _Drawer() {
+Widget _Drawer(BuildContext context) {
   return Drawer(
       child: Container(
     height: double.infinity,
@@ -235,7 +234,7 @@ Widget _Drawer() {
           children: [
             Text(
               "Sosyal".toUpperCase(),
-              style: Theme.of(context as BuildContext)
+              style: Theme.of(context)
                   .textTheme
                   .titleMedium!
                   .copyWith(color: Colors.white),
@@ -247,7 +246,7 @@ Widget _Drawer() {
                 width: 34,
                 child: Icon(Icons.person_add_alt),
               ),
-              title: Text("Yeni Bağlantı Ekle"),
+              title: const Text("Yeni Bağlantı Ekle"),
             ),
           ],
         ),
@@ -256,7 +255,7 @@ Widget _Drawer() {
           children: [
             Text(
               "İçerik".toUpperCase(),
-              style: Theme.of(context as BuildContext)
+              style: Theme.of(context)
                   .textTheme
                   .titleMedium!
                   .copyWith(color: Colors.white),
@@ -271,11 +270,11 @@ Widget _Drawer() {
                 width: 34,
                 child: Icon(Icons.assignment_ind),
               ),
-              title: Text("Duyurular"),
+              title: const Text("Duyurular"),
             ),
             Text(
               "Hesap".toUpperCase(),
-              style: Theme.of(context as BuildContext)
+              style: Theme.of(context)
                   .textTheme
                   .titleMedium!
                   .copyWith(color: Colors.white),
@@ -294,7 +293,7 @@ Widget _Drawer() {
                 width: 34,
                 child: Icon(Icons.help_outline_rounded),
               ),
-              title: Text("Destek"),
+              title: const Text("Destek"),
             ),
             ListTile(
               onTap: () {},
@@ -303,7 +302,7 @@ Widget _Drawer() {
                 width: 34,
                 child: Icon(Icons.settings),
               ),
-              title: Text("Ayarlar"),
+              title: const Text("Ayarlar"),
             ),
             ListTile(
               onTap: () {},
@@ -312,7 +311,7 @@ Widget _Drawer() {
                 width: 34,
                 child: Icon(Icons.exit_to_app),
               ),
-              title: Text("Çıkış"),
+              title: const Text("Çıkış"),
             ),
           ],
         )
