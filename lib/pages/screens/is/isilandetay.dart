@@ -19,63 +19,102 @@ class IsIlanDetay extends StatelessWidget {
           elevation: 50,
           child: Column(
             children: [
-              SizedBox(
-                width: 150,
-                height: 150,
-                child: Image.asset("assets/images/facebook.jpg"),
-              ),
-              const Padding(
-                padding:  EdgeInsets.symmetric(vertical: 15.0),
-                child: Text(
-                  "İlan adi",
-                  style: TextStyle(
-                      fontFamily: "OpenSans",
-                      color: Colors.black,
-                      fontSize: 18),
-                ),
-              ),
-              const Padding(
-                padding:  EdgeInsets.symmetric(vertical: 7.0),
-                child: Text(
-                  "Firma Adı",
-                  style: TextStyle(
-                      fontFamily: "OpenSans",
-                      color: Colors.black,
-                      fontSize: 18),
-                ),
-              ),
-              const Padding(
-                padding:  EdgeInsets.all(8.0),
-                child: Text(
-                  "Adres",
-                  style: TextStyle(
-                      fontFamily: "OpenSans",
-                      color: Colors.black54,
-                      fontSize: 18),
-                ),
-              ),
-              const Text(
-                "Tarih",
-                style: TextStyle(
-                    fontFamily: "OpenSans",
-                    color: Colors.black45,
-                    fontSize: 18),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(25.0),
-                child: Text(
-                  text,
-                  textAlign: TextAlign.justify,
-                  style: const TextStyle(
-                      fontFamily: "OpenSans",
-                      color: Colors.black,
-                      fontSize: 18),
-                ),
-              ),
+              _logo(),
+              _ilanNameText(),
+              _firmaNameText(),
+              _adresText(),
+              _tarihText(),
+              _icerikText(),
+              _basvurButton(context),
+              SizedBox(height: 20)
             ],
           ),
         ),
       ),
+    );
+  }
+
+  Container _basvurButton(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(5),
+      height: 50,
+      width: (MediaQuery.of(context).size.width - 100) / 2,
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          shadowColor: Colors.blue,
+          textStyle: const TextStyle(fontSize: 18),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          backgroundColor: OurColor.secondColor,
+          foregroundColor: Colors.white,
+          elevation: 20,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+        ),
+        onPressed: () {},
+        child: const Text("Başvur"),
+      ),
+    );
+  }
+
+  Padding _icerikText() {
+    return Padding(
+      padding: const EdgeInsets.all(25.0),
+      child: Text(
+        text,
+        textAlign: TextAlign.justify,
+        style: const TextStyle(
+            fontFamily: "OpenSans", color: Colors.black, fontSize: 18),
+      ),
+    );
+  }
+
+  Text _tarihText() {
+    return const Text(
+      "Tarih",
+      style: TextStyle(
+          fontFamily: "OpenSans", color: Colors.black45, fontSize: 18),
+    );
+  }
+
+  Padding _adresText() {
+    return const Padding(
+      padding: EdgeInsets.all(8.0),
+      child: Text(
+        "Adres",
+        style: TextStyle(
+            fontFamily: "OpenSans", color: Colors.black54, fontSize: 18),
+      ),
+    );
+  }
+
+  Padding _firmaNameText() {
+    return const Padding(
+      padding: EdgeInsets.symmetric(vertical: 7.0),
+      child: Text(
+        "Firma Adı",
+        style: TextStyle(
+            fontFamily: "OpenSans", color: Colors.black, fontSize: 18),
+      ),
+    );
+  }
+
+  Padding _ilanNameText() {
+    return const Padding(
+      padding: EdgeInsets.symmetric(vertical: 15.0),
+      child: Text(
+        "İlan adi",
+        style: TextStyle(
+            fontFamily: "OpenSans", color: Colors.black, fontSize: 18),
+      ),
+    );
+  }
+
+  SizedBox _logo() {
+    return SizedBox(
+      width: 150,
+      height: 150,
+      child: Image.asset("assets/images/facebook.jpg"),
     );
   }
 

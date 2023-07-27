@@ -22,8 +22,8 @@ class _DestekState extends State<Destek> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0XFF182978),
-        title: Text(
+        backgroundColor: const Color(0XFF182978),
+        title:const Text(
           "Bize Ulaşın",
         ),
       ),
@@ -35,7 +35,7 @@ class _DestekState extends State<Destek> {
             Container(
                 width: 175,
                 height: 175,
-                margin: EdgeInsets.all(5),
+                margin:const EdgeInsets.all(5),
                 child: Image.asset("assets/images/vizyonergenc.png")),
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -106,22 +106,26 @@ class _DestekState extends State<Destek> {
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: ElevatedButton(
-
                 onPressed: () {},
                 style: ButtonStyle(
                   shape: MaterialStateProperty.all(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10), // Butonun köşe yarıçapı
-                    side: BorderSide(color: Color(0XFF182978), width: 5), // Kenarlık rengi ve kalınlığı
+                    RoundedRectangleBorder(
+                      borderRadius:
+                          BorderRadius.circular(10), // Butonun köşe yarıçapı
+                      side: BorderSide(
+                          color: Color(0XFF182978),
+                          width: 5), // Kenarlık rengi ve kalınlığı
+                    ),
                   ),
-                ),
                   backgroundColor: MaterialStatePropertyAll(Color(0XFF182978)),
                 ),
                 child: Text(
                   "Gönder",
-                  style: TextStyle(color: Colors.white , fontSize: 15,fontFamily: "OpenSans"),
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 15,
+                      fontFamily: "OpenSans"),
                 ),
-                
               ),
             ),
           ],
