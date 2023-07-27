@@ -1,6 +1,11 @@
+import 'dart:convert';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:proje/model/SirketModel.dart';
 import 'package:proje/pages/screens/is/isilandetay.dart';
 import 'package:proje/pages/screens/is/sirketdetay.dart';
+import 'package:proje/service/sirket_service.dart';
 import 'package:proje/themecolors/colors.dart';
 
 class Is extends StatefulWidget {
@@ -13,6 +18,26 @@ class Is extends StatefulWidget {
 int _pageValue = 0;
 
 class _IsState extends State<Is> {
+  List<SirketModel> sirketList = [];
+
+  @override
+  void initState() {
+    super.initState();
+    fetchSirketList();
+  }
+
+  Future<void> fetchSirketList() async {
+    try {
+      SirketService service = SirketService();
+      List<SirketModel> list = await service.fetchSirketList();
+      setState(() {
+        sirketList = list;
+      });
+    } catch (e) {
+      print('Hata oluştu: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -31,6 +56,13 @@ class _IsState extends State<Is> {
         ),
       ),
     );
+  }
+
+  Center veriBeklemede() {
+    return Center(
+        child: CircularProgressIndicator(
+      valueColor: AlwaysStoppedAnimation<Color>(Colors.green),
+    ));
   }
 
   Expanded _ilanCardBuilder() {
@@ -239,8 +271,10 @@ class _IsState extends State<Is> {
   Expanded _sirketCardBuilder() {
     return Expanded(
       child: ListView.builder(
-        itemCount: 8,
+        itemCount: sirketList.length,
         itemBuilder: (BuildContext context, int index) {
+          Uint8List bytesImage =
+              const Base64Decoder().convert(sirketList[index].logo!);
           return Card(
             color: OurColor.thirdColor,
             elevation: 25,
@@ -261,7 +295,8 @@ class _IsState extends State<Is> {
                           SizedBox(
                             height: 170,
                             width: 150,
-                            child: Image.asset("assets/images/facebook.jpg"),
+                            child: Image.memory(bytesImage,
+                                height: 170, width: 150),
                           ),
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
@@ -280,7 +315,11 @@ class _IsState extends State<Is> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => const SirketDetay(),
+                                    builder: (context) => SirketDetay(
+                                        firmaAd: sirketList[index].sirketAdi!,
+                                        icerik:
+                                            sirketList[index].sirketAciklamasi!,
+                                        logo: sirketList[index].logo!),
                                   ));
                             },
                             child: const Text("Detay.."),
