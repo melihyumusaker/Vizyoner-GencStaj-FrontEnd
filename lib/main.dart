@@ -1,7 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:proje/pages/hakkimizda/hakkimizda.dart';
+import 'package:proje/pages/screens/home_screen/home_page.dart';
+import 'package:proje/pages/screens/publish_post_page/publish_post_page.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,7 +33,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: Hakkimizda(),
+      home: HomeScreen(),
     );
   }
 }

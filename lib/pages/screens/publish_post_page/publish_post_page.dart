@@ -1,6 +1,9 @@
+import 'dart:io';
 import 'dart:js';
 
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:proje/pages/screens/home_screen/home_page.dart';
 
 import '../../../themecolors/colors.dart';
 
@@ -11,7 +14,29 @@ class PublishPost extends StatefulWidget {
   _PublishPostState createState() => _PublishPostState();
 }
 
+final List<String> dropdownOptions = [
+  'Ankara Staj Grubu',
+];
+
 class _PublishPostState extends State<PublishPost> {
+  File? _imageFile;
+  Future<void> _pickImage() async {
+    final ImagePicker _picker = ImagePicker();
+    final XFile? pickedImage =
+        await _picker.pickImage(source: ImageSource.gallery);
+
+    if (pickedImage != null) {
+      // Do something with the picked image
+      // For example, you can display it in an Image widget
+      // or save the image URL to use it later for posting.
+      setState(() {
+        // Store the image file in a variable to use it later.
+        _imageFile = File(pickedImage.path);
+        // Now you can display the image in your container or somewhere else.
+      });
+    }
+  }
+
   late TextEditingController _controller;
 
   @override
@@ -30,16 +55,46 @@ class _PublishPostState extends State<PublishPost> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const HomeScreen()),
+              );
+            },
+          ),
           backgroundColor: OurColor.firstColor,
           title: const Text("Yeni Gönderi"),
           actions: <Widget>[
-            IconButton(
-              icon: const Icon(Icons.send_sharp),
-              tooltip: 'Gönder',
-              onPressed: () {
-                ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('This is a snackbar')));
-              },
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: PopupMenuButton<String>(
+                tooltip: "Menü",
+                itemBuilder: (BuildContext context) {
+                  return dropdownOptions.map((String option) {
+                    return PopupMenuItem<String>(
+                      value: option,
+                      child: Text(option),
+                    );
+                  }).toList();
+                },
+                onSelected: (String selectedOption) {
+                  //print('Selected Option: $selectedOption');
+                },
+                child: Container(
+                  padding: EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                    color: Colors.transparent,
+                    borderRadius: BorderRadius.circular(4),
+                    border: Border.all(color: Colors.transparent),
+                  ),
+                  child: const Text(
+                    'Gönder',
+                    style: TextStyle(fontSize: 18, color: Colors.white),
+                  ),
+                ),
+              ),
             ),
           ],
         ),
@@ -49,9 +104,9 @@ class _PublishPostState extends State<PublishPost> {
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Container(
-                height: 400,
+                height: 300,
                 child: TextField(
-                  maxLength: 150,
+                  maxLength: 100,
                   maxLines: 6,
                   controller: _controller,
                   onSubmitted: (String value) async {
@@ -60,10 +115,7 @@ class _PublishPostState extends State<PublishPost> {
                       context: context,
                       builder: (BuildContext context) {
                         return AlertDialog(
-                          title: const Text('Thanks!'),
                           shadowColor: OurColor.firstColor,
-                          content: Text(
-                              'You typed "$value", which has length ${value.characters.length}.'),
                           actions: <Widget>[
                             TextButton(
                               onPressed: () {
@@ -79,7 +131,20 @@ class _PublishPostState extends State<PublishPost> {
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
+              height: 15,
+            ),
+            Expanded(
+              child: Container(
+                height: 150,
+                width: MediaQuery.of(context).size.width - 75,
+                child: _imageFile != null
+                    ? Image.file(_imageFile!) // Display the picked image
+                    : Text(
+                        'No image selected'), // Display a message if no image is picked
+              ),
+            ),
+            const SizedBox(
               height: 25,
             ),
             Container(
@@ -92,24 +157,15 @@ class _PublishPostState extends State<PublishPost> {
                   children: [
                     IconButton(
                       icon: Icon(Icons.photo),
-                      onPressed: () {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('This is a snackbar')));
-                      },
+                      onPressed: _pickImage,
                     ),
                     IconButton(
                       icon: Icon(Icons.camera_alt),
-                      onPressed: () {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('This is a snackbar')));
-                      },
+                      onPressed: () {},
                     ),
                     IconButton(
                       icon: Icon(Icons.public),
-                      onPressed: () {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('This is a snackbar')));
-                      },
+                      onPressed: () {},
                     ),
                   ],
                 ),
