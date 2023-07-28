@@ -259,7 +259,15 @@ class _HakkimizdaState extends State<Hakkimizda> {
 
 AppBar _appBarWidget() {
   return AppBar(
-    backgroundColor: OurColor.firstColor,
+    flexibleSpace: Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [OurColor.firstColor, OurColor.secondColor],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+      ),
+    ),
     title: Padding(
       padding: const EdgeInsets.only(right: 4),
       child: ListTile(

@@ -8,23 +8,11 @@ import 'package:proje/themecolors/colors.dart';
 class MoltenBottomNavigationBar extends StatelessWidget {
   final double barHeight;
   final double domeHeight;
-
-  /// If [domeWidth] is null, it will be set to 100
   final double domeWidth;
-
-  /// If a null value is passed, the [domeCircleColor] will be Theme.primaryColor
   final Color? domeCircleColor;
-
-  /// The size of the inner circle representing a seleted tab
-  ///
-  /// Note that [domeCircleSize] must be less than or equal to (barHeight + domeHeight)
   final double domeCircleSize;
-
-  /// Spacing around the bar, Default is [EdgeInsets.zero]
   final EdgeInsets margin;
   final Color? barColor;
-
-  /// List of [MoltenTab], each wil have an icon as the main widget, selcted color and unselected color
   final List<MoltenTab> tabs;
 
   /// The currently selected tab
@@ -36,19 +24,8 @@ class MoltenBottomNavigationBar extends StatelessWidget {
   final Duration? duration;
   final double borderSize;
   final Color? borderColor;
-
-  /// How much each angle is curved.
-  /// Default is: (topLeft: Radius.circular(10), topRight: Radius.circular(10))
-  ///
-  /// Note that high raduis values may decrease the dome width.
   final BorderRadius? borderRaduis;
-
-  /// An animated bottom navigation that makes your app looks better
-  /// with customizable attrinutes
-  ///
-  /// Give an [onTabChange] callback to specify what will happen whenever a tab is selected.
-  /// [tabs] are of type MoltenTab, use them to display selectable tabs.
-  MoltenBottomNavigationBar({
+  const MoltenBottomNavigationBar({
     Key? key,
     this.barHeight = kBottomNavigationBarHeight,
     this.barColor,
