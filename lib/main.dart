@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:proje/pages/auth/login/login.dart';
+import 'package:proje/pages/auth/singup/singup.dart';
 import 'package:proje/pages/screens/hakkimizda/hakkimizda.dart';
 import 'package:proje/pages/screens/home_screen/home_page.dart';
 import 'package:proje/pages/screens/is/is.dart';
@@ -40,7 +41,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const Is(),
+      home: const Signup(),
     );
   }
 }
