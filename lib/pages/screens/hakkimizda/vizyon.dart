@@ -57,6 +57,15 @@ class Vizyon extends StatelessWidget {
 
 AppBar _appBarWidget(BuildContext context) {
   return AppBar(
+    flexibleSpace: Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [OurColor.firstColor, OurColor.secondColor],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+      ),
+    ),
     automaticallyImplyLeading: false,
     backgroundColor: OurColor.firstColor,
     title: Padding(

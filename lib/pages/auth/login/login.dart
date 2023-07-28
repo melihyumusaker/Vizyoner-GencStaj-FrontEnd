@@ -24,13 +24,14 @@ class _LoginState extends State<Login> {
         height: MediaQuery.of(context).size.height,
         decoration: const BoxDecoration(
             gradient: LinearGradient(colors: [
-          Color(0xFFACBFE6),
-          Color(0xFF6688CC),
+          Color.fromARGB(255, 236, 239, 246),
+          // ignore: use_full_hex_values_for_flutter_colors
+          Color.fromARGB(246, 90, 129, 206),
         ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
         child: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.fromLTRB(
-                10, MediaQuery.of(context).size.height * 0.1, 10, 0),
+                3, MediaQuery.of(context).size.height * 0.1, 3, 0),
             child: Column(
               children: <Widget>[
                 Container(
