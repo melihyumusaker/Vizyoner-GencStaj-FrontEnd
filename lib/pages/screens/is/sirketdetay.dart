@@ -1,11 +1,21 @@
+import 'dart:convert';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:proje/themecolors/colors.dart';
 
 class SirketDetay extends StatelessWidget {
-  const SirketDetay({super.key});
+  final String logo;
+  final String firmaAd;
+  final String icerik;
+
+  SirketDetay(
+      {required this.logo, required this.firmaAd, required this.icerik});
 
   @override
   Widget build(BuildContext context) {
+
+
     return Scaffold(
       backgroundColor: OurColor.bgColor,
       appBar: _ilanDetayAppBar(context),
@@ -19,9 +29,9 @@ class SirketDetay extends StatelessWidget {
           elevation: 50,
           child: Column(
             children: [
-              _sirketLogo(),
-              _firmaAdText(),
-              _firmaDetayText(),
+              _sirketLogo(logo),
+              _firmaAdText(firmaAd),
+              _firmaDetayText(icerik),
             ],
           ),
         ),
@@ -29,7 +39,7 @@ class SirketDetay extends StatelessWidget {
     );
   }
 
-  Padding _firmaDetayText() {
+  Padding _firmaDetayText(String text) {
     return Padding(
       padding: const EdgeInsets.all(25.0),
       child: Text(
@@ -41,22 +51,25 @@ class SirketDetay extends StatelessWidget {
     );
   }
 
-  Padding _firmaAdText() {
-    return const Padding(
-      padding: EdgeInsets.symmetric(vertical: 7.0),
+  Padding _firmaAdText(String text) {
+    return  Padding(
+      padding:const  EdgeInsets.symmetric(vertical: 7.0),
       child: Text(
-        "Firma Adı",
-        style: TextStyle(
+        text,
+        style:const TextStyle(
             fontFamily: "OpenSans", color: Colors.black, fontSize: 18),
       ),
     );
   }
 
-  SizedBox _sirketLogo() {
+  SizedBox _sirketLogo(String logo) {
+
+    Uint8List bytesImage = const Base64Decoder().convert(logo);
+    
     return SizedBox(
       width: 150,
       height: 150,
-      child: Image.asset("assets/images/facebook.jpg"),
+      child: Image.memory(bytesImage, height: 170, width: 150),
     );
   }
 
