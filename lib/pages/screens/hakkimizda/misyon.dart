@@ -22,12 +22,12 @@ class Misyon extends StatelessWidget {
 
   Container _bgimage(BuildContext context) {
     return Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width - 75,
+        height: MediaQuery.of(context).size.height - 75,
         decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage("assets/images/bgimage.jpg"),
-            fit: BoxFit.fill,
+            fit: BoxFit.cover,
           ),
         ));
   }
@@ -58,8 +58,16 @@ class Misyon extends StatelessWidget {
 
 AppBar _appBarWidget(BuildContext context) {
   return AppBar(
+    flexibleSpace: Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [OurColor.firstColor, OurColor.secondColor],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+      ),
+    ),
     automaticallyImplyLeading: false,
-    backgroundColor: OurColor.firstColor,
     title: Padding(
       padding: const EdgeInsets.only(right: 50),
       child: ListTile(
