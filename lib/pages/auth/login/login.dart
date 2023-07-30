@@ -1,7 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:proje/pages/auth/singup/singup.dart';
+import 'package:proje/pages/screens/home_screen/home_page.dart';
+import 'package:proje/pages/screens/is/is.dart';
 import 'package:proje/pages/screens/side_bar.dart';
+import 'package:proje/service/login_service.dart';
 
 import '../../../utils/reuseable_widgets/auth_reuseable_widgets.dart';
 import '../reset_password/reset_password.dart';
@@ -18,19 +21,23 @@ class _LoginState extends State<Login> {
   final TextEditingController _emailTextController = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    bool _girisBasarili = false;
+    final LoginService loginService = new LoginService();
+
     return Scaffold(
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         decoration: const BoxDecoration(
             gradient: LinearGradient(colors: [
-          Color(0xFFACBFE6),
-          Color(0xFF6688CC),
+          Color.fromARGB(255, 236, 239, 246),
+          // ignore: use_full_hex_values_for_flutter_colors
+          Color.fromARGB(246, 90, 129, 206),
         ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
         child: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.fromLTRB(
-                10, MediaQuery.of(context).size.height * 0.1, 10, 0),
+                3, MediaQuery.of(context).size.height * 0.1, 3, 0),
             child: Column(
               children: <Widget>[
                 Container(
@@ -56,14 +63,28 @@ class _LoginState extends State<Login> {
                   height: 5,
                 ),
                 forgetPassword(context),
-                firebaseUIButton(context, "Giriş Yap", () {
+                firebaseUIButton(context, "Giriş Yap", () async {
+                  bool sonuc = await loginService.loginKullanici(
+                      _emailTextController.text, _passwordTextController.text);
+
+                  setState(() {
+                    _girisBasarili = sonuc;
+                  });
+
+                  if (_girisBasarili == true) {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>  HomeScreen()));
+                    }
+       
                   FirebaseAuth.instance
                       .signInWithEmailAndPassword(
-                          email: _emailTextController.text,
-                          password: _passwordTextController.text)
+                    email: _emailTextController.text,
+                    password: _passwordTextController.text,
+                  )
                       .then((value) {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => SideBar()));
+                    
                   }).onError((error, stackTrace) {
                     print("Error ${error.toString()}");
                   });

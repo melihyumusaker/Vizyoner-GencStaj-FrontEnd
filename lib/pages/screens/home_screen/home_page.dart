@@ -3,7 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:proje/pages/screens/bottom_nav_bar/animated_bottom_navigation_bar.dart';
 import 'package:proje/pages/screens/hakkimizda/hakkimizda.dart';
-import 'package:proje/pages/screens/notifications.dart';
+import 'package:proje/pages/screens/notifications/notifications.dart';
+import 'package:proje/pages/screens/profile/profile.dart';
 import 'package:proje/pages/screens/search_page/search.dart';
 import 'package:proje/pages/screens/sidebar/sidebar_settings.dart';
 import 'package:proje/pages/screens/sidebar/support.dart';
@@ -14,6 +15,8 @@ import '../is/is.dart';
 import '../publish_post_page/publish_post_page.dart';
 
 class HomeScreen extends StatefulWidget {
+  
+  
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
@@ -54,27 +57,27 @@ class _HomeScreenState extends State<HomeScreen> {
 
     switch (index) {
       case 0:
-        Navigator.of(context as BuildContext).pushReplacement(MaterialPageRoute(
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
           builder: (context) => const HomeScreen(),
         ));
         break;
       case 1:
-        Navigator.of(context as BuildContext).pushReplacement(MaterialPageRoute(
-          builder: (context) => const HomeScreen(),
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (context) => const ProfilePage(),
         ));
         break;
       case 2:
-        Navigator.of(context as BuildContext).pushReplacement(MaterialPageRoute(
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
           builder: (context) => const PublishPost(),
         ));
         break;
       case 3:
-        Navigator.of(context as BuildContext).pushReplacement(MaterialPageRoute(
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
           builder: (context) => const Sosyal(),
         ));
         break;
       case 4:
-        Navigator.of(context as BuildContext).pushReplacement(MaterialPageRoute(
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
           builder: (context) => const Is(),
         ));
         break;
@@ -84,130 +87,11 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          flexibleSpace: Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [OurColor.firstColor, OurColor.secondColor],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
-            ),
-          ),
-          title: TextButton(
-            style: TextButton.styleFrom(
-                textStyle: const TextStyle(fontSize: 20),
-                backgroundColor: Colors.transparent),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const SearchPage()),
-              );
-            },
-            child: const Text('Ara', style: TextStyle(color: Colors.white)),
-          ),
-
-          // you can put any Widget
-
-          actions: <Widget>[
-            IconButton(
-              icon: const Icon(Icons.notifications_active),
-              tooltip: 'Bildirimler',
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => Notifications()));
-              },
-            ),
-          ],
-        ),
-        bottomNavigationBar: MoltenBottomNavigationBar(
-          // Pass the required properties to the MoltenBottomNavigationBar
-          tabs: _tabs,
-
-          selectedIndex: _currentIndex,
-          onTabChange: _onTabChange,
-        ),
+        appBar: _appBarWidgetForMainPage(),
+        bottomNavigationBar: _bottomNavigationBar(),
         drawer: _Drawer(),
         body: Center(
-          child: ListView.builder(
-            scrollDirection: Axis.vertical,
-            itemCount: 2,
-            itemBuilder: (BuildContext context, int index) {
-              return Card(
-                margin: EdgeInsets.all(30),
-                elevation: 20,
-                shadowColor: Colors.black,
-                clipBehavior: Clip.hardEdge,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    infoCardForMainPage(),
-                    Center(
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.all(10.0),
-                            child: Text(
-                                "Seat&Cupra Pazarlama Proje Bazlı #Stajyer İlanı\nGENEL NİTELİKLER\n• Üniversitelerin #Mühendislik , #işletme , #iletişim , #iktisadi ve İdari Bilimler Fakültesinde son sınıf #Öğrencisi veya #Mezun ,\n• En az 4 iş günü çalışabilecek,\n• İyi derecede İngilizce bilen,\n• İletişim becerileri yüksek,\n• Takım çalışmasına yatkın,"),
-                          ),
-                          SizedBox(height: 10),
-                          Padding(
-                            padding: EdgeInsets.all(10.0),
-                            child: Image(
-                              image: NetworkImage(
-                                  "https://vizyonergenc.com/storage/1400746/WmHNOeqS4fenlh5jhZNTZa3NDd6Rvh5EIBgjwuYG.jpeg"),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 10),
-                      child: Text("13 beğeni"),
-                    ),
-                    const Divider(
-                      height: 15,
-                      indent: 30,
-                      endIndent: 30,
-                      color: Colors.grey,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        IconButton(
-                          icon: const Icon(Icons.favorite_border_outlined),
-                          tooltip: 'Beğen',
-                          onPressed: () {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                    content: Text('This is a snackbar')));
-                          },
-                        ),
-                        IconButton(
-                          icon: const Icon(Icons.comment),
-                          tooltip: 'Yorum',
-                          onPressed: () {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                    content: Text('This is a snackbar')));
-                          },
-                        ),
-                        IconButton(
-                          icon: const Icon(Icons.send),
-                          tooltip: 'Paylaş',
-                          onPressed: () {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                    content: Text('This is a snackbar')));
-                          },
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              );
-            },
-          ),
+          child: _MainPageListViewCard(),
         ));
   }
 
@@ -231,7 +115,7 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               Text(
                 "Sosyal".toUpperCase(),
-                style: Theme.of(context as BuildContext)
+                style: Theme.of(context)
                     .textTheme
                     .titleMedium!
                     .copyWith(color: Colors.white),
@@ -252,7 +136,7 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               Text(
                 "İçerik".toUpperCase(),
-                style: Theme.of(context as BuildContext)
+                style: Theme.of(context)
                     .textTheme
                     .titleMedium!
                     .copyWith(color: Colors.white),
@@ -271,7 +155,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               Text(
                 "Hesap".toUpperCase(),
-                style: Theme.of(context as BuildContext)
+                style: Theme.of(context)
                     .textTheme
                     .titleMedium!
                     .copyWith(color: Colors.white),
@@ -285,7 +169,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               ListTile(
                 onTap: () => {
-                  Navigator.push(context as BuildContext,
+                  Navigator.push(context,
                       MaterialPageRoute(builder: (context) => Destek())),
                 },
                 leading: const SizedBox(
@@ -297,7 +181,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               ListTile(
                 onTap: () => {
-                  Navigator.push(context as BuildContext,
+                  Navigator.push(context,
                       MaterialPageRoute(builder: (context) => Hakkimizda())),
                 },
                 leading: const SizedBox(
@@ -309,7 +193,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               ListTile(
                 onTap: () => {
-                  Navigator.push(context as BuildContext,
+                  Navigator.push(context,
                       MaterialPageRoute(builder: (context) => SideBarAyarlar()))
                 },
                 leading: const SizedBox(
@@ -320,9 +204,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 title: Text("Ayarlar"),
               ),
               ListTile(
-                onTap: () {
-                  
-                },
+                onTap: () {},
                 leading: const SizedBox(
                   height: 34,
                   width: 34,
@@ -337,6 +219,132 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       )),
     ));
+  }
+
+  MoltenBottomNavigationBar _bottomNavigationBar() {
+    return MoltenBottomNavigationBar(
+      tabs: _tabs,
+      selectedIndex: _currentIndex,
+      onTabChange: _onTabChange,
+    );
+  }
+
+  AppBar _appBarWidgetForMainPage() {
+    return AppBar(
+      flexibleSpace: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [OurColor.firstColor, OurColor.secondColor],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+        ),
+      ),
+      title: TextButton(
+        style: TextButton.styleFrom(
+            textStyle: const TextStyle(fontSize: 20),
+            backgroundColor: Colors.transparent),
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const SearchPage()),
+          );
+        },
+        child: const Text('Ara', style: TextStyle(color: Colors.white)),
+      ),
+
+      // you can put any Widget
+
+      actions: <Widget>[
+        IconButton(
+          icon: const Icon(Icons.notifications_active),
+          tooltip: 'Bildirimler',
+          onPressed: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const Notifications()));
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget _MainPageListViewCard() {
+    return ListView.builder(
+      scrollDirection: Axis.vertical,
+      itemCount: 2,
+      itemBuilder: (BuildContext context, int index) {
+        return Card(
+          margin: const EdgeInsets.all(30),
+          elevation: 20,
+          shadowColor: Colors.black,
+          clipBehavior: Clip.hardEdge,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              infoCardForMainPage(),
+              Center(
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.all(10.0),
+                      child: Text(
+                          "Seat&Cupra Pazarlama Proje Bazlı #Stajyer İlanı\nGENEL NİTELİKLER\n• Üniversitelerin #Mühendislik , #işletme , #iletişim , #iktisadi ve İdari Bilimler Fakültesinde son sınıf #Öğrencisi veya #Mezun ,\n• En az 4 iş günü çalışabilecek,\n• İyi derecede İngilizce bilen,\n• İletişim becerileri yüksek,\n• Takım çalışmasına yatkın,"),
+                    ),
+                    SizedBox(height: 10),
+                    Padding(
+                      padding: EdgeInsets.all(10.0),
+                      child: Image(
+                        image: NetworkImage(
+                            "https://vizyonergenc.com/storage/1400746/WmHNOeqS4fenlh5jhZNTZa3NDd6Rvh5EIBgjwuYG.jpeg"),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 10),
+                child: Text("13 beğeni"),
+              ),
+              const Divider(
+                height: 15,
+                indent: 30,
+                endIndent: 30,
+                color: Colors.grey,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.favorite_border_outlined),
+                    tooltip: 'Beğen',
+                    onPressed: () {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('This is a snackbar')));
+                    },
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.comment),
+                    tooltip: 'Yorum',
+                    onPressed: () {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('This is a snackbar')));
+                    },
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.send),
+                    tooltip: 'Paylaş',
+                    onPressed: () {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('This is a snackbar')));
+                    },
+                  ),
+                ],
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 
   Widget infoCard() {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:proje/service/login_service.dart';
 
 Image logoWidget(String imageName) {
   return Image.asset(
@@ -9,7 +10,7 @@ Image logoWidget(String imageName) {
     color: Colors.white,
   );
 }
-
+    final LoginService kullaniciService = new LoginService();
 TextField reusableTextField(String text, IconData icon, bool isPasswordType,
     TextEditingController controller) {
   return TextField(
@@ -47,11 +48,12 @@ Container firebaseUIButton(BuildContext context, String title, Function onTap) {
     decoration: BoxDecoration(borderRadius: BorderRadius.circular(90)),
     child: ElevatedButton(
       onPressed: () {
+   
         onTap();
       },
       child: Text(
         title,
-        style:  TextStyle(
+        style: TextStyle(
             color: Colors.black87, fontWeight: FontWeight.bold, fontSize: 16),
       ),
       style: ButtonStyle(

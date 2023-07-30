@@ -6,12 +6,10 @@ import 'package:proje/pages/auth/singup/singup.dart';
 import 'package:proje/pages/screens/hakkimizda/hakkimizda.dart';
 import 'package:proje/pages/screens/home_screen/home_page.dart';
 import 'package:proje/pages/screens/is/is.dart';
-import 'package:proje/pages/screens/is/isilandetay.dart';
-import 'package:proje/pages/screens/is/sirketdetay.dart';
+import 'package:proje/pages/screens/profile/profile.dart';
 import 'package:proje/pages/screens/publish_post_page/publish_post_page.dart';
-import 'package:proje/pages/screens/side_bar.dart';
-import 'package:proje/pages/screens/sosyal/sosyal.dart';
 
+//import 'package:flutter/proje/pages/screens'
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -41,7 +39,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const Signup(),
+      home: PublishPost(),
     );
   }
 }
