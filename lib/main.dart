@@ -44,13 +44,14 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: PublishPost(),
+      home: Login(),
     );
   }
 }
 
 class BottomTabBar extends StatefulWidget {
-  BottomTabBar({Key? key}) : super(key: key);
+  String email;
+  BottomTabBar({Key? key, required this.email}) : super(key: key);
 
   @override
   State<BottomTabBar> createState() => _BottomTabBarState();
@@ -58,13 +59,15 @@ class BottomTabBar extends StatefulWidget {
 
 class _BottomTabBarState extends State<BottomTabBar> {
   int _index = 0;
-  final screens = [
-    HomeScreen(),
-    ProfilePage(),
-    PublishPost(),
-    Sosyal(),
-    Is(),
-  ];
+  List<Widget> get screens {
+    return [
+      HomeScreen(email: widget.email),
+      ProfilePage(),
+      PublishPost(email: widget.email),
+      Sosyal(),
+      Is(),
+    ];
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(body: screens[_index], bottomNavigationBar: bottomNavBar());

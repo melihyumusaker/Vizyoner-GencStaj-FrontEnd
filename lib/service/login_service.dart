@@ -7,7 +7,7 @@ class LoginService {
     try {
       // API'ye post request gönder
       final response = await http.post(
-        Uri.parse("http://192.168.1.82:8080/users/login"),
+        Uri.parse("http://192.168.2.12:8080/users/login"),
         body: {
           'email': email,
           'sifre': sifre,

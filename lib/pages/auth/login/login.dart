@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:proje/main.dart';
 import 'package:proje/pages/auth/singup/singup.dart';
 import 'package:proje/pages/screens/home_screen/home_page.dart';
 import 'package:proje/pages/screens/is/is.dart';
@@ -70,22 +71,24 @@ class _LoginState extends State<Login> {
                   setState(() {
                     _girisBasarili = sonuc;
                   });
+                  debugPrint(_girisBasarili.toString());
 
                   if (_girisBasarili == true) {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>  HomeScreen()));
-                    }
-       
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => BottomTabBar(
+                                  email: _emailTextController.text,
+                                )));
+                  }
+
                   FirebaseAuth.instance
                       .signInWithEmailAndPassword(
-                    email: _emailTextController.text,
-                    password: _passwordTextController.text,
-                  )
-                      .then((value) {
-                    
-                  }).onError((error, stackTrace) {
+                        email: _emailTextController.text,
+                        password: _passwordTextController.text,
+                      )
+                      .then((value) {})
+                      .onError((error, stackTrace) {
                     print("Error ${error.toString()}");
                   });
                 }),

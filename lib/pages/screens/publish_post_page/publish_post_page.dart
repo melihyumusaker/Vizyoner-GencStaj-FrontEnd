@@ -2,16 +2,13 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:proje/pages/screens/home_screen/home_page.dart';
-import 'package:proje/pages/screens/profile/profile.dart';
-
+import 'package:proje/main.dart';
 import '../../../themecolors/colors.dart';
 
-import '../is/is.dart';
-import '../sosyal/sosyal.dart';
-
 class PublishPost extends StatefulWidget {
-  const PublishPost({Key? key}) : super(key: key);
+  String email;
+
+  PublishPost({Key? key, required this.email}) : super(key: key);
 
   @override
   _PublishPostState createState() => _PublishPostState();
@@ -223,7 +220,10 @@ class _PublishPostState extends State<PublishPost> {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const HomeScreen()),
+            MaterialPageRoute(
+                builder: (context) => BottomTabBar(
+                      email: widget.email,
+                    )),
           );
         },
       ),
