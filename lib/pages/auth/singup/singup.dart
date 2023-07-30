@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:proje/main.dart';
 import 'package:proje/pages/auth/login/login.dart';
 import 'package:proje/pages/screens/home_screen/home_page.dart';
 import 'package:proje/service/signup_service.dart';
@@ -90,10 +91,6 @@ class _SignupState extends State<Signup> {
                           password: _passwordTextController.text)
                       .then((value) {
                     print("Created New Account");
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const HomeScreen()));
                   }).onError((error, stackTrace) {
                     print("Error ${error.toString()}");
                   });

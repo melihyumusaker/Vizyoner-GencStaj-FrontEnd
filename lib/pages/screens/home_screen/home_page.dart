@@ -1,6 +1,7 @@
 // ignore_for_file: library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
+
 import 'package:proje/pages/screens/hakkimizda/hakkimizda.dart';
 import 'package:proje/pages/screens/notifications/notifications.dart';
 import 'package:proje/pages/screens/search_page/search.dart';
@@ -10,9 +11,12 @@ import 'package:proje/pages/screens/sidebar/support.dart';
 import '../../../themecolors/colors.dart';
 
 class HomeScreen extends StatefulWidget {
-  
-  
-  const HomeScreen({Key? key}) : super(key: key);
+  String email;
+
+  HomeScreen({
+    Key? key,
+    required this.email,
+  }) : super(key: key);
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -172,7 +176,10 @@ class _HomeScreenState extends State<HomeScreen> {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const SearchPage()),
+            MaterialPageRoute(
+                builder: (context) => SearchPage(
+                      email: widget.email,
+                    )),
           );
         },
         child: const Text('Ara', style: TextStyle(color: Colors.white)),

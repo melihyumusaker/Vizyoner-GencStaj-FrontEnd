@@ -10,7 +10,7 @@ class SignupService {
     String email,
     String sifre,
   ) async {
-    final url = Uri.parse('http://192.168.1.82:8080/users');
+    final url = Uri.parse('http://192.168.2.12:8080/users');
 
     final kullaniciModel = KullaniciModel(
       ad: ad,

@@ -242,18 +242,6 @@ class _IsState extends State<Is> {
       automaticallyImplyLeading: false,
       backgroundColor: OurColor.firstColor,
       title: ListTile(
-        leading: IconButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const HomeScreen()),
-            );
-          },
-          icon: const Icon(
-            Icons.arrow_back_ios_new,
-            color: Colors.white,
-          ),
-        ),
         title: const Center(
           child: Text(
             'VG İş',
