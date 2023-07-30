@@ -8,6 +8,8 @@ import 'package:proje/pages/screens/home_screen/home_page.dart';
 import 'package:proje/pages/screens/is/is.dart';
 import 'package:proje/pages/screens/profile/profile.dart';
 import 'package:proje/pages/screens/publish_post_page/publish_post_page.dart';
+import 'package:proje/pages/screens/sosyal/sosyal.dart';
+import 'package:proje/themecolors/colors.dart';
 
 //import 'package:flutter/proje/pages/screens'
 Future main() async {
@@ -28,11 +30,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+    /**SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
       statusBarBrightness: Brightness.dark,
     ));
-
+    */
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+        //statusBarColor: Colors.transparent,
+        systemNavigationBarColor: OurColor.firstColor));
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
@@ -41,5 +46,81 @@ class MyApp extends StatelessWidget {
       ),
       home: PublishPost(),
     );
+  }
+}
+
+class BottomTabBar extends StatefulWidget {
+  BottomTabBar({Key? key}) : super(key: key);
+
+  @override
+  State<BottomTabBar> createState() => _BottomTabBarState();
+}
+
+class _BottomTabBarState extends State<BottomTabBar> {
+  int _index = 0;
+  final screens = [
+    HomeScreen(),
+    ProfilePage(),
+    PublishPost(),
+    Sosyal(),
+    Is(),
+  ];
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(body: screens[_index], bottomNavigationBar: bottomNavBar());
+  }
+
+  Widget bottomNavBar() {
+    return Stack(children: [
+      Container(
+        height: 55,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [OurColor.secondColor, OurColor.firstColor],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            stops: [0.0, 3],
+            tileMode: TileMode.clamp,
+          ),
+        ),
+      ),
+      BottomNavigationBar(
+          currentIndex: _index,
+          onTap: (value) {
+            setState(() {
+              _index = value;
+            });
+          },
+          backgroundColor: Colors.transparent,
+          type: BottomNavigationBarType.fixed,
+          elevation: 0,
+          unselectedItemColor: OurColor.thirdColor,
+          unselectedLabelStyle: TextStyle(color: OurColor.thirdColor),
+          selectedIconTheme: IconThemeData(color: Colors.white, size: 27),
+          selectedLabelStyle: TextStyle(color: Colors.white),
+          fixedColor: Colors.white,
+          items: const [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: "Home",
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.person),
+              label: 'Profil',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.add),
+              label: 'Yayınla',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.people),
+              label: 'Sosyal',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.work),
+              label: 'İş',
+            )
+          ]),
+    ]);
   }
 }

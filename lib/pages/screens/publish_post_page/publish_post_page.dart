@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -7,7 +6,7 @@ import 'package:proje/pages/screens/home_screen/home_page.dart';
 import 'package:proje/pages/screens/profile/profile.dart';
 
 import '../../../themecolors/colors.dart';
-import '../bottom_nav_bar/animated_bottom_navigation_bar.dart';
+
 import '../is/is.dart';
 import '../sosyal/sosyal.dart';
 
@@ -24,78 +23,6 @@ final List<String> dropdownOptions = [
 
 class _PublishPostState extends State<PublishPost> {
   int _currentIndex = 0; // Keep track of the selected tab index
-
-  final List<MoltenTab> _tabs = [
-    MoltenTab(
-      icon: Icon(Icons.home),
-      title: Text('Ana Sayfa'),
-      // Optional title for the selected tab
-    ),
-    MoltenTab(
-      icon: Icon(Icons.person),
-      title: Text('Pofil'),
-    ),
-    MoltenTab(
-      icon: Icon(Icons.add),
-      title: Text('Yayınla'),
-    ),
-    MoltenTab(
-      icon: Icon(Icons.people),
-      title: Text('Sosyal'),
-    ),
-    MoltenTab(
-      icon: Icon(Icons.work),
-      title: Text('İş'),
-    ),
-  ];
-
-  void _onTabChange(int index) {
-    setState(() {
-      _currentIndex = index;
-    });
-
-    switch (index) {
-      case 0:
-        Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (context) => const HomeScreen(),
-        ));
-        index++;
-        break;
-      case 1:
-        Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (context) => const ProfilePage(),
-        ));
-        index++;
-        break;
-      case 2:
-        Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (context) => const PublishPost(),
-        ));
-        index++;
-        break;
-      case 3:
-        Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (context) => const Sosyal(),
-        ));
-        index++;
-        break;
-      case 4:
-        Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (context) => const Is(),
-        ));
-        index++;
-        break;
-    }
-  }
-
-Future<String?> convertImageToBase64(File imageFile) async {
-  if (imageFile == null) return null;
-
-  List<int> imageBytes = await imageFile.readAsBytes();
-  String base64Image = base64Encode(imageBytes);
-  return base64Image;
-}
-
 
   File? _image;
 
@@ -135,7 +62,6 @@ Future<String?> convertImageToBase64(File imageFile) async {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: _appBarWidgetPublishPage(),
-        bottomNavigationBar: _bottomNavigationBar(),
         body: Column(
           children: [
             infoCardForPostPage(),
@@ -208,11 +134,76 @@ Future<String?> convertImageToBase64(File imageFile) async {
         ));
   }
 
-  MoltenBottomNavigationBar _bottomNavigationBar() {
-    return MoltenBottomNavigationBar(
-      tabs: _tabs,
-      selectedIndex: _currentIndex,
-      onTabChange: _onTabChange,
+  Widget publish() {
+    return Column(
+      children: [
+        infoCardForPostPage(),
+        Padding(
+          padding: const EdgeInsets.all(6.0),
+          child: SizedBox(
+            height: 100,
+            child: TextField(
+              maxLength: 100,
+              maxLines: 2,
+              controller: _controller,
+              onSubmitted: (String value) async {
+                await showDialog<void>(
+                  barrierColor: OurColor.firstColor,
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      actions: <Widget>[
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: const Text('OK'),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
+            ),
+          ),
+        ),
+        _image != null
+            ? Image.file(
+                _image!,
+                height: 100,
+              )
+            : const Icon(
+                Icons.photo,
+                size: 100,
+              ),
+        const SizedBox(
+          height: 5,
+        ),
+        SizedBox(
+          height: 50,
+          width: MediaQuery.of(context).size.width - 50,
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                IconButton(
+                  icon: Icon(Icons.photo),
+                  onPressed: _getImageFromGallery,
+                ),
+                IconButton(
+                  icon: Icon(Icons.camera_alt),
+                  onPressed: _getImageFromCamera,
+                ),
+                IconButton(
+                  icon: const Icon(Icons.public),
+                  onPressed: () {},
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
 
