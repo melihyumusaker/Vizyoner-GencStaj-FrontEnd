@@ -2,8 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:proje/pages/auth/singup/singup.dart';
 import 'package:proje/pages/screens/home_screen/home_page.dart';
-import 'package:proje/pages/screens/is/is.dart';
-import 'package:proje/pages/screens/side_bar.dart';
 import 'package:proje/service/login_service.dart';
 
 import '../../../utils/reuseable_widgets/auth_reuseable_widgets.dart';
@@ -52,13 +50,19 @@ class _LoginState extends State<Login> {
                 const SizedBox(
                   height: 30,
                 ),
-                reusableTextField("Mailinizi Giriniz", Icons.person_outline,
-                    false, _emailTextController),
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: reusableTextField("Mailinizi Giriniz",
+                      Icons.person_outline, false, _emailTextController),
+                ),
                 const SizedBox(
                   height: 20,
                 ),
-                reusableTextField("Şifrenizi Giriniz", Icons.lock_outline, true,
-                    _passwordTextController),
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: reusableTextField("Şifrenizi Giriniz",
+                      Icons.lock_outline, true, _passwordTextController),
+                ),
                 const SizedBox(
                   height: 5,
                 ),
@@ -72,20 +76,17 @@ class _LoginState extends State<Login> {
                   });
 
                   if (_girisBasarili == true) {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>  HomeScreen()));
-                    }
-       
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => HomeScreen()));
+                  }
+
                   FirebaseAuth.instance
                       .signInWithEmailAndPassword(
-                    email: _emailTextController.text,
-                    password: _passwordTextController.text,
-                  )
-                      .then((value) {
-                    
-                  }).onError((error, stackTrace) {
+                        email: _emailTextController.text,
+                        password: _passwordTextController.text,
+                      )
+                      .then((value) {})
+                      .onError((error, stackTrace) {
                     print("Error ${error.toString()}");
                   });
                 }),
@@ -121,7 +122,7 @@ class _LoginState extends State<Login> {
 
   Widget forgetPassword(BuildContext context) {
     return Container(
-      width: MediaQuery.of(context).size.width,
+      width: MediaQuery.of(context).size.width - 80,
       height: 35,
       alignment: Alignment.bottomRight,
       child: TextButton(

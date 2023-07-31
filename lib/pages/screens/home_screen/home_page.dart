@@ -7,11 +7,9 @@ import 'package:proje/pages/screens/search_page/search.dart';
 import 'package:proje/pages/screens/sidebar/sidebar_settings.dart';
 import 'package:proje/pages/screens/sidebar/support.dart';
 
-import '../../../themecolors/colors.dart';
+import '../../../utils/themecolors/colors.dart';
 
 class HomeScreen extends StatefulWidget {
-  
-  
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
@@ -103,7 +101,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ListTile(
                 onTap: () => {
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => Destek())),
+                      MaterialPageRoute(builder: (context) => const Destek())),
                 },
                 leading: const SizedBox(
                   height: 34,
@@ -114,8 +112,10 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               ListTile(
                 onTap: () => {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => Hakkimizda())),
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const Hakkimizda())),
                 },
                 leading: const SizedBox(
                   height: 34,
@@ -126,8 +126,10 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               ListTile(
                 onTap: () => {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => SideBarAyarlar()))
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const SideBarAyarlar()))
                 },
                 leading: const SizedBox(
                   height: 34,

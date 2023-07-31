@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:proje/themecolors/colors.dart';
+import 'package:proje/utils/themecolors/colors.dart';
 
 class Vizyon extends StatelessWidget {
   const Vizyon({super.key});

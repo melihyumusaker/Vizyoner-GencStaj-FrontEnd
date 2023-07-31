@@ -1,15 +1,12 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:proje/pages/auth/login/login.dart';
-import 'package:proje/pages/auth/singup/singup.dart';
-import 'package:proje/pages/screens/hakkimizda/hakkimizda.dart';
 import 'package:proje/pages/screens/home_screen/home_page.dart';
 import 'package:proje/pages/screens/is/is.dart';
 import 'package:proje/pages/screens/profile/profile.dart';
 import 'package:proje/pages/screens/publish_post_page/publish_post_page.dart';
 import 'package:proje/pages/screens/sosyal/sosyal.dart';
-import 'package:proje/themecolors/colors.dart';
+import 'package:proje/utils/themecolors/colors.dart';
 
 //import 'package:flutter/proje/pages/screens'
 Future main() async {
@@ -44,7 +41,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: PublishPost(),
+      home: BottomTabBar(),
     );
   }
 }
@@ -79,8 +76,7 @@ class _BottomTabBarState extends State<BottomTabBar> {
             colors: [OurColor.secondColor, OurColor.firstColor],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
-            stops: [0.0, 3],
-            tileMode: TileMode.clamp,
+            stops: [0.0, 25],
           ),
         ),
       ),

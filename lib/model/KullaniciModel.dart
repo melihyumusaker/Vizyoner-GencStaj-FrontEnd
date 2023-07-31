@@ -1,3 +1,5 @@
+import 'package:proje/model/SirketModel.dart';
+
 class KullaniciModel {
   int? kullaniciId;
   String? ad;
@@ -6,11 +8,9 @@ class KullaniciModel {
   String? sifre;
   String? dogumTarihi;
   String? fotograf;
+  SirketModel? sirket;
   String? cinsiyet;
-  String? uyruk;
   String? adres;
-  int? baglantiSayisi;
-  int? takipSayisi;
 
   KullaniciModel(
       {this.kullaniciId,
@@ -20,11 +20,9 @@ class KullaniciModel {
       this.sifre,
       this.dogumTarihi,
       this.fotograf,
+      this.sirket,
       this.cinsiyet,
-      this.uyruk,
-      this.adres,
-      this.baglantiSayisi,
-      this.takipSayisi});
+      this.adres});
 
   KullaniciModel.fromJson(Map<String, dynamic> json) {
     kullaniciId = json['kullaniciId'];
@@ -34,11 +32,11 @@ class KullaniciModel {
     sifre = json['sifre'];
     dogumTarihi = json['dogum_tarihi'];
     fotograf = json['fotograf'];
+    sirket = json['sirket'] != null
+        ? new SirketModel.fromJson(json['sirket'])
+        : null;
     cinsiyet = json['cinsiyet'];
-    uyruk = json['uyruk'];
     adres = json['adres'];
-    baglantiSayisi = json['baglanti_sayisi'];
-    takipSayisi = json['takip_sayisi'];
   }
 
   Map<String, dynamic> toJson() {
@@ -50,11 +48,11 @@ class KullaniciModel {
     data['sifre'] = this.sifre;
     data['dogum_tarihi'] = this.dogumTarihi;
     data['fotograf'] = this.fotograf;
+    if (this.sirket != null) {
+      data['sirket'] = this.sirket!.toJson();
+    }
     data['cinsiyet'] = this.cinsiyet;
-    data['uyruk'] = this.uyruk;
     data['adres'] = this.adres;
-    data['baglanti_sayisi'] = this.baglantiSayisi;
-    data['takip_sayisi'] = this.takipSayisi;
     return data;
   }
 }
