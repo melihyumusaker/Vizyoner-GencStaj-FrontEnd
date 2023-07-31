@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:proje/main.dart';
+import 'package:proje/utils/themecolors/colors.dart';
+
 import 'package:proje/pages/screens/home_screen/home_page.dart';
-import 'package:proje/themecolors/colors.dart';
 
 class SearchPage extends StatefulWidget {
   String email;

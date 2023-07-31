@@ -4,17 +4,9 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-
-import 'package:proje/pages/screens/hakkimizda/hakkimizda.dart';
 import 'package:proje/pages/screens/notifications/notifications.dart';
-import 'package:proje/pages/screens/sidebar/sidebar_settings.dart';
-import 'package:proje/pages/screens/sidebar/support.dart';
-import 'package:proje/pages/screens/sosyal/sosyal.dart';
 
-import '../../../themecolors/colors.dart';
-import '../home_screen/home_page.dart';
-import '../is/is.dart';
-import '../publish_post_page/publish_post_page.dart';
+import '../../../utils/themecolors/colors.dart';
 
 class EditProfilePage extends StatefulWidget {
   const EditProfilePage({Key? key}) : super(key: key);
@@ -105,7 +97,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: _appBarWidget(),
-        drawer: _Drawer(),
         body: SingleChildScrollView(
           child: Center(
             child: Column(
@@ -145,26 +136,25 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 const SizedBox(
                   height: 25,
                 ),
-                Row(
+                /*Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Text("5 Bağlantı"),
                     Text("100 Firma"),
                     Text("14 Etiket"),
                   ],
-                ),
+                ),*/
                 const SizedBox(
                   height: 15,
                 ),
                 _profilebuttons(context),
                 const SizedBox(height: 20),
                 //_pageValue == 0 ? _gonderilerBuilder() : _basvurularimBuilder()
-                if (_pageValue == 0)
-                  _hakkimda_edit(context)
-                else if (_pageValue == 1)
-                  _basvurularimBuilder()
-                else if (_pageValue == 2)
-                  _egitimBilgilerBuilderEdit()
+                _pageValue == 0
+                    ? _hakkimda_edit(context)
+                    : _pageValue == 1
+                        ? _basvurularimBuilder()
+                        : _egitimBilgilerBuilderEdit()
               ],
             ),
           ),
@@ -178,168 +168,149 @@ class _EditProfilePageState extends State<EditProfilePage> {
         children: [
           Padding(
             padding: const EdgeInsets.all(5.0),
-            child: PopupMenuButton<String>(
-              itemBuilder: (BuildContext context) {
-                return dropdownOptions.map((String option) {
-                  return PopupMenuItem<String>(
-                    value: option,
-                    child: Text(option),
-                  );
-                }).toList();
-              },
-              onSelected: (String selectedOption) {
-                // Handle the selected option
-                print('Selected Option: $selectedOption');
-              },
-              child: Container(
-                padding: const EdgeInsets.all(1),
-                decoration: BoxDecoration(
-                  color: OurColor.firstColor,
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: PopupMenuButton<String>(
+                itemBuilder: (BuildContext context) {
+                  return dropdownOptions.map((String option) {
+                    return PopupMenuItem<String>(
+                      value: option,
+                      child: Text(option),
+                    );
+                  }).toList();
+                },
+                onSelected: (String selectedOption) {
+                  // Handle the selected option
+                  print('Selected Option: $selectedOption');
+                },
+                child: Container(
+                  padding: const EdgeInsets.all(4),
+                  decoration: BoxDecoration(
+                    color: OurColor.firstColor,
+                    borderRadius: BorderRadius.circular(4),
+                    border: Border.all(color: Colors.transparent),
+                  ),
+                  child: const Text(
+                    'Cinsiyet Seçiniz',
+                    style: TextStyle(fontSize: 16, color: Colors.white),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(
+            height: 12,
+          ),
+          Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: TextField(
+              //maxLength: 20,
+              maxLines: 1,
+              controller: _controllerDate,
+              decoration: InputDecoration(
+                hintText: 'Doğum Tarihinizi Giriniz', // The hint text
+                border: UnderlineInputBorder(),
+                focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(4),
-                  border: Border.all(color: Colors.transparent),
-                ),
-                child: const Text(
-                  'Cinsiyet Seçiniz',
-                  style: TextStyle(fontSize: 16, color: Colors.white),
+                  borderSide: BorderSide(color: Colors.transparent),
                 ),
               ),
+              onSubmitted: (String value) async {
+                await showDialog<void>(
+                  barrierColor: OurColor.firstColor,
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      actions: <Widget>[
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: const Text('OK'),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
             ),
           ),
           const SizedBox(
             height: 12,
           ),
-          TextField(
-            //maxLength: 20,
-            maxLines: 1,
-            controller: _controllerDate,
-            decoration: InputDecoration(
-              hintText: 'Doğum Tarihinizi Giriniz', // The hint text
-              border: UnderlineInputBorder(),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(4),
-                borderSide: BorderSide(color: Colors.transparent),
+          const SizedBox(
+            height: 12,
+          ),
+          Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: TextField(
+              //maxLength: 20,
+              maxLines: 1,
+              controller: _controllerAdres,
+              decoration: InputDecoration(
+                hintText: 'Adresnizi Giriniz', // The hint text
+                border: UnderlineInputBorder(),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(4),
+                  borderSide: BorderSide(color: Colors.transparent),
+                ),
               ),
+              onSubmitted: (String value) async {
+                await showDialog<void>(
+                  barrierColor: OurColor.firstColor,
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      actions: <Widget>[
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: const Text('OK'),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
             ),
-            onSubmitted: (String value) async {
-              await showDialog<void>(
-                barrierColor: OurColor.firstColor,
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    actions: <Widget>[
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: const Text('OK'),
-                      ),
-                    ],
-                  );
-                },
-              );
-            },
           ),
           const SizedBox(
             height: 12,
           ),
-          TextField(
-            //maxLength: 20,
-            maxLines: 1,
-            controller: _controllerUyruk,
-            decoration: InputDecoration(
-              hintText: 'Uyruğunuzu Giriniz', // The hint text
-              border: UnderlineInputBorder(),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(4),
-                borderSide: BorderSide(color: Colors.transparent),
+          Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: TextField(
+              //maxLength: 20,
+              maxLines: 1,
+              controller: _controllerSirket,
+              decoration: InputDecoration(
+                hintText: 'Hangi Şirkete Çalışıyorsunuz', // The hint text
+                border: UnderlineInputBorder(),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(4),
+                  borderSide: BorderSide(color: Color.fromARGB(0, 38, 11, 214)),
+                ),
               ),
+              onSubmitted: (String value) async {
+                await showDialog<void>(
+                  barrierColor: OurColor.firstColor,
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      actions: <Widget>[
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: const Text('OK'),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
             ),
-            onSubmitted: (String value) async {
-              await showDialog<void>(
-                barrierColor: OurColor.firstColor,
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    actions: <Widget>[
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: const Text('OK'),
-                      ),
-                    ],
-                  );
-                },
-              );
-            },
-          ),
-          const SizedBox(
-            height: 12,
-          ),
-          TextField(
-            //maxLength: 20,
-            maxLines: 1,
-            controller: _controllerAdres,
-            decoration: InputDecoration(
-              hintText: 'Adresnizi Giriniz', // The hint text
-              border: UnderlineInputBorder(),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(4),
-                borderSide: BorderSide(color: Colors.transparent),
-              ),
-            ),
-            onSubmitted: (String value) async {
-              await showDialog<void>(
-                barrierColor: OurColor.firstColor,
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    actions: <Widget>[
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: const Text('OK'),
-                      ),
-                    ],
-                  );
-                },
-              );
-            },
-          ),
-          const SizedBox(
-            height: 12,
-          ),
-          TextField(
-            //maxLength: 20,
-            maxLines: 1,
-            controller: _controllerSirket,
-            decoration: InputDecoration(
-              hintText: 'Hangi Şirkete Çalışıyorsunuz', // The hint text
-              border: UnderlineInputBorder(),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(4),
-                borderSide: BorderSide(color: Color.fromARGB(0, 38, 11, 214)),
-              ),
-            ),
-            onSubmitted: (String value) async {
-              await showDialog<void>(
-                barrierColor: OurColor.firstColor,
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    actions: <Widget>[
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: const Text('OK'),
-                      ),
-                    ],
-                  );
-                },
-              );
-            },
           ),
         ],
       ),
@@ -357,6 +328,14 @@ class _EditProfilePageState extends State<EditProfilePage> {
           ),
         ),
       ),
+      title: Center(child: Text("Edit Profil")),
+      leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(
+              context,
+            );
+          }),
       actions: <Widget>[
         IconButton(
           icon: const Icon(Icons.notifications_active),
@@ -375,73 +354,79 @@ class _EditProfilePageState extends State<EditProfilePage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          TextField(
-            //maxLength: 20,
-            maxLines: 1,
-            controller: _controllerOkul,
-            decoration: InputDecoration(
-              hintText: 'Okul Adınız', // The hint text
-              border: UnderlineInputBorder(),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(4),
-                borderSide: BorderSide(color: Colors.transparent),
+          Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: TextField(
+              //maxLength: 20,
+              maxLines: 1,
+              controller: _controllerOkul,
+              decoration: InputDecoration(
+                hintText: 'Okul Adınız', // The hint text
+                border: UnderlineInputBorder(),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(4),
+                  borderSide: BorderSide(color: Colors.transparent),
+                ),
               ),
+              onSubmitted: (String value) async {
+                await showDialog<void>(
+                  barrierColor: OurColor.firstColor,
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      actions: <Widget>[
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: const Text('OK'),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
             ),
-            onSubmitted: (String value) async {
-              await showDialog<void>(
-                barrierColor: OurColor.firstColor,
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    actions: <Widget>[
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: const Text('OK'),
-                      ),
-                    ],
-                  );
-                },
-              );
-            },
           ),
           const SizedBox(
             height: 12,
           ),
-          TextField(
-            //maxLength: 20,
-            maxLines: 1,
-            controller: _controllerBolum,
-            decoration: InputDecoration(
-              hintText: 'Bölümünüz', // The hint text
-              border: UnderlineInputBorder(),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(4),
-                borderSide: BorderSide(color: Colors.transparent),
+          Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: TextField(
+              //maxLength: 20,
+              maxLines: 1,
+              controller: _controllerBolum,
+              decoration: InputDecoration(
+                hintText: 'Bölümünüz', // The hint text
+                border: UnderlineInputBorder(),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(4),
+                  borderSide: BorderSide(color: Colors.transparent),
+                ),
               ),
+              onSubmitted: (String value) async {
+                await showDialog<void>(
+                  barrierColor: OurColor.firstColor,
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      actions: <Widget>[
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: const Text('OK'),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
             ),
-            onSubmitted: (String value) async {
-              await showDialog<void>(
-                barrierColor: OurColor.firstColor,
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    actions: <Widget>[
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: const Text('OK'),
-                      ),
-                    ],
-                  );
-                },
-              );
-            },
           ),
           Padding(
-            padding: const EdgeInsets.all(5.0),
+            padding: const EdgeInsets.all(12.0),
             child: PopupMenuButton<String>(
               itemBuilder: (BuildContext context) {
                 return dropdownOptionsEgitim.map((String option) {
@@ -456,7 +441,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 print('Selected Option: $selectedOption');
               },
               child: Container(
-                padding: const EdgeInsets.all(1),
+                padding: const EdgeInsets.all(4),
                 decoration: BoxDecoration(
                   color: OurColor.firstColor,
                   borderRadius: BorderRadius.circular(4),
@@ -472,194 +457,120 @@ class _EditProfilePageState extends State<EditProfilePage> {
           const SizedBox(
             height: 12,
           ),
-          TextField(
-            maxLines: 1,
-            controller: _controllerGPA,
-            decoration: InputDecoration(
-              hintText: 'Ortalamanız', // The hint text
-              border: UnderlineInputBorder(),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(4),
-                borderSide: BorderSide(color: Colors.transparent),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
+              maxLines: 1,
+              controller: _controllerGPA,
+              decoration: InputDecoration(
+                hintText: 'Ortalamanız', // The hint text
+                border: UnderlineInputBorder(),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(4),
+                  borderSide: BorderSide(color: Colors.transparent),
+                ),
               ),
+              onSubmitted: (String value) async {
+                await showDialog<void>(
+                  barrierColor: OurColor.firstColor,
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      actions: <Widget>[
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: const Text('OK'),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
             ),
-            onSubmitted: (String value) async {
-              await showDialog<void>(
-                barrierColor: OurColor.firstColor,
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    actions: <Widget>[
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: const Text('OK'),
-                      ),
-                    ],
-                  );
-                },
-              );
-            },
           ),
           const SizedBox(
             height: 12,
           ),
-          TextField(
-            //maxLength: 20,
-            maxLines: 1,
-            controller: _controllerAdres,
-            decoration: InputDecoration(
-              hintText: 'Adresnizi Giriniz', // The hint text
-              border: UnderlineInputBorder(),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(4),
-                borderSide: BorderSide(color: Colors.transparent),
+          Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: TextField(
+              //maxLength: 20,
+              maxLines: 1,
+              controller: _controllerAdres,
+              decoration: InputDecoration(
+                hintText: 'Adresnizi Giriniz', // The hint text
+                border: UnderlineInputBorder(),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(4),
+                  borderSide: BorderSide(color: Colors.transparent),
+                ),
               ),
+              onSubmitted: (String value) async {
+                await showDialog<void>(
+                  barrierColor: OurColor.firstColor,
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      actions: <Widget>[
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: const Text('OK'),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
             ),
-            onSubmitted: (String value) async {
-              await showDialog<void>(
-                barrierColor: OurColor.firstColor,
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    actions: <Widget>[
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: const Text('OK'),
-                      ),
-                    ],
-                  );
-                },
-              );
-            },
           ),
           const SizedBox(
             height: 12,
           ),
-          TextField(
-            maxLength: 250,
-            maxLines: 1,
-            controller: _controllerHakkinda,
-            decoration: InputDecoration(
-              hintText: 'Hankkınızda', // The hint text
-              border: UnderlineInputBorder(),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(4),
-                borderSide: BorderSide(color: Color.fromARGB(0, 38, 11, 214)),
+          Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: TextField(
+              maxLength: 250,
+              maxLines: 1,
+              controller: _controllerHakkinda,
+              decoration: InputDecoration(
+                hintText: 'Hankkınızda', // The hint text
+                border: UnderlineInputBorder(),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(4),
+                  borderSide: BorderSide(color: Color.fromARGB(0, 38, 11, 214)),
+                ),
               ),
+              onSubmitted: (String value) async {
+                await showDialog<void>(
+                  barrierColor: OurColor.firstColor,
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      actions: <Widget>[
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: const Text('OK'),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
             ),
-            onSubmitted: (String value) async {
-              await showDialog<void>(
-                barrierColor: OurColor.firstColor,
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    actions: <Widget>[
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: const Text('OK'),
-                      ),
-                    ],
-                  );
-                },
-              );
-            },
           ),
         ],
       ),
     );
   }
 
-  Expanded _basvurularimBuilder() {
-    return Expanded(child: Text("Henüz Başvurunuz Bulunmamaktadır"));
-  }
-
-  Widget _gonderilerBuilder() {
-    return Container();
-  }
-
-  Widget _MainPageListViewCard() {
-    return ListView.builder(
-      scrollDirection: Axis.vertical,
-      itemCount: 2,
-      itemBuilder: (BuildContext context, int index) {
-        return Card(
-          margin: const EdgeInsets.all(30),
-          elevation: 20,
-          shadowColor: Colors.black,
-          clipBehavior: Clip.hardEdge,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              infoCardForMainPage(),
-              Center(
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.all(10.0),
-                      child: Text(
-                          "Seat&Cupra Pazarlama Proje Bazlı #Stajyer İlanı\nGENEL NİTELİKLER\n• Üniversitelerin #Mühendislik , #işletme , #iletişim , #iktisadi ve İdari Bilimler Fakültesinde son sınıf #Öğrencisi veya #Mezun ,\n• En az 4 iş günü çalışabilecek,\n• İyi derecede İngilizce bilen,\n• İletişim becerileri yüksek,\n• Takım çalışmasına yatkın,"),
-                    ),
-                    SizedBox(height: 10),
-                    Padding(
-                      padding: EdgeInsets.all(10.0),
-                      child: Image(
-                        image: NetworkImage(
-                            "https://vizyonergenc.com/storage/1400746/WmHNOeqS4fenlh5jhZNTZa3NDd6Rvh5EIBgjwuYG.jpeg"),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 10),
-                child: Text("13 beğeni"),
-              ),
-              const Divider(
-                height: 15,
-                indent: 30,
-                endIndent: 30,
-                color: Colors.grey,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  IconButton(
-                    icon: const Icon(Icons.favorite_border_outlined),
-                    tooltip: 'Beğen',
-                    onPressed: () {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('This is a snackbar')));
-                    },
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.comment),
-                    tooltip: 'Yorum',
-                    onPressed: () {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('This is a snackbar')));
-                    },
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.send),
-                    tooltip: 'Paylaş',
-                    onPressed: () {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('This is a snackbar')));
-                    },
-                  ),
-                ],
-              ),
-            ],
-          ),
-        );
-      },
-    );
+  Widget _basvurularimBuilder() {
+    return Container(child: Text("Henüz Başvurunuz Bulunmamaktadır"));
   }
 
   Center _profilebuttons(BuildContext context) {
@@ -755,132 +666,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
     );
   }
 
-  Widget _Drawer() {
-    return Drawer(
-        child: Container(
-      height: double.infinity,
-      color: const Color(0xFF6688CC),
-      child: SafeArea(
-          child: Column(
-        children: [
-          infoCard(),
-          const Divider(
-            color: Colors.white24,
-            height: 2,
-          ),
-          const Padding(
-            padding: EdgeInsets.only(left: 0, top: 5, bottom: 5),
-          ),
-          Column(
-            children: [
-              Text(
-                "Sosyal".toUpperCase(),
-                style: Theme.of(context)
-                    .textTheme
-                    .titleMedium!
-                    .copyWith(color: Colors.white),
-              ),
-              ListTile(
-                onTap: () {},
-                leading: const SizedBox(
-                  height: 34,
-                  width: 34,
-                  child: Icon(Icons.person_add_alt),
-                ),
-                title: Text("Yeni Bağlantı Ekle"),
-              ),
-            ],
-          ),
-
-          Column(
-            children: [
-              Text(
-                "İçerik".toUpperCase(),
-                style: Theme.of(context)
-                    .textTheme
-                    .titleMedium!
-                    .copyWith(color: Colors.white),
-              ),
-              const Padding(
-                padding: EdgeInsets.only(left: 5.0),
-              ),
-              ListTile(
-                onTap: () {},
-                leading: const SizedBox(
-                  height: 34,
-                  width: 34,
-                  child: Icon(Icons.assignment_ind),
-                ),
-                title: Text("Duyurular"),
-              ),
-              Text(
-                "Hesap".toUpperCase(),
-                style: Theme.of(context)
-                    .textTheme
-                    .titleMedium!
-                    .copyWith(color: Colors.white),
-              ),
-            ],
-          ),
-          Column(
-            children: [
-              const Padding(
-                padding: EdgeInsets.only(left: 1.0),
-              ),
-              ListTile(
-                onTap: () => {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => Destek())),
-                },
-                leading: const SizedBox(
-                  height: 34,
-                  width: 34,
-                  child: Icon(Icons.help_outline_rounded),
-                ),
-                title: Text("Destek"),
-              ),
-              ListTile(
-                onTap: () => {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => Hakkimizda())),
-                },
-                leading: const SizedBox(
-                  height: 34,
-                  width: 34,
-                  child: Icon(Icons.description),
-                ),
-                title: Text("Hakkımızda"),
-              ),
-              ListTile(
-                onTap: () => {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => SideBarAyarlar()))
-                },
-                leading: const SizedBox(
-                  height: 34,
-                  width: 34,
-                  child: Icon(Icons.settings),
-                ),
-                title: Text("Ayarlar"),
-              ),
-              ListTile(
-                onTap: () {},
-                leading: const SizedBox(
-                  height: 34,
-                  width: 34,
-                  child: Icon(Icons.exit_to_app),
-                ),
-                title: Text("Çıkış"),
-              ),
-            ],
-          )
-
-          ///
-        ],
-      )),
-    ));
-  }
-
   Widget infoCard() {
     return const ListTile(
       leading: CircleAvatar(
@@ -902,29 +687,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
       ),
     );
   }
-}
-
-Widget infoCardForMainPage() {
-  return ListTile(
-    leading: const CircleAvatar(
-      backgroundColor: Color(0xACBFE6),
-      radius: 25,
-      backgroundImage: NetworkImage(
-          'https://play-lh.googleusercontent.com/7429diO-GMzarMlzzfDf7bgeApqwJGibfq3BKqPCa9lS9hd3gLIimTSe5hz9burHeg'),
-    ),
-    title: Text(
-      "Emine Betül Erdoğan",
-      style: TextStyle(
-        color: OurColor.firstColor,
-      ),
-    ),
-    subtitle: Text(
-      "3 dakika önce",
-      style: TextStyle(
-        color: OurColor.firstColor,
-      ),
-    ),
-  );
 }
 
 @override

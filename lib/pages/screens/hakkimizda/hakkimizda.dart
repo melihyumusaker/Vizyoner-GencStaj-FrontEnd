@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:proje/pages/screens/hakkimizda/misyon.dart';
 import 'package:proje/pages/screens/hakkimizda/vizyon.dart';
-import 'package:proje/themecolors/colors.dart';
+import 'package:proje/utils/themecolors/colors.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Hakkimizda extends StatefulWidget {
