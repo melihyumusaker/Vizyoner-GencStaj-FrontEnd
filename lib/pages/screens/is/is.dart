@@ -10,7 +10,8 @@ import 'package:proje/service/sirket_service.dart';
 import 'package:proje/themecolors/colors.dart';
 
 class Is extends StatefulWidget {
-  const Is({super.key});
+  String email;
+   Is({super.key , required this.email});
 
   @override
   State<Is> createState() => _IsState();

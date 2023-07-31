@@ -11,7 +11,7 @@ import 'package:proje/pages/screens/publish_post_page/publish_post_page.dart';
 import 'package:proje/pages/screens/sosyal/sosyal.dart';
 import 'package:proje/themecolors/colors.dart';
 
-//import 'package:flutter/proje/pages/screens'
+//import 'package:fluter/proje/pages/screens'
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -62,12 +62,13 @@ class _BottomTabBarState extends State<BottomTabBar> {
   List<Widget> get screens {
     return [
       HomeScreen(email: widget.email),
-      ProfilePage(),
+      ProfilePage(email: widget.email),
       PublishPost(email: widget.email),
       Sosyal(),
-      Is(),
+      Is(email : widget.email),
     ];
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(body: screens[_index], bottomNavigationBar: bottomNavBar());
