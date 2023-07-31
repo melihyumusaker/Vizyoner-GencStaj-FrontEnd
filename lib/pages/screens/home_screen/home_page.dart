@@ -1,7 +1,6 @@
 // ignore_for_file: library_private_types_in_public_api
 
 
-
 import 'package:flutter/material.dart';
 import 'package:proje/pages/screens/bottom_nav_bar/animated_bottom_navigation_bar.dart';
 import 'package:proje/pages/screens/hakkimizda/hakkimizda.dart';
