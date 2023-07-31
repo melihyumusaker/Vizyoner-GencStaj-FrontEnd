@@ -1,12 +1,14 @@
 // ignore_for_file: library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
+import 'package:proje/model/GonderiModel.dart';
 
 import 'package:proje/pages/screens/hakkimizda/hakkimizda.dart';
 import 'package:proje/pages/screens/notifications/notifications.dart';
 import 'package:proje/pages/screens/search_page/search.dart';
 import 'package:proje/pages/screens/sidebar/sidebar_settings.dart';
 import 'package:proje/pages/screens/sidebar/support.dart';
+import 'package:proje/service/get_gonderi_service.dart';
 
 import '../../../themecolors/colors.dart';
 
@@ -23,6 +25,29 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  List<GonderiModel> gonderiList = [];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    fetchGonderiList();
+  }
+
+  Future<void> fetchGonderiList() async {
+    try {
+      GonderiService service = GonderiService();
+      List<GonderiModel> list =
+          (await service.fetchGonderiList()).cast<GonderiModel>();
+
+      setState(() {
+        gonderiList = list;
+      });
+    } catch (e) {
+      print("hata :" + e.toString());
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,7 +93,6 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ],
           ),
-
           Column(
             children: [
               Text(
@@ -219,8 +243,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   children: [
                     Padding(
                       padding: EdgeInsets.all(10.0),
-                      child: Text(
-                          "Seat&Cupra Pazarlama Proje Bazlı #Stajyer İlanı\nGENEL NİTELİKLER\n• Üniversitelerin #Mühendislik , #işletme , #iletişim , #iktisadi ve İdari Bilimler Fakültesinde son sınıf #Öğrencisi veya #Mezun ,\n• En az 4 iş günü çalışabilecek,\n• İyi derecede İngilizce bilen,\n• İletişim becerileri yüksek,\n• Takım çalışmasına yatkın,"),
+                      child: Text(gonderiList[0].icerik.toString()),
                     ),
                     SizedBox(height: 10),
                     Padding(

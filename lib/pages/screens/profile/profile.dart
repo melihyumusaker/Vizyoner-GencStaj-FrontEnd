@@ -4,16 +4,19 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:proje/model/KullaniciModel.dart';
 import 'package:proje/pages/screens/hakkimizda/hakkimizda.dart';
 import 'package:proje/pages/screens/notifications/notifications.dart';
 import 'package:proje/pages/screens/profile/edit_profile.dart';
 import 'package:proje/pages/screens/sidebar/sidebar_settings.dart';
 import 'package:proje/pages/screens/sidebar/support.dart';
+import 'package:proje/service/get_kullanici_service.dart';
 
 import '../../../themecolors/colors.dart';
 
 class ProfilePage extends StatefulWidget {
-  const ProfilePage({Key? key}) : super(key: key);
+  String email;
+  ProfilePage({Key? key, required this.email}) : super(key: key);
 
   @override
   _ProfilePageState createState() => _ProfilePageState();
@@ -75,6 +78,9 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   void initState() {
     super.initState();
+
+    fetchUser();
+
     _controllerDate = TextEditingController();
     _controllerUyruk = TextEditingController();
     _controllerAdres = TextEditingController();
@@ -83,6 +89,21 @@ class _ProfilePageState extends State<ProfilePage> {
     _controllerBolum = TextEditingController();
     _controllerHakkinda = TextEditingController();
     _controllerGPA = TextEditingController();
+  }
+
+  KullaniciModel myKullanici = new KullaniciModel();
+
+  Future<void> fetchUser() async {
+    try {
+      GetUserService service = GetUserService();
+      KullaniciModel kullanici = await service.getOneUserByEmail(widget.email);
+
+      setState(() {
+        myKullanici = kullanici;
+      });
+    } catch (e) {
+      print("hata :" + e.toString());
+    }
   }
 
   @override
@@ -120,6 +141,7 @@ class _ProfilePageState extends State<ProfilePage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                Text(myKullanici.ad.toString()),
                 CircleAvatar(
                   backgroundColor: Color(0xACBFE6),
                   radius: 25,
