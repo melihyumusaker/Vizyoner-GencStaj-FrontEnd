@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:proje/themecolors/colors.dart';
+import 'package:proje/utils/themecolors/colors.dart';
 
 class EtkinlikDetay extends StatelessWidget {
   String resim;
@@ -63,8 +63,16 @@ class EtkinlikDetay extends StatelessWidget {
 
   AppBar _socailAppBar(BuildContext context) {
     return AppBar(
+      flexibleSpace: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [OurColor.firstColor, OurColor.secondColor],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+        ),
+      ),
       automaticallyImplyLeading: false,
-      backgroundColor: OurColor.firstColor,
       title: Padding(
         padding: const EdgeInsets.only(right: 30),
         child: ListTile(

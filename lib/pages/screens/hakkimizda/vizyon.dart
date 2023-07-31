@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:proje/themecolors/colors.dart';
+import 'package:proje/utils/themecolors/colors.dart';
 
 class Vizyon extends StatelessWidget {
   const Vizyon({super.key});
@@ -57,6 +57,15 @@ class Vizyon extends StatelessWidget {
 
 AppBar _appBarWidget(BuildContext context) {
   return AppBar(
+    flexibleSpace: Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [OurColor.firstColor, OurColor.secondColor],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+      ),
+    ),
     automaticallyImplyLeading: false,
     backgroundColor: OurColor.firstColor,
     title: Padding(

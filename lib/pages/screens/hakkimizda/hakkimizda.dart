@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:proje/pages/screens/hakkimizda/misyon.dart';
 import 'package:proje/pages/screens/hakkimizda/vizyon.dart';
-import 'package:proje/themecolors/colors.dart';
+import 'package:proje/utils/themecolors/colors.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Hakkimizda extends StatefulWidget {
@@ -259,7 +259,15 @@ class _HakkimizdaState extends State<Hakkimizda> {
 
 AppBar _appBarWidget() {
   return AppBar(
-    backgroundColor: OurColor.firstColor,
+    flexibleSpace: Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [OurColor.firstColor, OurColor.secondColor],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+      ),
+    ),
     title: Padding(
       padding: const EdgeInsets.only(right: 4),
       child: ListTile(

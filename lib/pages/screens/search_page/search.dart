@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:proje/pages/screens/home_screen/home_page.dart';
-import 'package:proje/themecolors/colors.dart';
+import 'package:proje/main.dart';
+import 'package:proje/utils/themecolors/colors.dart';
 
 class SearchPage extends StatefulWidget {
-  const SearchPage({Key? key}) : super(key: key);
+  String email;
+  SearchPage({Key? key, required this.email}) : super(key: key);
 
   @override
   State<SearchPage> createState() => _SearchPageState();
@@ -59,7 +60,10 @@ class _SearchPageState extends State<SearchPage> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const HomeScreen()),
+                MaterialPageRoute(
+                    builder: (context) => BottomTabBar(
+                          email: widget.email,
+                        )),
               );
             },
           ),

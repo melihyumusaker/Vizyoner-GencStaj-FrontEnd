@@ -12,15 +12,3 @@ final kLabelStyle = TextStyle(
   fontWeight: FontWeight.bold,
   fontFamily: 'OpenSans',
 );
-
-final kBoxDecorationStyle = BoxDecoration(
-  color: const Color.fromARGB(255, 192, 241, 108),
-  borderRadius: BorderRadius.circular(10.0),
-  boxShadow: const [
-    BoxShadow(
-      color: Colors.black12,
-      blurRadius: 6.0,
-      offset: Offset(0, 2),
-    ),
-  ],
-);
