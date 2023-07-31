@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:proje/pages/screens/bottom_nav_bar/animated_bottom_navigation_bar.dart';
-import 'package:proje/pages/screens/sosyal/sosyal.dart';
-import '../../../themecolors/colors.dart';
-import '../home_screen/home_page.dart';
-import '../is/is.dart';
-import '../notifications.dart';
-import '../publish_post_page/publish_post_page.dart';
+
+import '../../../utils/themecolors/colors.dart';
+import '../notifications/notifications.dart';
 
 class GroupPage extends StatefulWidget {
   const GroupPage({Key? key}) : super(key: key);
@@ -15,66 +11,6 @@ class GroupPage extends StatefulWidget {
 }
 
 class _GroupPageState extends State<GroupPage> {
-  int _currentIndex = 0; // Keep track of the selected tab index
-
-  final List<MoltenTab> _tabs = [
-    MoltenTab(
-      icon: const Icon(Icons.home),
-      title: const Text('Ana Sayfa'),
-      // Optional title for the selected tab
-    ),
-    MoltenTab(
-      icon: const Icon(Icons.person),
-      title: const Text('Pofil'),
-    ),
-    MoltenTab(
-      icon: const Icon(Icons.add),
-      title: const Text('Yayınla'),
-    ),
-    MoltenTab(
-      icon: const Icon(Icons.people),
-      title: const Text('Sosyal'),
-    ),
-    MoltenTab(
-      icon: const Icon(Icons.work),
-      title: const Text('İş'),
-    ),
-  ];
-
-  void _onTabChange(int index) {
-    setState(() {
-      _currentIndex = index;
-    });
-
-    switch (index) {
-      case 0:
-        Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (context) => const HomeScreen(),
-        ));
-        break;
-      case 1:
-        Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (context) => const HomeScreen(),
-        ));
-        break;
-      case 2:
-        Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (context) => const PublishPost(),
-        ));
-        break;
-      case 3:
-        Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (context) => const Sosyal(),
-        ));
-        break;
-      case 4:
-        Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (context) => const Is(),
-        ));
-        break;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -101,13 +37,6 @@ class _GroupPageState extends State<GroupPage> {
               },
             ),
           ],
-        ),
-        bottomNavigationBar: MoltenBottomNavigationBar(
-          // Pass the required properties to the MoltenBottomNavigationBar
-          tabs: _tabs,
-
-          selectedIndex: _currentIndex,
-          onTabChange: _onTabChange,
         ),
         drawer: _Drawer(),
         body: Center(

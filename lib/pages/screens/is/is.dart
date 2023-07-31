@@ -1,16 +1,22 @@
 import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:proje/model/SirketModel.dart';
-import 'package:proje/pages/screens/home_screen/home_page.dart';
-
 import 'package:proje/pages/screens/is/isilandetay.dart';
 import 'package:proje/pages/screens/is/sirketdetay.dart';
+import 'package:proje/service/get_ilan_service.dart';
 import 'package:proje/service/sirket_service.dart';
-import 'package:proje/themecolors/colors.dart';
+import 'package:proje/utils/themecolors/colors.dart';
+
+import '../../../model/IlanModel.dart';
+import '../hakkimizda/hakkimizda.dart';
+import '../sidebar/sidebar_settings.dart';
+import '../sidebar/support.dart';
 
 class Is extends StatefulWidget {
-  const Is({super.key});
+  String email;
+   Is({super.key , required this.email});
 
   @override
   State<Is> createState() => _IsState();
@@ -20,11 +26,25 @@ int _pageValue = 0;
 
 class _IsState extends State<Is> {
   List<SirketModel> sirketList = [];
+  List<IlanModel> ilanList = [];
 
   @override
   void initState() {
     super.initState();
     fetchSirketList();
+    fetchIlanList();
+  }
+
+  Future<void> fetchIlanList() async {
+    try {
+      IlanService service = IlanService();
+      List<IlanModel> list = await service.fetchIlanList();
+      setState(() {
+        ilanList = list;
+      });
+    } catch (e) {
+      print('Hata oluştu: $e');
+    }
   }
 
   Future<void> fetchSirketList() async {
@@ -45,6 +65,7 @@ class _IsState extends State<Is> {
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: _isAppBar(context),
+        drawer: _Drawer(),
         body: Container(
           padding: const EdgeInsets.all(15),
           child: Column(
@@ -69,8 +90,10 @@ class _IsState extends State<Is> {
   Expanded _ilanCardBuilder() {
     return Expanded(
       child: ListView.builder(
-        itemCount: 8,
+        itemCount: ilanList.length,
         itemBuilder: (BuildContext context, int index) {
+          Uint8List bytesImageIlan =
+              const Base64Decoder().convert(ilanList[index].resim!);
           return Card(
             color: OurColor.thirdColor,
             elevation: 25,
@@ -83,7 +106,17 @@ class _IsState extends State<Is> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const IsIlanDetay(),
+                      builder: (context) => IsIlanDetay(
+                        ilanBaslG: ilanList[index].ilanBaslG ??=
+                            "Fallback Value",
+                        metin: ilanList[index].ilanMetni ??= "Fallback Value",
+                        resim: ilanList[index].resim ??= "Fallback Value",
+                        firmaAdi: ilanList[index].sirket!.sirketAdi ??=
+                            "Fallback Value",
+                        adress: ilanList[index].sirket!.adres ??=
+                            "Fallback Value",
+                        tarih: ilanList[index].bitisTarihi ??= "Fallback Value",
+                      ),
                     ));
               },
               child: SizedBox(
@@ -96,59 +129,59 @@ class _IsState extends State<Is> {
                       child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Padding(
+                            Padding(
                               padding: EdgeInsets.only(
                                   top: 20, left: 35, bottom: 10),
                               child: Text(
-                                "İlan Başlığı",
+                                ilanList[index].ilanBaslG.toString(),
                                 style: TextStyle(
                                     fontFamily: "OpenSans", fontSize: 15),
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.symmetric(
+                              padding: EdgeInsets.symmetric(
                                   vertical: 8.0, horizontal: 25),
-                              child: Row(children: const [
+                              child: Row(children: [
                                 Icon(Icons.apartment),
                                 SizedBox(width: 15),
                                 Text(
-                                  "Firma İsmi",
+                                  ilanList[index].sirket!.sirketAdi.toString(),
                                   style: TextStyle(fontFamily: "OpenSans"),
                                 )
                               ]),
                             ),
                             Padding(
-                              padding: const EdgeInsets.symmetric(
+                              padding: EdgeInsets.symmetric(
                                   vertical: 8.0, horizontal: 25),
-                              child: Row(children: const [
+                              child: Row(children: [
                                 Icon(Icons.timelapse),
                                 SizedBox(width: 15),
                                 Text(
-                                  "Tam Zamanlı",
+                                  ilanList[index].ilanTuru.toString(),
                                   style: TextStyle(fontFamily: "OpenSans"),
                                 )
                               ]),
                             ),
                             Padding(
-                              padding: const EdgeInsets.symmetric(
+                              padding: EdgeInsets.symmetric(
                                   vertical: 8.0, horizontal: 25),
-                              child: Row(children: const [
-                                Icon(Icons.location_on),
+                              child: Row(children: [
+                                Icon(Icons.short_text),
                                 SizedBox(width: 15),
                                 Text(
-                                  "Uzun Adres",
+                                  ilanList[index].ilanMetni.toString(),
                                   style: TextStyle(fontFamily: "OpenSans"),
                                 )
                               ]),
                             ),
                             Padding(
-                              padding: const EdgeInsets.symmetric(
+                              padding: EdgeInsets.symmetric(
                                   vertical: 8.0, horizontal: 25),
-                              child: Row(children: const [
+                              child: Row(children: [
                                 Icon(Icons.date_range),
                                 SizedBox(width: 15),
                                 Text(
-                                  "Tarihler İsmi",
+                                  ilanList[index].bitisTarihi.toString(),
                                   style: TextStyle(fontFamily: "OpenSans"),
                                 )
                               ]),
@@ -168,6 +201,154 @@ class _IsState extends State<Is> {
             ),
           );
         },
+      ),
+    );
+  }
+
+  Widget _Drawer() {
+    return Drawer(
+        child: Container(
+      height: double.infinity,
+      color: const Color(0xFF6688CC),
+      child: SafeArea(
+          child: Column(
+        children: [
+          infoCard(),
+          const Divider(
+            color: Colors.white24,
+            height: 2,
+          ),
+          const Padding(
+            padding: EdgeInsets.only(left: 0, top: 5, bottom: 5),
+          ),
+          Column(
+            children: [
+              Text(
+                "Sosyal".toUpperCase(),
+                style: Theme.of(context)
+                    .textTheme
+                    .titleMedium!
+                    .copyWith(color: Colors.white),
+              ),
+              ListTile(
+                onTap: () {},
+                leading: const SizedBox(
+                  height: 34,
+                  width: 34,
+                  child: Icon(Icons.person_add_alt),
+                ),
+                title: Text("Yeni Bağlantı Ekle"),
+              ),
+            ],
+          ),
+
+          Column(
+            children: [
+              Text(
+                "İçerik".toUpperCase(),
+                style: Theme.of(context)
+                    .textTheme
+                    .titleMedium!
+                    .copyWith(color: Colors.white),
+              ),
+              const Padding(
+                padding: EdgeInsets.only(left: 5.0),
+              ),
+              ListTile(
+                onTap: () {},
+                leading: const SizedBox(
+                  height: 34,
+                  width: 34,
+                  child: Icon(Icons.assignment_ind),
+                ),
+                title: Text("Duyurular"),
+              ),
+              Text(
+                "Hesap".toUpperCase(),
+                style: Theme.of(context)
+                    .textTheme
+                    .titleMedium!
+                    .copyWith(color: Colors.white),
+              ),
+            ],
+          ),
+          Column(
+            children: [
+              const Padding(
+                padding: EdgeInsets.only(left: 1.0),
+              ),
+              ListTile(
+                onTap: () => {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => Destek())),
+                },
+                leading: const SizedBox(
+                  height: 34,
+                  width: 34,
+                  child: Icon(Icons.help_outline_rounded),
+                ),
+                title: Text("Destek"),
+              ),
+              ListTile(
+                onTap: () => {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => Hakkimizda())),
+                },
+                leading: const SizedBox(
+                  height: 34,
+                  width: 34,
+                  child: Icon(Icons.description),
+                ),
+                title: Text("Hakkımızda"),
+              ),
+              ListTile(
+                onTap: () => {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => SideBarAyarlar()))
+                },
+                leading: const SizedBox(
+                  height: 34,
+                  width: 34,
+                  child: Icon(Icons.settings),
+                ),
+                title: Text("Ayarlar"),
+              ),
+              ListTile(
+                onTap: () {},
+                leading: const SizedBox(
+                  height: 34,
+                  width: 34,
+                  child: Icon(Icons.exit_to_app),
+                ),
+                title: Text("Çıkış"),
+              ),
+            ],
+          )
+
+          ///
+        ],
+      )),
+    ));
+  }
+
+  Widget infoCard() {
+    return const ListTile(
+      leading: CircleAvatar(
+        backgroundColor: Color(0xACBFE6),
+        radius: 25,
+        backgroundImage: AssetImage('assets/images/circlee.jpg'),
+      ),
+      title: Text(
+        "Asuman Kiper",
+        style: TextStyle(
+          color: Colors.white,
+        ),
+      ),
+      subtitle: Text(
+        "asuman.kiper00@gmail.com",
+        style: TextStyle(
+          color: Colors.white,
+        ),
       ),
     );
   }
@@ -239,21 +420,18 @@ class _IsState extends State<Is> {
 
   AppBar _isAppBar(BuildContext context) {
     return AppBar(
+      flexibleSpace: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [OurColor.firstColor, OurColor.secondColor],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+        ),
+      ),
       automaticallyImplyLeading: false,
       backgroundColor: OurColor.firstColor,
       title: ListTile(
-        leading: IconButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const HomeScreen()),
-            );
-          },
-          icon: const Icon(
-            Icons.arrow_back_ios_new,
-            color: Colors.white,
-          ),
-        ),
         title: const Center(
           child: Text(
             'VG İş',

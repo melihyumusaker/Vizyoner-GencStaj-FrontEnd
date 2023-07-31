@@ -2,12 +2,14 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:proje/pages/screens/home_screen/home_page.dart';
+import 'package:proje/main.dart';
 
-import '../../../themecolors/colors.dart';
+import '../../../utils/themecolors/colors.dart';
 
 class PublishPost extends StatefulWidget {
-  const PublishPost({Key? key}) : super(key: key);
+  String email;
+
+  PublishPost({Key? key, required this.email}) : super(key: key);
 
   @override
   _PublishPostState createState() => _PublishPostState();
@@ -18,20 +20,24 @@ final List<String> dropdownOptions = [
 ];
 
 class _PublishPostState extends State<PublishPost> {
-  File? _imageFile;
-  Future<void> _pickImage() async {
-    final ImagePicker picker = ImagePicker();
-    final XFile? pickedImage =
-        await picker.pickImage(source: ImageSource.gallery);
+  int _currentIndex = 0; // Keep track of the selected tab index
 
-    if (pickedImage != null) {
-      // Do something with the picked image
-      // For example, you can display it in an Image widget
-      // or save the image URL to use it later for posting.
+  File? _image;
+
+  Future<void> _getImageFromGallery() async {
+    var image = await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (image != null) {
       setState(() {
-        // Store the image file in a variable to use it later.
-        _imageFile = File(pickedImage.path);
-        // Now you can display the image in your container or somewhere else.
+        _image = File(image.path);
+      });
+    }
+  }
+
+  Future<void> _getImageFromCamera() async {
+    var image = await ImagePicker().pickImage(source: ImageSource.camera);
+    if (image != null) {
+      setState(() {
+        _image = File(image.path);
       });
     }
   }
@@ -53,60 +59,17 @@ class _PublishPostState extends State<PublishPost> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const HomeScreen()),
-              );
-            },
-          ),
-          backgroundColor: OurColor.firstColor,
-          title: const Text("Yeni Gönderi"),
-          actions: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: PopupMenuButton<String>(
-                tooltip: "Menü",
-                itemBuilder: (BuildContext context) {
-                  return dropdownOptions.map((String option) {
-                    return PopupMenuItem<String>(
-                      value: option,
-                      child: Text(option),
-                    );
-                  }).toList();
-                },
-                onSelected: (String selectedOption) {
-                  //print('Selected Option: $selectedOption');
-                },
-                child: Container(
-                  padding: const EdgeInsets.all(5),
-                  decoration: BoxDecoration(
-                    color: Colors.transparent,
-                    borderRadius: BorderRadius.circular(4),
-                    border: Border.all(color: Colors.transparent),
-                  ),
-                  child: const Text(
-                    'Gönder',
-                    style: TextStyle(fontSize: 18, color: Colors.white),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
+        appBar: _appBarWidgetPublishPage(),
         body: Column(
           children: [
             infoCardForPostPage(),
             Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(6.0),
               child: SizedBox(
-                height: 300,
+                height: 100,
                 child: TextField(
                   maxLength: 100,
-                  maxLines: 6,
+                  maxLines: 2,
                   controller: _controller,
                   onSubmitted: (String value) async {
                     await showDialog<void>(
@@ -129,37 +92,33 @@ class _PublishPostState extends State<PublishPost> {
                 ),
               ),
             ),
+            _image != null
+                ? Image.file(
+                    _image!,
+                    height: 100,
+                  )
+                : const Icon(
+                    Icons.photo,
+                    size: 100,
+                  ),
             const SizedBox(
-              height: 15,
-            ),
-            Expanded(
-              child: SizedBox(
-                height: 150,
-                width: MediaQuery.of(context).size.width - 75,
-                child: _imageFile != null
-                    ? Image.file(_imageFile!) // Display the picked image
-                    : const Text(
-                        'No image selected'), // Display a message if no image is picked
-              ),
-            ),
-            const SizedBox(
-              height: 25,
+              height: 5,
             ),
             SizedBox(
               height: 50,
-              width: MediaQuery.of(context).size.width - 75,
+              width: MediaQuery.of(context).size.width - 50,
               child: Padding(
                 padding: const EdgeInsets.only(bottom: 0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     IconButton(
-                      icon: const Icon(Icons.photo),
-                      onPressed: _pickImage,
+                      icon: Icon(Icons.photo),
+                      onPressed: _getImageFromGallery,
                     ),
                     IconButton(
-                      icon: const Icon(Icons.camera_alt),
-                      onPressed: () {},
+                      icon: Icon(Icons.camera_alt),
+                      onPressed: _getImageFromCamera,
                     ),
                     IconButton(
                       icon: const Icon(Icons.public),
@@ -171,6 +130,137 @@ class _PublishPostState extends State<PublishPost> {
             ),
           ],
         ));
+  }
+
+  Widget publish() {
+    return Column(
+      children: [
+        infoCardForPostPage(),
+        Padding(
+          padding: const EdgeInsets.all(6.0),
+          child: SizedBox(
+            height: 100,
+            child: TextField(
+              maxLength: 100,
+              maxLines: 2,
+              controller: _controller,
+              onSubmitted: (String value) async {
+                await showDialog<void>(
+                  barrierColor: OurColor.firstColor,
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      actions: <Widget>[
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: const Text('OK'),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
+            ),
+          ),
+        ),
+        _image != null
+            ? Image.file(
+                _image!,
+                height: 100,
+              )
+            : const Icon(
+                Icons.photo,
+                size: 100,
+              ),
+        const SizedBox(
+          height: 5,
+        ),
+        SizedBox(
+          height: 50,
+          width: MediaQuery.of(context).size.width - 50,
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                IconButton(
+                  icon: Icon(Icons.photo),
+                  onPressed: _getImageFromGallery,
+                ),
+                IconButton(
+                  icon: Icon(Icons.camera_alt),
+                  onPressed: _getImageFromCamera,
+                ),
+                IconButton(
+                  icon: const Icon(Icons.public),
+                  onPressed: () {},
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  AppBar _appBarWidgetPublishPage() {
+    return AppBar(
+      flexibleSpace: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [OurColor.firstColor, OurColor.secondColor],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+        ),
+      ),
+      leading: IconButton(
+        icon: const Icon(Icons.arrow_back),
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => BottomTabBar(
+                      email: widget.email,
+                    )),
+          );
+        },
+      ),
+      title: const Text("Yeni Gönderi"),
+      actions: <Widget>[
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: PopupMenuButton<String>(
+            tooltip: "Menü",
+            itemBuilder: (BuildContext context) {
+              return dropdownOptions.map((String option) {
+                return PopupMenuItem<String>(
+                  value: option,
+                  child: Text(option),
+                );
+              }).toList();
+            },
+            onSelected: (String selectedOption) {
+              //print('Selected Option: $selectedOption');
+            },
+            child: Container(
+              padding: const EdgeInsets.all(5),
+              decoration: BoxDecoration(
+                color: Colors.transparent,
+                borderRadius: BorderRadius.circular(4),
+                border: Border.all(color: Colors.transparent),
+              ),
+              child: const Text(
+                'Gönder',
+                style: TextStyle(fontSize: 18, color: Colors.white),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
   }
 }
 

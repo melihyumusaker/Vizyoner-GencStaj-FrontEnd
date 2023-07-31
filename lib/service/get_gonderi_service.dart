@@ -1,17 +1,17 @@
 import 'dart:convert';
-
+// ignore: depend_on_referenced_packages
 import 'package:http/http.dart' as http;
+import 'package:proje/model/GonderiModel.dart';
 import 'package:proje/model/SirketModel.dart';
 
-class SirketService {
-  final String url = "http://10.100.72.54:8080/sirketler";
+class GonderiService {
+  final String url = "http://10.100.72.53:8080/post";
 
-
-  Future<List<SirketModel>> fetchSirketList() async {
+  Future<List<GonderiModel>> fetchGonderiList() async {
     final response = await http.get(Uri.parse(url));
     if (response.statusCode == 200) {
       List<dynamic> jsonList = json.decode(response.body);
-      return jsonList.map((json) => SirketModel.fromJson(json)).toList();
+      return jsonList.map((json) => GonderiModel.fromJson(json)).toList();
     }else{
       throw  Exception('HTTP isteği başarısız oldu. Status kod: ${response.statusCode}');
     }
