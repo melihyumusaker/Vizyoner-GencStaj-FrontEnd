@@ -247,7 +247,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   children: [
                     Padding(
                       padding: EdgeInsets.all(10.0),
-                      child: Text(gonderiList[0].icerik.toString()),
+                      child: Text("deneme" /*gonderiList[0].icerik.toString()*/),
                     ),
                     SizedBox(height: 10),
                     Padding(
