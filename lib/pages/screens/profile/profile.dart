@@ -22,7 +22,7 @@ class ProfilePage extends StatefulWidget {
 int _pageValue = 0;
 
 class _ProfilePageState extends State<ProfilePage> {
-   @override
+  @override
   void initState() {
     super.initState();
     fetchUser();
@@ -42,12 +42,8 @@ class _ProfilePageState extends State<ProfilePage> {
       print("hata :" + e.toString());
     }
   }
-  final List<String> hakkinda = [
-    'Kadın',
-    '15.03.2002',
-    'Adres',
-    'Vizyoner Genç',
-  ];
+
+  final List<String> hakkinda = [];
   final List<String> egitim_bilgileri = [
     'Abdullah Gül Üniversitesi',
     'Bilgisayar Mühendisliği',
@@ -57,10 +53,17 @@ class _ProfilePageState extends State<ProfilePage> {
     'Hakkında'
   ];
 
- 
-
   @override
   Widget build(BuildContext context) {
+    hakkinda.addAll([
+      myKullanici.cinsiyet.toString(),
+      myKullanici.dogumTarihi.toString(),
+      myKullanici.adres.toString(),
+      myKullanici.sirket.toString()
+    ]);
+    egitim_bilgileri.addAll([
+      
+    ]);
     return Scaffold(
         appBar: _appBarWidget(),
         drawer: _Drawer(),
@@ -83,11 +86,11 @@ class _ProfilePageState extends State<ProfilePage> {
                 const SizedBox(
                   height: 15,
                 ),
-                Text("EMİNE BETÜL ERDOĞAN"),
+                Text(myKullanici.ad.toString()),
                 const SizedBox(
                   height: 15,
                 ),
-                Text("betulerdgn52@gmail.com"),
+                Text(widget.email),
                 const SizedBox(
                   height: 25,
                 ),
@@ -215,7 +218,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     _pageValue = 0;
                   });
                 },
-                child: const Text("Hakımda"),
+                child: const Text("Hakkımda"),
               ),
             ),
             SizedBox(
