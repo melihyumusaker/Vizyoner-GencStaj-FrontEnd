@@ -114,7 +114,6 @@ class _PublishPostState extends State<PublishPost> {
                       context: context,
                       builder: (BuildContext context) {
                         return AlertDialog(
-                          shadowColor: OurColor.firstColor,
                           actions: <Widget>[
                             TextButton(
                               onPressed: () {
