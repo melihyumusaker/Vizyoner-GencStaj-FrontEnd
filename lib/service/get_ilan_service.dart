@@ -1,9 +1,10 @@
 import 'dart:convert';
+
 import 'package:http/http.dart' as http;
 import 'package:proje/model/IlanModel.dart';
 
 class IlanService {
-  final String url = "http://192.168.43.35:9191/ilanlar";
+  final String url = "http://10.100.72.57:8080/ilanlar";
 
   Future<List<IlanModel>> fetchIlanList() async {
     final response = await http.get(Uri.parse(url));
