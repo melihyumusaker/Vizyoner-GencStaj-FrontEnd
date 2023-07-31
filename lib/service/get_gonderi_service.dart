@@ -5,7 +5,7 @@ import 'package:proje/model/GonderiModel.dart';
 import 'package:proje/model/SirketModel.dart';
 
 class GonderiService {
-  final String url = "http://10.100.72.53:8080/post";
+  final String url = "http://192.168.1.34:8080/post";
 
   Future<List<GonderiModel>> fetchGonderiList() async {
     final response = await http.get(Uri.parse(url));

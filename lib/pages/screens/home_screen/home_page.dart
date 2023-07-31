@@ -1,14 +1,18 @@
 // ignore_for_file: library_private_types_in_public_api
 
+import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:proje/model/GonderiModel.dart';
+import 'package:proje/model/KullaniciModel.dart';
 import 'package:proje/pages/screens/hakkimizda/hakkimizda.dart';
 import 'package:proje/pages/screens/notifications/notifications.dart';
 import 'package:proje/pages/screens/search_page/search.dart';
 import 'package:proje/pages/screens/sidebar/sidebar_settings.dart';
 import 'package:proje/pages/screens/sidebar/support.dart';
 import 'package:proje/service/get_gonderi_service.dart';
+import 'package:proje/service/get_kullanici_service.dart';
 
 import '../../../utils/themecolors/colors.dart';
 
@@ -25,6 +29,21 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  KullaniciModel myKullanici = new KullaniciModel();
+
+  Future<void> fetchUser() async {
+    try {
+      GetUserService service = GetUserService();
+      KullaniciModel kullanici = await service.getOneUserByEmail(widget.email);
+
+      setState(() {
+        myKullanici = kullanici;
+      });
+    } catch (e) {
+      print("hata :" + e.toString());
+    }
+  }
+
   List<GonderiModel> gonderiList = [];
 
   @override
@@ -32,6 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
     // TODO: implement initState
     super.initState();
     fetchGonderiList();
+    fetchUser();
   }
 
   Future<void> fetchGonderiList() async {
@@ -52,7 +72,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _appBarWidgetForMainPage(),
-      body: _MainPageListViewCard(),
+      body: _MainPageListViewCard(myKullanici, gonderiList),
       drawer: _Drawer(),
     );
   }
@@ -228,11 +248,14 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _MainPageListViewCard() {
+  Widget _MainPageListViewCard(
+      KullaniciModel myKullanici, List<GonderiModel> list) {
     return ListView.builder(
       scrollDirection: Axis.vertical,
-      itemCount: 2,
+      itemCount: list.length,
       itemBuilder: (BuildContext context, int index) {
+        Uint8List bytesImage = const Base64Decoder()
+            .convert(list[index].fotografGonderi.toString());
         return Card(
           margin: const EdgeInsets.all(30),
           elevation: 20,
@@ -241,28 +264,26 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              infoCardForMainPage(),
+              infoCardForMainPage(index, list),
               Center(
                 child: Column(
                   children: [
                     Padding(
                       padding: EdgeInsets.all(10.0),
-                      child: Text(gonderiList[0].icerik.toString()),
+                      child: Text(gonderiList[index].icerik.toString()),
                     ),
                     SizedBox(height: 10),
                     Padding(
                       padding: EdgeInsets.all(10.0),
-                      child: Image(
-                        image: NetworkImage(
-                            "https://vizyonergenc.com/storage/1400746/WmHNOeqS4fenlh5jhZNTZa3NDd6Rvh5EIBgjwuYG.jpeg"),
-                      ),
+                      child: Image.memory(bytesImage),
                     )
                   ],
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 10),
-                child: Text("13 beğeni"),
+                child:
+                    Text(gonderiList[index].sayacBegeni.toString() + " Beğeni"),
               ),
               const Divider(
                 height: 15,
@@ -329,7 +350,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-Widget infoCardForMainPage() {
+Widget infoCardForMainPage(int index, List<GonderiModel> list) {
   return ListTile(
     leading: const CircleAvatar(
       backgroundColor: Color(0xACBFE6),
@@ -338,7 +359,7 @@ Widget infoCardForMainPage() {
           'https://play-lh.googleusercontent.com/7429diO-GMzarMlzzfDf7bgeApqwJGibfq3BKqPCa9lS9hd3gLIimTSe5hz9burHeg'),
     ),
     title: Text(
-      "Emine Betül Erdoğan",
+      "${list[index].kullanici!.ad} ${list[index].kullanici!.soyad}",
       style: TextStyle(
         color: OurColor.firstColor,
       ),

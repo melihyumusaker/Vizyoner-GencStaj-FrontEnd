@@ -12,3 +12,7 @@ final kLabelStyle = TextStyle(
   fontWeight: FontWeight.bold,
   fontFamily: 'OpenSans',
 );
+
+class Const{
+  static String ipAdress = "10.100.72.53";
+}
