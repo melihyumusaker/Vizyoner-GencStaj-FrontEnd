@@ -2,13 +2,9 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-
-import 'package:proje/pages/screens/home_screen/home_page.dart';
-import 'package:proje/pages/screens/profile/profile.dart';
+import 'package:proje/main.dart';
 
 import '../../../utils/themecolors/colors.dart';
-
-import 'package:proje/main.dart';
 
 class PublishPost extends StatefulWidget {
   String email;

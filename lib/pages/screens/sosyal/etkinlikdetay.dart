@@ -1,8 +1,15 @@
+import 'dart:convert';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:proje/utils/themecolors/colors.dart';
 
 class EtkinlikDetay extends StatelessWidget {
-  const EtkinlikDetay({super.key});
+  String resim;
+  String baslik;
+  String icerik;
+  EtkinlikDetay(
+      {required this.resim, required this.icerik, required this.baslik});
 
   @override
   Widget build(BuildContext context) {
@@ -15,9 +22,9 @@ class EtkinlikDetay extends StatelessWidget {
             padding: const EdgeInsets.all(15),
             child: Column(
               children: [
-                _etkinlikImage(),
-                _etkinlikBaslik(),
-                _etkinlikIcerik(),
+                _etkinlikImage(resim),
+                _etkinlikBaslik(baslik),
+                _etkinlikIcerik(icerik),
               ],
             ),
           ),
@@ -26,30 +33,31 @@ class EtkinlikDetay extends StatelessWidget {
     );
   }
 
-  Padding _etkinlikIcerik() {
-    return const Padding(
+  Padding _etkinlikIcerik(String text) {
+    return  Padding(
       padding: EdgeInsets.only(top: 25.0),
       child: Text(
-        "Sayfanın içeriği buraya gelecek",
+        text,
         style: TextStyle(fontFamily: "OpenSans", fontSize: 18),
       ),
     );
   }
 
-  Text _etkinlikBaslik() {
-    return const Text(
-      "Buraya Sosyal Sayfasındaki Title Gelecek",
+  Text _etkinlikBaslik(String baslik) {
+    return  Text(
+      baslik,
       style: TextStyle(
           fontFamily: "OpenSans", fontSize: 18, fontWeight: FontWeight.bold),
     );
   }
 
-  Container _etkinlikImage() {
+  Container _etkinlikImage(String resim) {
+    Uint8List bytesImage = const Base64Decoder().convert(resim);
     return Container(
       padding: const EdgeInsets.all(25),
       width: double.infinity,
       height: 250,
-      child: Image.asset(fit: BoxFit.fill, "assets/images/twitter.jpg"),
+      child: Image.memory(bytesImage),
     );
   }
 
@@ -77,9 +85,9 @@ class EtkinlikDetay extends StatelessWidget {
               color: Colors.white,
             ),
           ),
-          title: const Center(
+          title:  FittedBox(
             child: Text(
-              'Buraya Sosyal Sayfasından Title Gelecek',
+              baslik,
               style: TextStyle(
                   color: Colors.white, fontFamily: "OpenSans", fontSize: 20),
             ),

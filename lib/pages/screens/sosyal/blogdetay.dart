@@ -1,8 +1,14 @@
+import 'dart:convert';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:proje/utils/themecolors/colors.dart';
 
 class BlogDetay extends StatelessWidget {
-  const BlogDetay({super.key});
+  String resim;
+  String baslik;
+  String icerik;
+  BlogDetay({required this.resim, required this.baslik, required this.icerik});
 
   @override
   Widget build(BuildContext context) {
@@ -15,9 +21,9 @@ class BlogDetay extends StatelessWidget {
             padding: const EdgeInsets.all(15),
             child: Column(
               children: [
-                _blogImage(),
-                _blogBaslik(),
-                _blogIcerik(),
+                _blogImage(resim),
+                _blogBaslik(baslik),
+                _blogIcerik(icerik),
               ],
             ),
           ),
@@ -26,31 +32,32 @@ class BlogDetay extends StatelessWidget {
     );
   }
 
-  Padding _blogIcerik() {
-    return const Padding(
+  Padding _blogIcerik(String text) {
+    return Padding(
       padding: EdgeInsets.only(top: 25.0),
       child: Text(
-        "Sayfanın içeriği buraya gelecek",
+        text,
         style: TextStyle(fontFamily: "OpenSans", fontSize: 18),
       ),
     );
   }
 
-  Text _blogBaslik() {
-    return const Text(
-      "Buraya Sosyal Sayfasındaki Title Gelecek",
+  Text _blogBaslik(String baslik) {
+    return Text(
+      baslik,
       style: TextStyle(
           fontFamily: "OpenSans", fontSize: 18, fontWeight: FontWeight.bold),
     );
   }
 
-  Container _blogImage() {
+  Container _blogImage(String resim) {
+    Uint8List bytesImage = const Base64Decoder().convert(resim);
+
     return Container(
-      padding: const EdgeInsets.all(25),
-      width: double.infinity,
-      height: 250,
-      child: Image.asset(fit: BoxFit.fill, "assets/images/google.jpg"),
-    );
+        padding: const EdgeInsets.all(25),
+        width: double.infinity,
+        height: 250,
+        child: Image.memory(bytesImage));
   }
 
   AppBar _socailAppBar(BuildContext context) {
@@ -69,9 +76,9 @@ class BlogDetay extends StatelessWidget {
               color: Colors.white,
             ),
           ),
-          title: const Center(
+          title:  FittedBox(
             child: Text(
-              'Buraya Sosyal Sayfasından Title Gelecek',
+              baslik,
               style: TextStyle(
                   color: Colors.white, fontFamily: "OpenSans", fontSize: 20),
             ),

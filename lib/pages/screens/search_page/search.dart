@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:proje/main.dart';
 import 'package:proje/utils/themecolors/colors.dart';
 
-import 'package:proje/pages/screens/home_screen/home_page.dart';
-
 class SearchPage extends StatefulWidget {
   String email;
   SearchPage({Key? key, required this.email}) : super(key: key);
