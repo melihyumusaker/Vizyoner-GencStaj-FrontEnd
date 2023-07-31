@@ -78,17 +78,7 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   void initState() {
     super.initState();
-
     fetchUser();
-
-    _controllerDate = TextEditingController();
-    _controllerUyruk = TextEditingController();
-    _controllerAdres = TextEditingController();
-    _controllerSirket = TextEditingController();
-    _controllerOkul = TextEditingController();
-    _controllerBolum = TextEditingController();
-    _controllerHakkinda = TextEditingController();
-    _controllerGPA = TextEditingController();
   }
 
   KullaniciModel myKullanici = new KullaniciModel();
@@ -104,20 +94,6 @@ class _ProfilePageState extends State<ProfilePage> {
     } catch (e) {
       print("hata :" + e.toString());
     }
-  }
-
-  @override
-  void dispose() {
-    _controllerDate.dispose();
-    _controllerUyruk.dispose();
-    _controllerAdres.dispose();
-    _controllerSirket.dispose();
-    _controllerOkul.dispose();
-    _controllerBolum.dispose();
-    _controllerHakkinda.dispose();
-    _controllerGPA.dispose();
-
-    super.dispose();
   }
 
   void saveDataToDatabase() {
