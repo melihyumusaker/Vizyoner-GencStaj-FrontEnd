@@ -312,6 +312,10 @@ class _EditProfilePageState extends State<EditProfilePage> {
               },
             ),
           ),
+          SizedBox(
+            height: 16,
+          ),
+          _profilHakkindaKaydetButton(context)
         ],
       ),
     );
@@ -564,6 +568,10 @@ class _EditProfilePageState extends State<EditProfilePage> {
               },
             ),
           ),
+          SizedBox(
+            height: 16,
+          ),
+          _profilEgitimKaydetButton(context)
         ],
       ),
     );
@@ -683,6 +691,50 @@ class _EditProfilePageState extends State<EditProfilePage> {
         "asuman.kiper00@gmail.com",
         style: TextStyle(
           color: Colors.white,
+        ),
+      ),
+    );
+  }
+
+  Padding _profilHakkindaKaydetButton(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.all(15.0),
+      child: Container(
+        padding: EdgeInsets.all(5),
+        height: 35,
+        width: (MediaQuery.of(context).size.width - 280) / 2,
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            shadowColor: OurColor.firstColor,
+            textStyle: TextStyle(fontSize: 18),
+            backgroundColor: OurColor.firstColor,
+            foregroundColor: Colors.white,
+            elevation: 10,
+          ),
+          onPressed: () {},
+          child: const Text("Kaydet"),
+        ),
+      ),
+    );
+  }
+
+  Padding _profilEgitimKaydetButton(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(12.0),
+      child: Container(
+        padding: const EdgeInsets.all(5),
+        height: 35,
+        width: (MediaQuery.of(context).size.width - 280) / 2,
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            shadowColor: OurColor.firstColor,
+            textStyle: const TextStyle(fontSize: 18),
+            backgroundColor: OurColor.firstColor,
+            foregroundColor: Colors.white,
+            elevation: 10,
+          ),
+          onPressed: () {},
+          child: const Text("Kaydet"),
         ),
       ),
     );
