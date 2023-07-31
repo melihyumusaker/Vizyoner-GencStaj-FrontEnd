@@ -15,7 +15,8 @@ import '../sidebar/sidebar_settings.dart';
 import '../sidebar/support.dart';
 
 class Is extends StatefulWidget {
-  const Is({super.key});
+  String email;
+   Is({super.key , required this.email});
 
   @override
   State<Is> createState() => _IsState();
