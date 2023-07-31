@@ -2,16 +2,18 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+
 import 'package:proje/pages/screens/home_screen/home_page.dart';
 import 'package:proje/pages/screens/profile/profile.dart';
 
 import '../../../utils/themecolors/colors.dart';
 
-import '../is/is.dart';
-import '../sosyal/sosyal.dart';
+import 'package:proje/main.dart';
 
 class PublishPost extends StatefulWidget {
-  const PublishPost({Key? key}) : super(key: key);
+  String email;
+
+  PublishPost({Key? key, required this.email}) : super(key: key);
 
   @override
   _PublishPostState createState() => _PublishPostState();
@@ -217,6 +219,18 @@ class _PublishPostState extends State<PublishPost> {
             end: Alignment.bottomRight,
           ),
         ),
+      ),
+      leading: IconButton(
+        icon: const Icon(Icons.arrow_back),
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => BottomTabBar(
+                      email: widget.email,
+                    )),
+          );
+        },
       ),
       title: const Text("Yeni Gönderi"),
       actions: <Widget>[

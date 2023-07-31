@@ -6,11 +6,14 @@ import 'package:proje/pages/screens/notifications/notifications.dart';
 import 'package:proje/pages/screens/profile/edit_profile.dart';
 import 'package:proje/pages/screens/sidebar/sidebar_settings.dart';
 import 'package:proje/pages/screens/sidebar/support.dart';
+import 'package:proje/service/get_kullanici_service.dart';
 
+import '../../../model/KullaniciModel.dart';
 import '../../../utils/themecolors/colors.dart';
 
 class ProfilePage extends StatefulWidget {
-  const ProfilePage({Key? key}) : super(key: key);
+  String email;
+  ProfilePage({Key? key, required this.email}) : super(key: key);
 
   @override
   _ProfilePageState createState() => _ProfilePageState();
@@ -19,6 +22,26 @@ class ProfilePage extends StatefulWidget {
 int _pageValue = 0;
 
 class _ProfilePageState extends State<ProfilePage> {
+   @override
+  void initState() {
+    super.initState();
+    fetchUser();
+  }
+
+  KullaniciModel myKullanici = new KullaniciModel();
+
+  Future<void> fetchUser() async {
+    try {
+      GetUserService service = GetUserService();
+      KullaniciModel kullanici = await service.getOneUserByEmail(widget.email);
+
+      setState(() {
+        myKullanici = kullanici;
+      });
+    } catch (e) {
+      print("hata :" + e.toString());
+    }
+  }
   final List<String> hakkinda = [
     'Kadın',
     '15.03.2002',
@@ -34,6 +57,8 @@ class _ProfilePageState extends State<ProfilePage> {
     'Hakkında'
   ];
 
+ 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,6 +69,7 @@ class _ProfilePageState extends State<ProfilePage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                Text(myKullanici.ad.toString()),
                 CircleAvatar(
                   backgroundColor: Color(0xACBFE6),
                   radius: 25,

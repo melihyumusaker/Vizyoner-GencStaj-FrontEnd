@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:proje/pages/auth/login/login.dart';
 import 'package:proje/pages/screens/home_screen/home_page.dart';
 import 'package:proje/pages/screens/is/is.dart';
 import 'package:proje/pages/screens/profile/profile.dart';
@@ -8,7 +9,7 @@ import 'package:proje/pages/screens/publish_post_page/publish_post_page.dart';
 import 'package:proje/pages/screens/sosyal/sosyal.dart';
 import 'package:proje/utils/themecolors/colors.dart';
 
-//import 'package:flutter/proje/pages/screens'
+//import 'package:fluter/proje/pages/screens'
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -41,13 +42,14 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: BottomTabBar(),
+      home: Login(),
     );
   }
 }
 
 class BottomTabBar extends StatefulWidget {
-  BottomTabBar({Key? key}) : super(key: key);
+  String email;
+  BottomTabBar({Key? key, required this.email}) : super(key: key);
 
   @override
   State<BottomTabBar> createState() => _BottomTabBarState();
@@ -55,13 +57,16 @@ class BottomTabBar extends StatefulWidget {
 
 class _BottomTabBarState extends State<BottomTabBar> {
   int _index = 0;
-  final screens = [
-    HomeScreen(),
-    ProfilePage(),
-    PublishPost(),
-    Sosyal(),
-    Is(),
-  ];
+  List<Widget> get screens {
+    return [
+      HomeScreen(email: widget.email),
+      ProfilePage(email: widget.email),
+      PublishPost(email: widget.email),
+      Sosyal(),
+      Is(email: widget.email),
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(body: screens[_index], bottomNavigationBar: bottomNavBar());
