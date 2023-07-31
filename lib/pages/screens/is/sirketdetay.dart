@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:proje/themecolors/colors.dart';
+import 'package:proje/utils/themecolors/colors.dart';
 
 class SirketDetay extends StatelessWidget {
   final String logo;
@@ -14,8 +14,6 @@ class SirketDetay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-
     return Scaffold(
       backgroundColor: OurColor.bgColor,
       appBar: _ilanDetayAppBar(context),
@@ -52,20 +50,19 @@ class SirketDetay extends StatelessWidget {
   }
 
   Padding _firmaAdText(String text) {
-    return  Padding(
-      padding:const  EdgeInsets.symmetric(vertical: 7.0),
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 7.0),
       child: Text(
         text,
-        style:const TextStyle(
+        style: const TextStyle(
             fontFamily: "OpenSans", color: Colors.black, fontSize: 18),
       ),
     );
   }
 
   SizedBox _sirketLogo(String logo) {
-
     Uint8List bytesImage = const Base64Decoder().convert(logo);
-    
+
     return SizedBox(
       width: 150,
       height: 150,

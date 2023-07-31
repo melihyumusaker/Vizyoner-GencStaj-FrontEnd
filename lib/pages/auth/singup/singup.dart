@@ -4,7 +4,7 @@ import 'package:proje/pages/auth/login/login.dart';
 import 'package:proje/pages/screens/home_screen/home_page.dart';
 import 'package:proje/service/signup_service.dart';
 
-import '../../../themecolors/colors.dart';
+import '../../../utils/themecolors/colors.dart';
 import '../../../utils/reuseable_widgets/auth_reuseable_widgets.dart';
 
 class Signup extends StatefulWidget {
@@ -58,23 +58,35 @@ class _SignupState extends State<Signup> {
                 const SizedBox(
                   height: 20,
                 ),
-                reusableTextField("Adınızı Giriniz", Icons.person_outline,
-                    false, _firstNameTextController),
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: reusableTextField("Adınızı Giriniz",
+                      Icons.person_outline, false, _firstNameTextController),
+                ),
                 const SizedBox(
                   height: 20,
                 ),
-                reusableTextField("Soyadınızı Giriniz", Icons.person_outline,
-                    false, _lastNameTextController),
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: reusableTextField("Soyadınızı Giriniz",
+                      Icons.person_outline, false, _lastNameTextController),
+                ),
                 const SizedBox(
                   height: 20,
                 ),
-                reusableTextField("Mailinizi Giriniz", Icons.email_outlined,
-                    false, _emailTextController),
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: reusableTextField("Mailinizi Giriniz",
+                      Icons.email_outlined, false, _emailTextController),
+                ),
                 const SizedBox(
                   height: 20,
                 ),
-                reusableTextField("Şifrenizi Giriniz", Icons.lock_outlined,
-                    true, _passwordTextController),
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: reusableTextField("Şifrenizi Giriniz",
+                      Icons.lock_outlined, true, _passwordTextController),
+                ),
                 const SizedBox(
                   height: 20,
                 ),

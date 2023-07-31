@@ -1,8 +1,26 @@
+import 'dart:convert';
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
-import 'package:proje/themecolors/colors.dart';
+import 'package:proje/utils/themecolors/colors.dart';
 
 class IsIlanDetay extends StatelessWidget {
-  const IsIlanDetay({super.key});
+  final String ilanBaslG;
+  final String metin;
+  final String resim;
+  final String firmaAdi;
+  final String adress;
+  final String tarih;
+
+  const IsIlanDetay({
+    super.key,
+    required this.ilanBaslG,
+    required this.metin,
+    required this.resim,
+    required this.firmaAdi,
+    required this.adress,
+    required this.tarih,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -19,12 +37,12 @@ class IsIlanDetay extends StatelessWidget {
           elevation: 50,
           child: Column(
             children: [
-              _logo(),
-              _ilanNameText(),
-              _firmaNameText(),
-              _adresText(),
-              _tarihText(),
-              _icerikText(),
+              _ilanNameText(ilanBaslG),
+              _icerikText(metin),
+              _logo(resim),
+              _firmaNameText(firmaAdi),
+              _adresText(adress),
+              _tarihText(tarih),
               _basvurButton(context),
               SizedBox(height: 20)
             ],
@@ -57,64 +75,66 @@ class IsIlanDetay extends StatelessWidget {
     );
   }
 
-  Padding _icerikText() {
+  Padding _icerikText(String metin) {
     return Padding(
       padding: const EdgeInsets.all(25.0),
       child: Text(
-        text,
+        metin,
         textAlign: TextAlign.justify,
-        style: const TextStyle(
+        style: TextStyle(
             fontFamily: "OpenSans", color: Colors.black, fontSize: 18),
       ),
     );
   }
 
-  Text _tarihText() {
-    return const Text(
-      "Tarih",
+  Text _tarihText(String tarih) {
+    return Text(
+      tarih,
       style: TextStyle(
           fontFamily: "OpenSans", color: Colors.black45, fontSize: 18),
     );
   }
 
-  Padding _adresText() {
-    return const Padding(
+  Padding _adresText(String adress) {
+    return Padding(
       padding: EdgeInsets.all(8.0),
       child: Text(
-        "Adres",
+        adress,
         style: TextStyle(
             fontFamily: "OpenSans", color: Colors.black54, fontSize: 18),
       ),
     );
   }
 
-  Padding _firmaNameText() {
-    return const Padding(
+  Padding _firmaNameText(String firmaAdi) {
+    return Padding(
       padding: EdgeInsets.symmetric(vertical: 7.0),
       child: Text(
-        "Firma Adı",
+        firmaAdi,
         style: TextStyle(
             fontFamily: "OpenSans", color: Colors.black, fontSize: 18),
       ),
     );
   }
 
-  Padding _ilanNameText() {
-    return const Padding(
+  Padding _ilanNameText(String ilanBaslG) {
+    return Padding(
       padding: EdgeInsets.symmetric(vertical: 15.0),
       child: Text(
-        "İlan adi",
+        ilanBaslG,
         style: TextStyle(
             fontFamily: "OpenSans", color: Colors.black, fontSize: 18),
       ),
     );
   }
 
-  SizedBox _logo() {
+  SizedBox _logo(String resim) {
+    Uint8List bytesImageIlan = const Base64Decoder().convert(resim);
+
     return SizedBox(
       width: 150,
       height: 150,
-      child: Image.asset("assets/images/facebook.jpg"),
+      child: Image.memory(bytesImageIlan, height: 170, width: 150),
     );
   }
 
@@ -149,6 +169,3 @@ class IsIlanDetay extends StatelessWidget {
     );
   }
 }
-
-String text =
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse tincidunt sagittis luctus. Vivamus quis libero condimentum quam bibendum pretium. Quisque a tellus porttitor dolor fringilla fringilla. Ut non posuere quam, in sodales lorem. Cras varius elementum urna, ac rutrum sem pellentesque non. Aenean condimentum leo at porttitor pellentesque. Mauris ultricies massa consequat massa dignissim, eu luctus leo varius. Sed vel bibendum nisl, vel maximus sem. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. In pretium dui malesuada elit maximus pretium. Morbi bibendum quam eget nunc dapibus, quis faucibus lorem elementum.";

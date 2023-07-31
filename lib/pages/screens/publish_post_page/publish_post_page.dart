@@ -5,7 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:proje/pages/screens/home_screen/home_page.dart';
 import 'package:proje/pages/screens/profile/profile.dart';
 
-import '../../../themecolors/colors.dart';
+import '../../../utils/themecolors/colors.dart';
 
 import '../is/is.dart';
 import '../sosyal/sosyal.dart';
@@ -217,15 +217,6 @@ class _PublishPostState extends State<PublishPost> {
             end: Alignment.bottomRight,
           ),
         ),
-      ),
-      leading: IconButton(
-        icon: const Icon(Icons.arrow_back),
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const HomeScreen()),
-          );
-        },
       ),
       title: const Text("Yeni Gönderi"),
       actions: <Widget>[

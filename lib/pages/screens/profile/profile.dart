@@ -1,16 +1,13 @@
 // ignore_for_file: library_private_types_in_public_api
 
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:proje/pages/screens/hakkimizda/hakkimizda.dart';
 import 'package:proje/pages/screens/notifications/notifications.dart';
 import 'package:proje/pages/screens/profile/edit_profile.dart';
 import 'package:proje/pages/screens/sidebar/sidebar_settings.dart';
 import 'package:proje/pages/screens/sidebar/support.dart';
 
-import '../../../themecolors/colors.dart';
+import '../../../utils/themecolors/colors.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -22,11 +19,6 @@ class ProfilePage extends StatefulWidget {
 int _pageValue = 0;
 
 class _ProfilePageState extends State<ProfilePage> {
-  final List<String> dropdownOptions = [
-    'Kadın',
-    'Erkek',
-    'Belirtmek İstemiyorum'
-  ];
   final List<String> hakkinda = [
     'Kadın',
     '15.03.2002',
@@ -41,74 +33,6 @@ class _ProfilePageState extends State<ProfilePage> {
     'Adres',
     'Hakkında'
   ];
-  final List<String> dropdownOptionsEgitim = [
-    'Hazırlı',
-    '1.Sınıf',
-    '2.Sınıf',
-    '3.Sınıf',
-    '4.Sınıf'
-  ];
-
-  File? _image;
-
-  Future<void> _getImageFromGallery() async {
-    var image = await ImagePicker().pickImage(source: ImageSource.gallery);
-    if (image != null) {
-      setState(() {
-        _image = File(image.path);
-      });
-    }
-  }
-
-  int _currentIndex = 0; // Keep track of the selected tab index
-  late TextEditingController _controllerGPA;
-  double gpa = 0.0;
-
-  late TextEditingController _controllerDate;
-  late TextEditingController _controllerUyruk;
-  late TextEditingController _controllerAdres;
-  late TextEditingController _controllerSirket;
-  late TextEditingController _controllerOkul;
-  late TextEditingController _controllerBolum;
-  late TextEditingController _controllerHakkinda;
-
-  @override
-  void initState() {
-    super.initState();
-    _controllerDate = TextEditingController();
-    _controllerUyruk = TextEditingController();
-    _controllerAdres = TextEditingController();
-    _controllerSirket = TextEditingController();
-    _controllerOkul = TextEditingController();
-    _controllerBolum = TextEditingController();
-    _controllerHakkinda = TextEditingController();
-    _controllerGPA = TextEditingController();
-  }
-
-  @override
-  void dispose() {
-    _controllerDate.dispose();
-    _controllerUyruk.dispose();
-    _controllerAdres.dispose();
-    _controllerSirket.dispose();
-    _controllerOkul.dispose();
-    _controllerBolum.dispose();
-    _controllerHakkinda.dispose();
-    _controllerGPA.dispose();
-
-    super.dispose();
-  }
-
-  void saveDataToDatabase() {
-    // Get the GPA value as a string from _controllerGPA.text
-    String gpaAsString = _controllerGPA.text;
-
-    // Parse the GPA string to a double
-    double gpa = double.tryParse(gpaAsString) ?? 0.0;
-
-    // Use the gpa variable wherever you want to save or process the GPA value
-    // Your database or other logic goes here
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -146,14 +70,6 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
                 _profilebuttons(context),
                 const SizedBox(height: 20),
-                //_pageValue == 0 ? _gonderilerBuilder() : _basvurularimBuilder()
-                /*            if (_pageValue == 0)
-                  _hakkimda(context)
-                else if (_pageValue == 1)
-                  _basvurularimBuilder()
-                else if (_pageValue == 2)
-                  _egitimBilgilerBuilder(),*/
-
                 _pageValue == 0
                     ? _hakkimda(context)
                     : _pageValue == 1
@@ -195,6 +111,7 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
         ),
       ),
+      title: Center(child: Text("    Profil")),
       actions: <Widget>[
         IconButton(
             onPressed: () {
@@ -240,89 +157,6 @@ class _ProfilePageState extends State<ProfilePage> {
         width: 150,
         height: 300,
         child: Text("Henüz Başvurunuz Bulunmamaktadır"));
-  }
-
-  Widget _gonderilerBuilder() {
-    return Container();
-  }
-
-  Widget _MainPageListViewCard() {
-    return ListView.builder(
-      scrollDirection: Axis.vertical,
-      itemCount: 2,
-      itemBuilder: (BuildContext context, int index) {
-        return Card(
-          margin: const EdgeInsets.all(30),
-          elevation: 20,
-          shadowColor: Colors.black,
-          clipBehavior: Clip.hardEdge,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              infoCardForMainPage(),
-              Center(
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.all(10.0),
-                      child: Text(
-                          "Seat&Cupra Pazarlama Proje Bazlı #Stajyer İlanı\nGENEL NİTELİKLER\n• Üniversitelerin #Mühendislik , #işletme , #iletişim , #iktisadi ve İdari Bilimler Fakültesinde son sınıf #Öğrencisi veya #Mezun ,\n• En az 4 iş günü çalışabilecek,\n• İyi derecede İngilizce bilen,\n• İletişim becerileri yüksek,\n• Takım çalışmasına yatkın,"),
-                    ),
-                    SizedBox(height: 10),
-                    Padding(
-                      padding: EdgeInsets.all(10.0),
-                      child: Image(
-                        image: NetworkImage(
-                            "https://vizyonergenc.com/storage/1400746/WmHNOeqS4fenlh5jhZNTZa3NDd6Rvh5EIBgjwuYG.jpeg"),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 10),
-                child: Text("13 beğeni"),
-              ),
-              const Divider(
-                height: 15,
-                indent: 30,
-                endIndent: 30,
-                color: Colors.grey,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  IconButton(
-                    icon: const Icon(Icons.favorite_border_outlined),
-                    tooltip: 'Beğen',
-                    onPressed: () {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('This is a snackbar')));
-                    },
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.comment),
-                    tooltip: 'Yorum',
-                    onPressed: () {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('This is a snackbar')));
-                    },
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.send),
-                    tooltip: 'Paylaş',
-                    onPressed: () {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('This is a snackbar')));
-                    },
-                  ),
-                ],
-              ),
-            ],
-          ),
-        );
-      },
-    );
   }
 
   Center _profilebuttons(BuildContext context) {
@@ -565,29 +399,6 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
     );
   }
-}
-
-Widget infoCardForMainPage() {
-  return ListTile(
-    leading: const CircleAvatar(
-      backgroundColor: Color(0xACBFE6),
-      radius: 25,
-      backgroundImage: NetworkImage(
-          'https://play-lh.googleusercontent.com/7429diO-GMzarMlzzfDf7bgeApqwJGibfq3BKqPCa9lS9hd3gLIimTSe5hz9burHeg'),
-    ),
-    title: Text(
-      "Emine Betül Erdoğan",
-      style: TextStyle(
-        color: OurColor.firstColor,
-      ),
-    ),
-    subtitle: Text(
-      "3 dakika önce",
-      style: TextStyle(
-        color: OurColor.firstColor,
-      ),
-    ),
-  );
 }
 
 @override

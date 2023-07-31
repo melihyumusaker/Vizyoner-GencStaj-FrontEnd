@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:proje/pages/screens/sosyal/sosyal.dart';
-import '../../../themecolors/colors.dart';
-import '../home_screen/home_page.dart';
-import '../is/is.dart';
+import '../../../utils/themecolors/colors.dart';
 import '../notifications/notifications.dart';
-import '../publish_post_page/publish_post_page.dart';
 
 class GroupPage extends StatefulWidget {
   const GroupPage({Key? key}) : super(key: key);

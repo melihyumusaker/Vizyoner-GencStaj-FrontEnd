@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:proje/themecolors/colors.dart';
+import 'package:proje/utils/themecolors/colors.dart';
 
 class EtkinlikDetay extends StatelessWidget {
   const EtkinlikDetay({super.key});

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:proje/pages/screens/profile/profile.dart';
 import 'package:proje/pages/screens/sosyal/blogdetay.dart';
 import 'package:proje/pages/screens/sosyal/etkinlikdetay.dart';
-import 'package:proje/themecolors/colors.dart';
-import '../home_screen/home_page.dart';
-import '../is/is.dart';
-import '../publish_post_page/publish_post_page.dart';
+import 'package:proje/utils/themecolors/colors.dart';
+
+import '../hakkimizda/hakkimizda.dart';
+import '../sidebar/sidebar_settings.dart';
+import '../sidebar/support.dart';
 
 class Sosyal extends StatefulWidget {
   const Sosyal({super.key});
@@ -23,6 +23,7 @@ class _SosyalState extends State<Sosyal> {
       child: Scaffold(
         backgroundColor: OurColor.bgColor,
         appBar: _socailAppBar(context),
+        drawer: _Drawer(),
         body: SingleChildScrollView(
           child: Container(
             padding: const EdgeInsets.all(15.0),
@@ -37,6 +38,132 @@ class _SosyalState extends State<Sosyal> {
         ),
       ),
     );
+  }
+
+  Widget _Drawer() {
+    return Drawer(
+        child: Container(
+      height: double.infinity,
+      color: const Color(0xFF6688CC),
+      child: SafeArea(
+          child: Column(
+        children: [
+          infoCard(),
+          const Divider(
+            color: Colors.white24,
+            height: 2,
+          ),
+          const Padding(
+            padding: EdgeInsets.only(left: 0, top: 5, bottom: 5),
+          ),
+          Column(
+            children: [
+              Text(
+                "Sosyal".toUpperCase(),
+                style: Theme.of(context)
+                    .textTheme
+                    .titleMedium!
+                    .copyWith(color: Colors.white),
+              ),
+              ListTile(
+                onTap: () {},
+                leading: const SizedBox(
+                  height: 34,
+                  width: 34,
+                  child: Icon(Icons.person_add_alt),
+                ),
+                title: Text("Yeni Bağlantı Ekle"),
+              ),
+            ],
+          ),
+
+          Column(
+            children: [
+              Text(
+                "İçerik".toUpperCase(),
+                style: Theme.of(context)
+                    .textTheme
+                    .titleMedium!
+                    .copyWith(color: Colors.white),
+              ),
+              const Padding(
+                padding: EdgeInsets.only(left: 5.0),
+              ),
+              ListTile(
+                onTap: () {},
+                leading: const SizedBox(
+                  height: 34,
+                  width: 34,
+                  child: Icon(Icons.assignment_ind),
+                ),
+                title: Text("Duyurular"),
+              ),
+              Text(
+                "Hesap".toUpperCase(),
+                style: Theme.of(context)
+                    .textTheme
+                    .titleMedium!
+                    .copyWith(color: Colors.white),
+              ),
+            ],
+          ),
+          Column(
+            children: [
+              const Padding(
+                padding: EdgeInsets.only(left: 1.0),
+              ),
+              ListTile(
+                onTap: () => {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => Destek())),
+                },
+                leading: const SizedBox(
+                  height: 34,
+                  width: 34,
+                  child: Icon(Icons.help_outline_rounded),
+                ),
+                title: Text("Destek"),
+              ),
+              ListTile(
+                onTap: () => {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => Hakkimizda())),
+                },
+                leading: const SizedBox(
+                  height: 34,
+                  width: 34,
+                  child: Icon(Icons.description),
+                ),
+                title: Text("Hakkımızda"),
+              ),
+              ListTile(
+                onTap: () => {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => SideBarAyarlar()))
+                },
+                leading: const SizedBox(
+                  height: 34,
+                  width: 34,
+                  child: Icon(Icons.settings),
+                ),
+                title: Text("Ayarlar"),
+              ),
+              ListTile(
+                onTap: () {},
+                leading: const SizedBox(
+                  height: 34,
+                  width: 34,
+                  child: Icon(Icons.exit_to_app),
+                ),
+                title: Text("Çıkış"),
+              ),
+            ],
+          )
+
+          ///
+        ],
+      )),
+    ));
   }
 
   Card _blogCard(String text) {
@@ -150,6 +277,28 @@ class _SosyalState extends State<Sosyal> {
     );
   }
 
+  Widget infoCard() {
+    return const ListTile(
+      leading: CircleAvatar(
+        backgroundColor: Color(0xACBFE6),
+        radius: 25,
+        backgroundImage: AssetImage('assets/images/circlee.jpg'),
+      ),
+      title: Text(
+        "Asuman Kiper",
+        style: TextStyle(
+          color: Colors.white,
+        ),
+      ),
+      subtitle: Text(
+        "asuman.kiper00@gmail.com",
+        style: TextStyle(
+          color: Colors.white,
+        ),
+      ),
+    );
+  }
+
   AppBar _socailAppBar(BuildContext context) {
     return AppBar(
       flexibleSpace: Container(
@@ -163,15 +312,6 @@ class _SosyalState extends State<Sosyal> {
       ),
       automaticallyImplyLeading: false,
       title: ListTile(
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: const Icon(
-            Icons.arrow_back_ios_new,
-            color: Colors.white,
-          ),
-        ),
         title: const Center(
           child: Text(
             'Sosyal',
