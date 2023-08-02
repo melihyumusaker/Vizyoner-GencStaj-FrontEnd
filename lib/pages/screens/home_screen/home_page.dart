@@ -1,8 +1,8 @@
 // ignore_for_file: library_private_types_in_public_api
 
-
 import 'package:flutter/material.dart';
 import 'package:proje/model/GonderiModel.dart';
+import 'package:proje/pages/screens/group_pages/group_list_page.dart';
 import 'package:proje/pages/screens/hakkimizda/hakkimizda.dart';
 import 'package:proje/pages/screens/notifications/notifications.dart';
 import 'package:proje/pages/screens/search_page/search.dart';
@@ -10,6 +10,8 @@ import 'package:proje/pages/screens/sidebar/sidebar_settings.dart';
 import 'package:proje/pages/screens/sidebar/support.dart';
 import 'package:proje/service/get_gonderi_service.dart';
 
+import '../../../model/KullaniciModel.dart';
+import '../../../service/get_kullanici_service.dart';
 import '../../../utils/themecolors/colors.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -26,12 +28,28 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   List<GonderiModel> gonderiList = [];
+  final TextEditingController _emailTextController = TextEditingController();
+  KullaniciModel myKullanici = new KullaniciModel();
+
+  Future<void> fetchUser() async {
+    try {
+      GetUserService service = GetUserService();
+      KullaniciModel kullanici = await service.getOneUserByEmail(widget.email);
+
+      setState(() {
+        myKullanici = kullanici;
+      });
+    } catch (e) {
+      print("hata :" + e.toString());
+    }
+  }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     fetchGonderiList();
+    fetchUser();
   }
 
   Future<void> fetchGonderiList() async {
@@ -54,6 +72,48 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: _appBarWidgetForMainPage(),
       body: _MainPageListViewCard(),
       drawer: _Drawer(),
+    );
+  }
+
+  AppBar _appBarWidgetForMainPage() {
+    return AppBar(
+      flexibleSpace: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [OurColor.firstColor, OurColor.secondColor],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+        ),
+      ),
+      title: TextButton(
+        style: TextButton.styleFrom(
+            textStyle: const TextStyle(fontSize: 20),
+            backgroundColor: Colors.transparent),
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => SearchPage(
+                      email: widget.email,
+                    )),
+          );
+        },
+        child: const Text('Ara', style: TextStyle(color: Colors.white)),
+      ),
+
+      // you can put any Widget
+
+      actions: <Widget>[
+        IconButton(
+          icon: const Icon(Icons.notifications_active),
+          tooltip: 'Bildirimler',
+          onPressed: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const Notifications()));
+          },
+        ),
+      ],
     );
   }
 
@@ -90,6 +150,21 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Icon(Icons.person_add_alt),
                 ),
                 title: Text("Yeni Bağlantı Ekle"),
+              ),
+              ListTile(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => GroupListPage()),
+                  );
+                  //Navigator.pop(context);
+                },
+                leading: const SizedBox(
+                  height: 34,
+                  width: 34,
+                  child: Icon(Icons.people),
+                ),
+                title: Text("Gruplar"),
               ),
             ],
           ),
@@ -186,48 +261,6 @@ class _HomeScreenState extends State<HomeScreen> {
     ));
   }
 
-  AppBar _appBarWidgetForMainPage() {
-    return AppBar(
-      flexibleSpace: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [OurColor.firstColor, OurColor.secondColor],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-        ),
-      ),
-      title: TextButton(
-        style: TextButton.styleFrom(
-            textStyle: const TextStyle(fontSize: 20),
-            backgroundColor: Colors.transparent),
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => SearchPage(
-                      email: widget.email,
-                    )),
-          );
-        },
-        child: const Text('Ara', style: TextStyle(color: Colors.white)),
-      ),
-
-      // you can put any Widget
-
-      actions: <Widget>[
-        IconButton(
-          icon: const Icon(Icons.notifications_active),
-          tooltip: 'Bildirimler',
-          onPressed: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const Notifications()));
-          },
-        ),
-      ],
-    );
-  }
-
   Widget _MainPageListViewCard() {
     return ListView.builder(
       scrollDirection: Axis.vertical,
@@ -247,7 +280,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   children: [
                     Padding(
                       padding: EdgeInsets.all(10.0),
-                      child: Text(gonderiList[0].icerik.toString()),
+                      child: Text("deneme" //gonderiList[0].icerik.toString()//
+                          ),
                     ),
                     SizedBox(height: 10),
                     Padding(

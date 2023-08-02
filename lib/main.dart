@@ -1,12 +1,14 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:proje/model/KullaniciModel.dart';
 import 'package:proje/pages/auth/login/login.dart';
 import 'package:proje/pages/screens/home_screen/home_page.dart';
 import 'package:proje/pages/screens/is/is.dart';
 import 'package:proje/pages/screens/profile/profile.dart';
 import 'package:proje/pages/screens/publish_post_page/publish_post_page.dart';
 import 'package:proje/pages/screens/sosyal/sosyal.dart';
+import 'package:proje/service/get_kullanici_service.dart';
 import 'package:proje/utils/themecolors/colors.dart';
 
 //import 'package:fluter/proje/pages/screens'
@@ -56,11 +58,35 @@ class BottomTabBar extends StatefulWidget {
 }
 
 class _BottomTabBarState extends State<BottomTabBar> {
+  KullaniciModel myKullanici = new KullaniciModel();
+
+  Future<void> fetchUser() async {
+    try {
+      GetUserService service = GetUserService();
+      KullaniciModel kullanici = await service.getOneUserByEmail(widget.email);
+
+      setState(() {
+        myKullanici = kullanici;
+      });
+    } catch (e) {
+      print("hata :" + e.toString());
+    }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    fetchUser();
+  }
+
   int _index = 0;
   List<Widget> get screens {
     return [
-      HomeScreen(email: widget.email),
-      ProfilePage(email: widget.email),
+      HomeScreen(
+        email: widget.email,
+      ),
+      ProfilePage(email: widget.email, kullaniciId: myKullanici.kullaniciId!),
       PublishPost(email: widget.email),
       Sosyal(),
       Is(email: widget.email),

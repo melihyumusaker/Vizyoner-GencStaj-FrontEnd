@@ -16,7 +16,7 @@ import '../sidebar/support.dart';
 
 class Is extends StatefulWidget {
   String email;
-   Is({super.key , required this.email});
+  Is({super.key, required this.email});
 
   @override
   State<Is> createState() => _IsState();
@@ -107,6 +107,8 @@ class _IsState extends State<Is> {
                     context,
                     MaterialPageRoute(
                       builder: (context) => IsIlanDetay(
+                        ilanModel: ilanList[index],
+                        email: widget.email,
                         ilanBaslG: ilanList[index].ilanBaslG ??=
                             "Fallback Value",
                         metin: ilanList[index].ilanMetni ??= "Fallback Value",
@@ -158,18 +160,6 @@ class _IsState extends State<Is> {
                                 SizedBox(width: 15),
                                 Text(
                                   ilanList[index].ilanTuru.toString(),
-                                  style: TextStyle(fontFamily: "OpenSans"),
-                                )
-                              ]),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.symmetric(
-                                  vertical: 8.0, horizontal: 25),
-                              child: Row(children: [
-                                Icon(Icons.short_text),
-                                SizedBox(width: 15),
-                                Text(
-                                  ilanList[index].ilanMetni.toString(),
                                   style: TextStyle(fontFamily: "OpenSans"),
                                 )
                               ]),

@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:proje/model/EtkinlikModel.dart';
 
 class EtkinlikService {
-  final String url = "http://10.100.72.57:8080/etkinlikler";
+  final String url = "http://192.168.150.20:8080/etkinlikler";
   Future<List<EtkinlikModel>> fetchEtkinlikList() async {
     final response = await http.get(Uri.parse(url));
     if (response.statusCode == 200) {
