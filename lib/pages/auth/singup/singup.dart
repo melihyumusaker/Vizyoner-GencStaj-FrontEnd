@@ -92,6 +92,21 @@ class _SignupState extends State<Signup> {
                   height: 20,
                 ),
                 firebaseUIButton(context, "Kayıt Ol", () {
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text('Kayıt'),
+                          content: Text("Kayıt Başarılı"),
+                          actions: [
+                            TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: Text("Kapat"))
+                          ],
+                        );
+                      });
                   SignupService.sendDataToServer(
                       _firstNameTextController.text,
                       _lastNameTextController.text,

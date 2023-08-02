@@ -4,7 +4,8 @@ import 'package:http/http.dart' as http;
 import 'package:proje/model/SirketModel.dart';
 
 class SirketService {
-  final String url = "http://192.168.1.34:8080/sirketler";
+
+  final String url = "http://192.168.1.41:8080/sirketler";
 
 
   Future<List<SirketModel>> fetchSirketList() async {
@@ -12,8 +13,9 @@ class SirketService {
     if (response.statusCode == 200) {
       List<dynamic> jsonList = json.decode(response.body);
       return jsonList.map((json) => SirketModel.fromJson(json)).toList();
-    }else{
-      throw  Exception('HTTP isteği başarısız oldu. Status kod: ${response.statusCode}');
+    } else {
+      throw Exception(
+          'HTTP isteği başarısız oldu. Status kod: ${response.statusCode}');
     }
   }
 }

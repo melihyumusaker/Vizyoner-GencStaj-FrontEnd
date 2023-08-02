@@ -76,14 +76,28 @@ class _LoginState extends State<Login> {
                   });
                   debugPrint(_girisBasarili.toString());
 
-                  if (_girisBasarili == true) {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => BottomTabBar(
-                                  email: _emailTextController.text,
-                                )));
-                  }
+                  _girisBasarili == true
+                      ? Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => BottomTabBar(
+                                    email: _emailTextController.text,
+                                  )))
+                      : showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Text('Giriş'),
+                              content: Text("Mail veya Şifre Hatalı"),
+                              actions: [
+                                TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: Text("Kapat"))
+                              ],
+                            );
+                          });
 
                   FirebaseAuth.instance
                       .signInWithEmailAndPassword(

@@ -3,14 +3,17 @@ import 'package:http/http.dart' as http;
 import 'package:proje/model/KullaniciModel.dart';
 
 class SignupService {
-
   static Future<void> sendDataToServer(
     String ad,
     String soyad,
     String email,
     String sifre,
   ) async {
-    final url = Uri.parse('http://192.168.1.34:8080/users');
+
+    final url = Uri.parse('http://192.168.1.41:8080/users');
+
+   
+
 
     final kullaniciModel = KullaniciModel(
       ad: ad,

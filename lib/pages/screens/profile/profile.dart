@@ -142,7 +142,7 @@ class _ProfilePageState extends State<ProfilePage> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const EditProfilePage()));
+                      builder: (context) =>  EditProfilePage(email: widget.email,)));
             },
             icon: Icon(Icons.edit_note_rounded)),
         IconButton(
@@ -213,7 +213,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     _pageValue = 0;
                   });
                 },
-                child: const Text("Hakımda"),
+                child: const Text("Hakkımda"),
               ),
             ),
             SizedBox(

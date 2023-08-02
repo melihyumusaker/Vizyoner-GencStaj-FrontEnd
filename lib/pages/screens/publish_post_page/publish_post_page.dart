@@ -243,7 +243,7 @@ class _PublishPostState extends State<PublishPost> {
               }).toList();
             },
             onSelected: (String selectedOption) {
-              //print('Selected Option: $selectedOption');
+              print("basildi");
             },
             child: Container(
               padding: const EdgeInsets.all(5),

@@ -1,7 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:proje/ornek.dart';
 import 'package:proje/pages/auth/login/login.dart';
+import 'package:proje/pages/screens/group_pages/group_new_page.dart';
 import 'package:proje/pages/screens/home_screen/home_page.dart';
 import 'package:proje/pages/screens/is/is.dart';
 import 'package:proje/pages/screens/profile/profile.dart';
