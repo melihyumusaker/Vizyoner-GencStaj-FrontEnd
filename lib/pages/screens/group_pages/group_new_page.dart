@@ -5,8 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:proje/model/GonderiModel.dart';
 import 'package:proje/model/GrupModel.dart';
 import 'package:proje/service/get_grup_gonderi.dart';
-import 'package:proje/service/get_grup_service.dart';
-
 import '../../../utils/themecolors/colors.dart';
 
 class GroupPage extends StatefulWidget {

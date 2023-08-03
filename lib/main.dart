@@ -59,13 +59,18 @@ class BottomTabBar extends StatefulWidget {
 }
 
 class _BottomTabBarState extends State<BottomTabBar> {
-  KullaniciModel myKullanici = new KullaniciModel();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    fetchUser();
+  }
 
+  KullaniciModel myKullanici = new KullaniciModel();
   Future<void> fetchUser() async {
     try {
       GetUserService service = GetUserService();
       KullaniciModel kullanici = await service.getOneUserByEmail(widget.email);
-
       setState(() {
         myKullanici = kullanici;
       });
@@ -74,23 +79,14 @@ class _BottomTabBarState extends State<BottomTabBar> {
     }
   }
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    fetchUser();
-  }
-
   int _index = 0;
   List<Widget> get screens {
     return [
-      HomeScreen(
-        email: widget.email,
-      ),
+      HomeScreen(email: widget.email, myKullanici: myKullanici),
       ProfilePage(email: widget.email, kullaniciId: myKullanici.kullaniciId!),
-      PublishPost(email: widget.email),
-      Sosyal(),
-      Is(email: widget.email),
+      PublishPost(email: widget.email, id: myKullanici.kullaniciId!),
+      Sosyal(myKullanici: myKullanici),
+      Is(email: widget.email, myKullanici: myKullanici),
     ];
   }
 

@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:proje/model/BlogModel.dart';
 import 'package:proje/model/EtkinlikModel.dart';
+import 'package:proje/model/KullaniciModel.dart';
 import 'package:proje/pages/screens/sosyal/blogdetay.dart';
 import 'package:proje/pages/screens/sosyal/etkinlikdetay.dart';
 import 'package:proje/service/blog_service.dart';
@@ -15,7 +16,9 @@ import '../sidebar/sidebar_settings.dart';
 import '../sidebar/support.dart';
 
 class Sosyal extends StatefulWidget {
-  const Sosyal({super.key});
+
+  KullaniciModel myKullanici;
+   Sosyal({super.key , required this.myKullanici});
 
   @override
   State<Sosyal> createState() => _SosyalState();
@@ -210,7 +213,7 @@ class _SosyalState extends State<Sosyal> {
               ListTile(
                 onTap: () => {
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => SideBarAyarlar()))
+                      MaterialPageRoute(builder: (context) => SideBarAyarlar(myKullanici: widget.myKullanici)))
                 },
                 leading: const SizedBox(
                   height: 34,
@@ -299,7 +302,7 @@ class _SosyalState extends State<Sosyal> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => EtkinlikDetay(
-                                          resim: etkinlik.resim!,
+                                          resim: base64Data,
                                           icerik: etkinlik.icerik!,
                                           baslik: etkinlik.baslik!,
                                         )));
@@ -365,7 +368,7 @@ class _SosyalState extends State<Sosyal> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => BlogDetay(
-                                    resim: blog.resim!,
+                                    resim: base64Data,
                                     icerik: blog.icerik!,
                                     baslik: blog.baslik!,
                                   ),

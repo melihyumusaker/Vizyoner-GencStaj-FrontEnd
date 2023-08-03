@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:http/http.dart' as http;
 import 'package:proje/model/KullaniciModel.dart';
 
@@ -6,7 +7,9 @@ class GetUserService {
   Future<KullaniciModel> getOneUserByEmail(String email) async {
     final response = await http
 
+
         .get(Uri.parse('http://192.168.150.130:8080/users/email/$email'));
+
 
 
     if (response.statusCode == 200) {

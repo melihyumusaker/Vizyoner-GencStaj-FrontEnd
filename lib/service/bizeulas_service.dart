@@ -5,7 +5,6 @@ import 'package:proje/model/BizeUlas.dart';
 
 class BizeUlasService {
 
-
   final uri = Uri.parse("http://192.168.150.130:8080/bizeulas");
 
 

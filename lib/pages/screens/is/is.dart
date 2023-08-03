@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:proje/model/KullaniciModel.dart';
 import 'package:proje/model/SirketModel.dart';
 import 'package:proje/pages/screens/is/isilandetay.dart';
 import 'package:proje/pages/screens/is/sirketdetay.dart';
@@ -16,7 +17,8 @@ import '../sidebar/support.dart';
 
 class Is extends StatefulWidget {
   String email;
-  Is({super.key, required this.email});
+  KullaniciModel myKullanici;
+  Is({super.key, required this.email, required this.myKullanici});
 
   @override
   State<Is> createState() => _IsState();
@@ -92,8 +94,14 @@ class _IsState extends State<Is> {
       child: ListView.builder(
         itemCount: ilanList.length,
         itemBuilder: (BuildContext context, int index) {
-          Uint8List bytesImageIlan =
-              const Base64Decoder().convert(ilanList[index].resim!);
+          IlanModel ilan = ilanList[index];
+          String base64Data = ilan.resim!;
+          int mod4 = base64Data.length % 4;
+          if (mod4 > 0) {
+            base64Data += '=' * (4 - mod4);
+          }
+          Uint8List bytesImage = base64.decode(base64Data);
+
           return Card(
             color: OurColor.thirdColor,
             elevation: 25,
@@ -112,7 +120,7 @@ class _IsState extends State<Is> {
                         ilanBaslG: ilanList[index].ilanBaslG ??=
                             "Fallback Value",
                         metin: ilanList[index].ilanMetni ??= "Fallback Value",
-                        resim: ilanList[index].resim ??= "Fallback Value",
+                        resim: base64Data,
                         firmaAdi: ilanList[index].sirket!.sirketAdi ??=
                             "Fallback Value",
                         adress: ilanList[index].sirket!.adres ??=
@@ -136,43 +144,46 @@ class _IsState extends State<Is> {
                                   top: 20, left: 35, bottom: 10),
                               child: Text(
                                 ilanList[index].ilanBaslG.toString(),
-                                style:const TextStyle(
+                                style: const TextStyle(
                                     fontFamily: "OpenSans", fontSize: 15),
                               ),
                             ),
                             Padding(
-                              padding:const EdgeInsets.symmetric(
+                              padding: const EdgeInsets.symmetric(
                                   vertical: 8.0, horizontal: 25),
                               child: Row(children: [
-                              const  Icon(Icons.apartment),
-                              const  SizedBox(width: 15),
+                                const Icon(Icons.apartment),
+                                const SizedBox(width: 15),
                                 Text(
                                   ilanList[index].sirket!.sirketAdi.toString(),
-                                  style:const TextStyle(fontFamily: "OpenSans"),
+                                  style:
+                                      const TextStyle(fontFamily: "OpenSans"),
                                 )
                               ]),
                             ),
                             Padding(
-                              padding:const EdgeInsets.symmetric(
+                              padding: const EdgeInsets.symmetric(
                                   vertical: 8.0, horizontal: 25),
                               child: Row(children: [
-                               const Icon(Icons.timelapse),
-                              const  SizedBox(width: 15),
+                                const Icon(Icons.timelapse),
+                                const SizedBox(width: 15),
                                 Text(
                                   ilanList[index].ilanTuru.toString(),
-                                  style:const TextStyle(fontFamily: "OpenSans"),
+                                  style:
+                                      const TextStyle(fontFamily: "OpenSans"),
                                 )
                               ]),
                             ),
                             Padding(
-                              padding:const EdgeInsets.symmetric(
+                              padding: const EdgeInsets.symmetric(
                                   vertical: 8.0, horizontal: 25),
                               child: Row(children: [
-                             const   Icon(Icons.date_range),
-                           const     SizedBox(width: 15),
+                                const Icon(Icons.date_range),
+                                const SizedBox(width: 15),
                                 Text(
                                   ilanList[index].bitisTarihi.toString(),
-                                  style:const TextStyle(fontFamily: "OpenSans"),
+                                  style:
+                                      const TextStyle(fontFamily: "OpenSans"),
                                 )
                               ]),
                             ),
@@ -227,7 +238,7 @@ class _IsState extends State<Is> {
                   width: 34,
                   child: Icon(Icons.person_add_alt),
                 ),
-                title:const Text("Yeni Bağlantı Ekle"),
+                title: const Text("Yeni Bağlantı Ekle"),
               ),
             ],
           ),
@@ -251,7 +262,7 @@ class _IsState extends State<Is> {
                   width: 34,
                   child: Icon(Icons.assignment_ind),
                 ),
-                title:const Text("Duyurular"),
+                title: const Text("Duyurular"),
               ),
               Text(
                 "Hesap".toUpperCase(),
@@ -277,7 +288,7 @@ class _IsState extends State<Is> {
                   width: 34,
                   child: Icon(Icons.help_outline_rounded),
                 ),
-                title:const Text("Destek"),
+                title: const Text("Destek"),
               ),
               ListTile(
                 onTap: () => {
@@ -289,19 +300,23 @@ class _IsState extends State<Is> {
                   width: 34,
                   child: Icon(Icons.description),
                 ),
-                title:const Text("Hakkımızda"),
+                title: const Text("Hakkımızda"),
               ),
               ListTile(
                 onTap: () => {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => SideBarAyarlar()))
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => SideBarAyarlar(
+                                myKullanici: widget.myKullanici,
+                              )))
                 },
                 leading: const SizedBox(
                   height: 34,
                   width: 34,
                   child: Icon(Icons.settings),
                 ),
-                title:const Text("Ayarlar"),
+                title: const Text("Ayarlar"),
               ),
               ListTile(
                 onTap: () {},
@@ -310,7 +325,7 @@ class _IsState extends State<Is> {
                   width: 34,
                   child: Icon(Icons.exit_to_app),
                 ),
-                title:const Text("Çıkış"),
+                title: const Text("Çıkış"),
               ),
             ],
           )
@@ -444,9 +459,15 @@ class _IsState extends State<Is> {
     return Expanded(
       child: ListView.builder(
         itemCount: sirketList.length,
-        itemBuilder: (BuildContext context, int index) {
-          Uint8List bytesImage =
-              const Base64Decoder().convert(sirketList[index].logo!);
+        itemBuilder: (BuildContext context, index) {
+          SirketModel sirket = sirketList[index];
+          String base64Data = sirket.logo!;
+          int mod4 = base64Data.length % 4;
+          if (mod4 > 0) {
+            base64Data += '=' * (4 - mod4);
+          }
+          Uint8List bytesImage = base64.decode(base64Data);
+
           return Card(
             color: OurColor.thirdColor,
             elevation: 25,
@@ -488,10 +509,10 @@ class _IsState extends State<Is> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => SirketDetay(
-                                        firmaAd: sirketList[index].sirketAdi!,
-                                        icerik:
-                                            sirketList[index].sirketAciklamasi!,
-                                        logo: sirketList[index].logo!),
+                                      firmaAd: sirket.sirketAdi!,
+                                      icerik: sirket.sirketAciklamasi!,
+                                      logo: base64Data,
+                                    ),
                                   ));
                             },
                             child: const Text("Detay.."),

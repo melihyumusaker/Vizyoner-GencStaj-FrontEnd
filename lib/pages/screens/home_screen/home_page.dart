@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:proje/model/GonderiModel.dart';
 import 'package:proje/model/KullaniciModel.dart';
 import 'package:proje/pages/screens/group_pages/group_list_page.dart';
+import 'package:proje/pages/auth/login/login.dart';
 import 'package:proje/pages/screens/hakkimizda/hakkimizda.dart';
 import 'package:proje/pages/screens/notifications/notifications.dart';
 import 'package:proje/pages/screens/search_page/search.dart';
@@ -19,10 +20,12 @@ import '../../../utils/themecolors/colors.dart';
 
 class HomeScreen extends StatefulWidget {
   String email;
+  KullaniciModel myKullanici;
 
   HomeScreen({
     Key? key,
     required this.email,
+    required this.myKullanici
   }) : super(key: key);
 
   @override
@@ -190,9 +193,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 title:const Text("Hakkımızda"),
               ),
               ListTile(
-                onTap: () => {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => const SideBarAyarlar()))
+
+                onTap: ()  {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>  SideBarAyarlar(myKullanici: widget.myKullanici,)));
                 },
                 leading: const SizedBox(
                   height: 34,
@@ -202,7 +208,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 title:const Text("Ayarlar"),
               ),
               ListTile(
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => Login()));
+                },
                 leading: const SizedBox(
                   height: 34,
                   width: 34,
@@ -352,20 +363,20 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget infoCard() {
-    return const ListTile(
+    return  ListTile(
       leading: CircleAvatar(
         backgroundColor: Color(0xACBFE6),
         radius: 25,
         backgroundImage: AssetImage('assets/images/circlee.jpg'),
       ),
       title: Text(
-        "Asuman Kiper",
+        widget.myKullanici.ad.toString()+ " " + widget.myKullanici.soyad.toString(),
         style: TextStyle(
           color: Colors.white,
         ),
       ),
       subtitle: Text(
-        "asuman.kiper00@gmail.com",
+        widget.myKullanici.email.toString(),
         style: TextStyle(
           color: Colors.white,
         ),
