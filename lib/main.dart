@@ -44,7 +44,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home:Login(),
+      home: Login(),
     );
   }
 }
@@ -58,8 +58,6 @@ class BottomTabBar extends StatefulWidget {
 }
 
 class _BottomTabBarState extends State<BottomTabBar> {
-
-
   @override
   void initState() {
     // TODO: implement initState
@@ -67,15 +65,11 @@ class _BottomTabBarState extends State<BottomTabBar> {
     fetchUser();
   }
 
-    KullaniciModel myKullanici = new KullaniciModel();
-
-
+  KullaniciModel myKullanici = new KullaniciModel();
   Future<void> fetchUser() async {
     try {
       GetUserService service = GetUserService();
       KullaniciModel kullanici = await service.getOneUserByEmail(widget.email);
-      // EgitimModel egitim = await service.getOneUserByEmail(widget.email);
-
       setState(() {
         myKullanici = kullanici;
       });
@@ -87,11 +81,11 @@ class _BottomTabBarState extends State<BottomTabBar> {
   int _index = 0;
   List<Widget> get screens {
     return [
-      HomeScreen(email: widget.email , myKullanici: myKullanici),
-      ProfilePage(email: widget.email , id: myKullanici.kullaniciId!),
-      PublishPost(email: widget.email , id: myKullanici.kullaniciId!),
+      HomeScreen(email: widget.email, myKullanici: myKullanici),
+      ProfilePage(email: widget.email, kullaniciId: myKullanici.kullaniciId!),
+      PublishPost(email: widget.email, id: myKullanici.kullaniciId!),
       Sosyal(myKullanici: myKullanici),
-      Is(email: widget.email , myKullanici: myKullanici),
+      Is(email: widget.email, myKullanici: myKullanici),
     ];
   }
 

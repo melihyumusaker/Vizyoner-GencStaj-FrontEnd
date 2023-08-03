@@ -2,9 +2,17 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:proje/model/BasvuruModel.dart';
+import 'package:proje/model/IlanModel.dart';
+import 'package:proje/service/post_ilan_service.dart';
 import 'package:proje/utils/themecolors/colors.dart';
 
-class IsIlanDetay extends StatelessWidget {
+import '../../../model/KullaniciModel.dart';
+import '../../../service/get_kullanici_service.dart';
+
+class IsIlanDetay extends StatefulWidget {
+  IlanModel ilanModel;
+  String email;
   final String ilanBaslG;
   final String metin;
   final String resim;
@@ -12,15 +20,44 @@ class IsIlanDetay extends StatelessWidget {
   final String adress;
   final String tarih;
 
-  const IsIlanDetay({
-    super.key,
+  IsIlanDetay({
+    Key? key,
+    required this.ilanModel,
+    required this.email,
     required this.ilanBaslG,
     required this.metin,
     required this.resim,
     required this.firmaAdi,
     required this.adress,
     required this.tarih,
-  });
+  }) : super(key: key);
+
+  @override
+  _IsIlanDetayState createState() => _IsIlanDetayState();
+}
+
+class _IsIlanDetayState extends State<IsIlanDetay> {
+  @override
+  void initState() {
+    // Perform any initial setup or data loading here
+    super.initState();
+    fetchUser();
+  }
+
+  KullaniciModel myKullanici = new KullaniciModel();
+
+  Future<void> fetchUser() async {
+    try {
+      GetUserService service = GetUserService();
+      KullaniciModel kullanici = await service.getOneUserByEmail(widget.email);
+
+      setState(() {
+        myKullanici = kullanici;
+      });
+    } catch (e) {
+      print("hata :" + e.toString());
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,13 +74,13 @@ class IsIlanDetay extends StatelessWidget {
           elevation: 50,
           child: Column(
             children: [
-              _ilanNameText(ilanBaslG),
-              _icerikText(metin),
-              _logo(resim),
-              _firmaNameText(firmaAdi),
-              _adresText(adress),
-              _tarihText(tarih),
-              _basvurButton(context),
+              _ilanNameText(widget.ilanBaslG),
+              _icerikText(widget.metin),
+              _logo(widget.resim),
+              _firmaNameText(widget.firmaAdi),
+              _adresText(widget.adress),
+              _tarihText(widget.tarih),
+              _basvurButton(context, widget.ilanModel),
               SizedBox(height: 20)
             ],
           ),
@@ -52,7 +89,7 @@ class IsIlanDetay extends StatelessWidget {
     );
   }
 
-  Container _basvurButton(BuildContext context) {
+  Container _basvurButton(BuildContext context, IlanModel ilanModel) {
     return Container(
       padding: const EdgeInsets.all(5),
       height: 50,
@@ -69,7 +106,16 @@ class IsIlanDetay extends StatelessWidget {
             borderRadius: BorderRadius.circular(10),
           ),
         ),
-        onPressed: () {},
+        onPressed: () async {
+          try {
+            int basvuruId = await BasvuruService.saveBasvuru(
+              BasvuruModel(ilan: ilanModel, kullanici: myKullanici),
+            );
+            print('Basvuru saved with ID: $basvuruId');
+          } catch (e) {
+            print('Error saving Basvuru: $e');
+          }
+        },
         child: const Text("Başvur"),
       ),
     );
@@ -168,4 +214,6 @@ class IsIlanDetay extends StatelessWidget {
       ),
     );
   }
+
+  // Other widget methods remain unchanged...
 }

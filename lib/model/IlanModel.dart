@@ -13,18 +13,19 @@ class IlanModel {
   String? bitisTarihi;
   String? resim;
 
-  IlanModel(
-      {this.ilanId,
-      this.sirket,
-      this.ilanMetni,
-      this.yayinTarihi,
-      this.gorulduSayaci,
-      this.ilanTuru,
-      this.ilanSinifi,
-      this.ilanBaslG,
-      this.basvuruSayisi,
-      this.bitisTarihi,
-      this.resim});
+  IlanModel({
+    this.ilanId,
+    this.sirket,
+    this.ilanMetni,
+    this.yayinTarihi,
+    this.gorulduSayaci,
+    this.ilanTuru,
+    this.ilanSinifi,
+    this.ilanBaslG,
+    this.basvuruSayisi,
+    this.bitisTarihi,
+    this.resim,
+  });
 
   IlanModel.fromJson(Map<String, dynamic> json) {
     ilanId = json['ilan_id'];
@@ -35,7 +36,7 @@ class IlanModel {
     gorulduSayaci = json['goruldu_sayaci'];
     ilanTuru = json['ilan_turu'];
     ilanSinifi = json['ilan_sinifi'];
-    ilanBaslG = json['ilan_baslıgı'];
+    ilanBaslG = json['ilan_baslÄ±gÄ±'];
     basvuruSayisi = json['basvuru_sayisi'];
     bitisTarihi = json['bitis_tarihi'];
     resim = json['resim'];
@@ -44,7 +45,10 @@ class IlanModel {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['ilan_id'] = this.ilanId;
-    data['sirket'] = this.sirket;
+    if (this.sirket != null) {
+      data['sirket'] =
+          this.sirket!.toJson(); // Use toJson method of SirketModel
+    }
     data['ilan_metni'] = this.ilanMetni;
     data['yayin_tarihi'] = this.yayinTarihi;
     data['goruldu_sayaci'] = this.gorulduSayaci;
