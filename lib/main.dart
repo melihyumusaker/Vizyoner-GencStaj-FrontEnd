@@ -83,7 +83,7 @@ class _BottomTabBarState extends State<BottomTabBar> {
     return [
       HomeScreen(email: widget.email, myKullanici: myKullanici),
       ProfilePage(email: widget.email, kullaniciId: myKullanici.kullaniciId!),
-      PublishPost(email: widget.email, id: myKullanici.kullaniciId!),
+      PublishPost(email: widget.email, id: myKullanici.kullaniciId! , myKullanici: myKullanici),
       Sosyal(myKullanici: myKullanici),
       Is(email: widget.email, myKullanici: myKullanici),
     ];

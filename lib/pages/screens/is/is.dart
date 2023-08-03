@@ -20,7 +20,6 @@ class Is extends StatefulWidget {
   KullaniciModel myKullanici;
   Is({super.key, required this.email, required this.myKullanici});
 
-
   @override
   State<Is> createState() => _IsState();
 }
@@ -95,8 +94,16 @@ class _IsState extends State<Is> {
       child: ListView.builder(
         itemCount: ilanList.length,
         itemBuilder: (BuildContext context, int index) {
-          Uint8List bytesImageIlan =
-              const Base64Decoder().convert(ilanList[index].resim!);
+        
+          IlanModel ilan = ilanList[index];
+          String base64Data = ilan.resim!;
+
+          int mod4 = base64Data.length % 4;
+          if (mod4 > 0) {
+            base64Data += '=' * (4 - mod4);
+          }
+          Uint8List bytesImage = base64.decode(base64Data);
+
           return Card(
             color: OurColor.thirdColor,
             elevation: 25,
@@ -115,7 +122,7 @@ class _IsState extends State<Is> {
                         ilanBaslG: ilanList[index].ilanBaslG ??=
                             "Fallback Value",
                         metin: ilanList[index].ilanMetni ??= "Fallback Value",
-                        resim: ilanList[index].resim ??= "Fallback Value",
+                        resim: base64Data,
                         firmaAdi: ilanList[index].sirket!.sirketAdi ??=
                             "Fallback Value",
                         adress: ilanList[index].sirket!.adres ??=
@@ -185,7 +192,8 @@ class _IsState extends State<Is> {
                       flex: 6,
                       child: Container(
                         padding: const EdgeInsets.only(right: 25),
-                        child: Image.asset("assets/images/facebook.jpg"),
+                        child: Image.memory(bytesImage,
+                                height: 150, width: 150),
                       ),
                     )
                   ],
@@ -452,7 +460,6 @@ class _IsState extends State<Is> {
       child: ListView.builder(
         itemCount: sirketList.length,
         itemBuilder: (BuildContext context, index) {
-         
           SirketModel sirket = sirketList[index];
           String base64Data = sirket.logo!;
           int mod4 = base64Data.length % 4;
@@ -505,7 +512,7 @@ class _IsState extends State<Is> {
                                     builder: (context) => SirketDetay(
                                         firmaAd: sirket.sirketAdi!,
                                         icerik: sirket.sirketAciklamasi!,
-                                        logo: sirket.logo!),
+                                        logo: base64Data),
                                   ));
                             },
                             child: const Text("Detay.."),

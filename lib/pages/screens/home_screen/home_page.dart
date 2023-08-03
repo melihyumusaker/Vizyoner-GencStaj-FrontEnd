@@ -263,12 +263,14 @@ class _HomeScreenState extends State<HomeScreen> {
       scrollDirection: Axis.vertical,
       itemCount: list.length,
       itemBuilder: (BuildContext context, int index) {
+       
         String postResim = list[index].fotografGonderi.toString();
         int mod4 = postResim.length % 4;
         if (mod4 > 0) {
           postResim += '=' * (4 - mod4);
         }
         Uint8List bytesImage = const Base64Decoder().convert(postResim);
+        
         int begeniSayisi = gonderiList[index].sayacBegeni!;
 
         return Card(

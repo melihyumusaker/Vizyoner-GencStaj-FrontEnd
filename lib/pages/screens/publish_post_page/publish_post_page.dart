@@ -13,7 +13,12 @@ import '../../../utils/themecolors/colors.dart';
 class PublishPost extends StatefulWidget {
   String email;
   int id;
-  PublishPost({Key? key, required this.email, required this.id})
+  KullaniciModel myKullanici;
+  PublishPost(
+      {Key? key,
+      required this.email,
+      required this.id,
+      required this.myKullanici})
       : super(key: key);
 
   @override
@@ -30,18 +35,7 @@ class _PublishPostState extends State<PublishPost> {
 
   PostGonderiService postService = new PostGonderiService();
 
-  Future<void> fetchUser() async {
-    try {
-      GetUserService service = GetUserService();
-      KullaniciModel kullanici = await service.getOneUserByEmail(widget.email);
 
-      setState(() {
-        myKullanici = kullanici;
-      });
-    } catch (e) {
-      print("hata :" + e.toString());
-    }
-  }
 
   int _currentIndex = 0; // Keep track of the selected tab index
   String? _base64Image;
@@ -60,7 +54,6 @@ class _PublishPostState extends State<PublishPost> {
 
       setState(() {
         _base64Image = base64Image;
-        
       });
     }
   }
@@ -76,7 +69,6 @@ class _PublishPostState extends State<PublishPost> {
       String base64Image = base64Encode(imageBytes);
 
       setState(() {
-
         _base64Image = base64Image;
         print(_base64Image.toString());
       });
@@ -89,7 +81,7 @@ class _PublishPostState extends State<PublishPost> {
   void initState() {
     super.initState();
     _controller = TextEditingController();
-    fetchUser();
+
   }
 
   @override
@@ -105,7 +97,7 @@ class _PublishPostState extends State<PublishPost> {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              infoCardForPostPage(),
+              infoCardForPostPage(widget.myKullanici),
               Padding(
                 padding: const EdgeInsets.all(6.0),
                 child: SizedBox(
@@ -177,9 +169,11 @@ class _PublishPostState extends State<PublishPost> {
   }
 
   Widget publish() {
+
+
     return Column(
       children: [
-        infoCardForPostPage(),
+        infoCardForPostPage(myKullanici),
         Padding(
           padding: const EdgeInsets.all(6.0),
           child: SizedBox(
@@ -314,16 +308,16 @@ class _PublishPostState extends State<PublishPost> {
   }
 }
 
-Widget infoCardForPostPage() {
+Widget infoCardForPostPage(KullaniciModel user) {
   return ListTile(
     leading: const CircleAvatar(
       backgroundColor: Color(0x00acbfe6),
       radius: 25,
-      backgroundImage: NetworkImage(
-          'https://play-lh.googleusercontent.com/7429diO-GMzarMlzzfDf7bgeApqwJGibfq3BKqPCa9lS9hd3gLIimTSe5hz9burHeg'),
+      backgroundImage: AssetImage('assets/images/circlee.jpg'),
     ),
     title: Text(
-    "Emine Betul Erdogan",
+
+      user.ad.toString() + " " + user.soyad.toString(),
       style: TextStyle(
         color: OurColor.firstColor,
       ),

@@ -58,7 +58,7 @@ class BlogDetay extends StatelessWidget {
         padding: const EdgeInsets.all(25),
         width: double.infinity,
         height: 250,
-        child: Image.memory(bytesImage));
+        child: Image.memory(bytesImage, height: 170, width: 150));
   }
 
   AppBar _socailAppBar(BuildContext context) {
