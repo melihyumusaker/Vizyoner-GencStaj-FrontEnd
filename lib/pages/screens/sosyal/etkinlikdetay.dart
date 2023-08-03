@@ -5,9 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:proje/utils/themecolors/colors.dart';
 
 class EtkinlikDetay extends StatelessWidget {
+  
   String resim;
   String baslik;
   String icerik;
+
   EtkinlikDetay(
       {required this.resim, required this.icerik, required this.baslik});
 

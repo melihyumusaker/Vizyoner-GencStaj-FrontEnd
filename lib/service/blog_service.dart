@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:proje/model/BlogModel.dart';
 
 class BlogService {
-  final String url = "http://10.100.72.57:8080/bloglar";
+  final String url = "http://192.168.150.39:8080/bloglar";
   Future<List<BlogModel>> fetchBlogList() async {
     final response = await http.get(Uri.parse(url));
     if (response.statusCode == 200) {

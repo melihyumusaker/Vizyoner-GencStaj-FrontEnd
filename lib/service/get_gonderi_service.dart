@@ -1,11 +1,11 @@
 import 'dart:convert';
+
 // ignore: depend_on_referenced_packages
 import 'package:http/http.dart' as http;
 import 'package:proje/model/GonderiModel.dart';
-import 'package:proje/model/SirketModel.dart';
 
 class GonderiService {
-  final String url = "http://10.100.72.57:8080/post";
+  final String url = "http://192.168.150.39:8080/post";
 
   Future<List<GonderiModel>> fetchGonderiList() async {
     final response = await http.get(Uri.parse(url));

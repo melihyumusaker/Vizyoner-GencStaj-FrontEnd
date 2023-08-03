@@ -12,15 +12,13 @@ class Destek extends StatefulWidget {
 }
 
 class _DestekState extends State<Destek> {
-  
   Future<BizeUlasModel>? _futureBizeUlas;
-  
+
   final TextEditingController _controllerUserName = TextEditingController();
   final TextEditingController _controllerLastName = TextEditingController();
   final TextEditingController _controllerEmail = TextEditingController();
   final TextEditingController _controllerBaslik = TextEditingController();
   final TextEditingController _controllerIcerik = TextEditingController();
-  
 
   @override
   Widget build(BuildContext context) {
@@ -133,9 +131,9 @@ class _DestekState extends State<Destek> {
                     setState(() {
                       final service = BizeUlasService();
                       _futureBizeUlas = service.createPost(
-                        _controllerUserName.text,                        _controllerLastName.text,
+                        _controllerUserName.text,
+                        _controllerLastName.text,
                         _controllerEmail.text,
-
                         _controllerBaslik.text,
                         _controllerIcerik.text,
                       );
