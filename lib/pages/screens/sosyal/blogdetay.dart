@@ -8,6 +8,7 @@ class BlogDetay extends StatelessWidget {
   String resim;
   String baslik;
   String icerik;
+  
   BlogDetay({required this.resim, required this.baslik, required this.icerik});
 
   @override

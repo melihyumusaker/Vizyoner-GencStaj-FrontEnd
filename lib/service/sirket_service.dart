@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:proje/model/SirketModel.dart';
 
 class SirketService {
-  final String url = "http://10.100.72.57:8080/sirketler";
+  final String url = "http://192.168.150.39:8080/sirketler";
 
   Future<List<SirketModel>> fetchSirketList() async {
     final response = await http.get(Uri.parse(url));

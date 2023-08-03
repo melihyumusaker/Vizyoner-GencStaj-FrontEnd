@@ -1,11 +1,14 @@
 // ignore_for_file: library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
+import 'package:proje/model/EgitimModel.dart';
+import 'package:proje/pages/auth/login/login.dart';
 import 'package:proje/pages/screens/hakkimizda/hakkimizda.dart';
 import 'package:proje/pages/screens/notifications/notifications.dart';
 import 'package:proje/pages/screens/profile/edit_profile.dart';
 import 'package:proje/pages/screens/sidebar/sidebar_settings.dart';
 import 'package:proje/pages/screens/sidebar/support.dart';
+import 'package:proje/service/get_egitim_service.dart';
 import 'package:proje/service/get_kullanici_service.dart';
 
 import '../../../model/KullaniciModel.dart';
@@ -13,7 +16,9 @@ import '../../../utils/themecolors/colors.dart';
 
 class ProfilePage extends StatefulWidget {
   String email;
-  ProfilePage({Key? key, required this.email}) : super(key: key);
+  int id;
+  ProfilePage({Key? key, required this.email, required this.id})
+      : super(key: key);
 
   @override
   _ProfilePageState createState() => _ProfilePageState();
@@ -26,14 +31,17 @@ class _ProfilePageState extends State<ProfilePage> {
   void initState() {
     super.initState();
     fetchUser();
+    fetchEgitim();
   }
 
   KullaniciModel myKullanici = new KullaniciModel();
+  EgitimModel myEgitim = new EgitimModel();
 
   Future<void> fetchUser() async {
     try {
       GetUserService service = GetUserService();
       KullaniciModel kullanici = await service.getOneUserByEmail(widget.email);
+      // EgitimModel egitim = await service.getOneUserByEmail(widget.email);
 
       setState(() {
         myKullanici = kullanici;
@@ -43,15 +51,20 @@ class _ProfilePageState extends State<ProfilePage> {
     }
   }
 
+  Future<void> fetchEgitim() async {
+    try {
+      GetEgitimService egitim_service = GetEgitimService();
+      EgitimModel egitim = await egitim_service.getEgitimBilgileri(widget.id);
+
+      setState(() {
+        myEgitim = egitim;
+      });
+    } catch (e) {
+      print("hata :" + e.toString());
+    }
+  }
+
   final List<String> hakkinda = [];
-  final List<String> egitim_bilgileri = [
-    'Abdullah Gül Üniversitesi',
-    'Bilgisayar Mühendisliği',
-    '3. Sınıf',
-    '3.09',
-    'Adres',
-    'Hakkında'
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -59,11 +72,9 @@ class _ProfilePageState extends State<ProfilePage> {
       myKullanici.cinsiyet.toString(),
       myKullanici.dogumTarihi.toString(),
       myKullanici.adres.toString(),
-      myKullanici.sirket.toString()
+      myKullanici.sirket!.sirketAdi.toString()
     ]);
-    egitim_bilgileri.addAll([
-      
-    ]);
+
     return Scaffold(
         appBar: _appBarWidget(),
         drawer: _Drawer(),
@@ -72,7 +83,6 @@ class _ProfilePageState extends State<ProfilePage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text(myKullanici.ad.toString()),
                 CircleAvatar(
                   backgroundColor: Color(0xACBFE6),
                   radius: 25,
@@ -86,7 +96,9 @@ class _ProfilePageState extends State<ProfilePage> {
                 const SizedBox(
                   height: 15,
                 ),
-                Text(myKullanici.ad.toString()),
+                Text(myKullanici.ad.toString() +
+                    " " +
+                    myKullanici.soyad.toString()),
                 const SizedBox(
                   height: 15,
                 ),
@@ -116,14 +128,15 @@ class _ProfilePageState extends State<ProfilePage> {
       height: 600,
       child: ListView.builder(
         scrollDirection: Axis.vertical,
-        itemCount: hakkinda.length,
+        itemCount: 4,
         itemBuilder: (context, index) {
-          return Card(
-            child: Padding(
+          return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Padding(
               padding: EdgeInsets.all(16.0),
-              child: Text(hakkinda[index]),
+              child: Text(hakkinda[index].toString()),
             ),
-          );
+            Divider(thickness: 2,),
+          ]);
         },
       ),
     );
@@ -167,14 +180,42 @@ class _ProfilePageState extends State<ProfilePage> {
       width: MediaQuery.of(context).size.width - 70,
       height: 600,
       child: ListView.builder(
-        scrollDirection: Axis.vertical,
-        itemCount: egitim_bilgileri.length,
+        itemCount: 1,
         itemBuilder: (context, index) {
-          return Card(
-            child: Padding(
-              padding: EdgeInsets.all(16.0),
-              child: Text(egitim_bilgileri[index]),
-            ),
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text(myEgitim.okul.toString()),
+              ),
+              Divider(thickness: 2),
+              Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text(myEgitim.bolum.toString()),
+              ),
+              Divider(thickness: 2),
+              Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text(myEgitim.sinif.toString() + ".sınıf"),
+              ),
+              Divider(thickness: 2),
+              Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text(myEgitim.ortalama.toString()),
+              ),
+              Divider(thickness: 2),
+              Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text(myEgitim.kullanici!.adres.toString()),
+              ),
+              Divider(thickness: 2),
+              Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text(myEgitim.hakkinda.toString()),
+              ),
+              Divider(thickness: 2),
+            ],
           );
         },
       ),
@@ -272,7 +313,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     _pageValue = 2;
                   });
                 },
-                child: const Text("Eğitim Bilgierim"),
+                child: const Text("Eğitim Bilgilerim"),
               ),
             )
           ],
@@ -380,7 +421,7 @@ class _ProfilePageState extends State<ProfilePage> {
               ListTile(
                 onTap: () => {
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => SideBarAyarlar()))
+                      MaterialPageRoute(builder: (context) => SideBarAyarlar(myKullanici: myKullanici)))
                 },
                 leading: const SizedBox(
                   height: 34,
@@ -390,7 +431,12 @@ class _ProfilePageState extends State<ProfilePage> {
                 title: Text("Ayarlar"),
               ),
               ListTile(
-                onTap: () {},
+                onTap: () {
+                   Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => Login()));
+                },
                 leading: const SizedBox(
                   height: 34,
                   width: 34,
@@ -408,20 +454,20 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Widget infoCard() {
-    return const ListTile(
+    return  ListTile(
       leading: CircleAvatar(
         backgroundColor: Color(0xACBFE6),
         radius: 25,
         backgroundImage: AssetImage('assets/images/circlee.jpg'),
       ),
       title: Text(
-        "Asuman Kiper",
+        myKullanici.ad.toString() + " " + myKullanici.soyad.toString(),
         style: TextStyle(
           color: Colors.white,
         ),
       ),
       subtitle: Text(
-        "asuman.kiper00@gmail.com",
+        myKullanici.email.toString(),
         style: TextStyle(
           color: Colors.white,
         ),

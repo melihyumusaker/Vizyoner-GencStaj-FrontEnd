@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 
@@ -7,7 +8,7 @@ class LoginService {
     try {
       // API'ye post request gönder
       final response = await http.post(
-        Uri.parse("http://10.100.72.57:8080/users/login"),
+        Uri.parse("http://192.168.150.39:8080/users/login"),
         body: {
           'email': email,
           'sifre': sifre,

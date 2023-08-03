@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:proje/model/KullaniciModel.dart';
 import 'package:proje/model/SirketModel.dart';
 import 'package:proje/pages/screens/is/isilandetay.dart';
 import 'package:proje/pages/screens/is/sirketdetay.dart';
@@ -16,7 +17,8 @@ import '../sidebar/support.dart';
 
 class Is extends StatefulWidget {
   String email;
-   Is({super.key , required this.email});
+  KullaniciModel myKullanici;
+  Is({super.key, required this.email, required this.myKullanici});
 
   @override
   State<Is> createState() => _IsState();
@@ -303,8 +305,12 @@ class _IsState extends State<Is> {
               ),
               ListTile(
                 onTap: () => {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => SideBarAyarlar()))
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => SideBarAyarlar(
+                                myKullanici: widget.myKullanici,
+                              )))
                 },
                 leading: const SizedBox(
                   height: 34,
@@ -454,9 +460,17 @@ class _IsState extends State<Is> {
     return Expanded(
       child: ListView.builder(
         itemCount: sirketList.length,
-        itemBuilder: (BuildContext context, int index) {
-          Uint8List bytesImage =
-              const Base64Decoder().convert(sirketList[index].logo!);
+        itemBuilder: (BuildContext context, index) {
+         
+          SirketModel sirket = sirketList[index];
+          String base64Data = sirket.logo!;
+          int mod4 = base64Data.length % 4;
+          if (mod4 > 0) {
+            base64Data += '=' * (4 - mod4);
+          }
+
+          Uint8List bytesImage = base64.decode(base64Data);
+
           return Card(
             color: OurColor.thirdColor,
             elevation: 25,
@@ -498,10 +512,9 @@ class _IsState extends State<Is> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => SirketDetay(
-                                        firmaAd: sirketList[index].sirketAdi!,
-                                        icerik:
-                                            sirketList[index].sirketAciklamasi!,
-                                        logo: sirketList[index].logo!),
+                                        firmaAd: sirket.sirketAdi!,
+                                        icerik: sirket.sirketAciklamasi!,
+                                        logo: sirket.logo!),
                                   ));
                             },
                             child: const Text("Detay.."),
