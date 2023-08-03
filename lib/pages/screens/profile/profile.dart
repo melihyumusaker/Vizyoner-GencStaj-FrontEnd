@@ -4,21 +4,22 @@ import 'dart:convert';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:proje/model/EgitimModel.dart';
-import 'package:proje/pages/auth/login/login.dart';
+
 import 'package:proje/model/BasvuruModel.dart';
+import 'package:proje/model/IlanModel.dart';
+import 'package:proje/model/KullaniciModel.dart';
+import 'package:proje/pages/auth/login/login.dart';
 import 'package:proje/pages/screens/hakkimizda/hakkimizda.dart';
 import 'package:proje/pages/screens/notifications/notifications.dart';
 import 'package:proje/pages/screens/profile/edit_profile.dart';
 import 'package:proje/pages/screens/sidebar/sidebar_settings.dart';
 import 'package:proje/pages/screens/sidebar/support.dart';
+
 import 'package:proje/service/get_egitim_service.dart';
 import 'package:proje/service/get_kullanici_service.dart';
-import 'package:proje/service/post_ilan_service.dart';
-import 'package:proje/service/profil_basvuru_service.dart';
 
-import '../../../model/IlanModel.dart';
-import '../../../model/KullaniciModel.dart';
-import '../../../utils/themecolors/colors.dart';
+import 'package:proje/service/profil_basvuru_service.dart';
+import 'package:proje/utils/themecolors/colors.dart';
 import '../group_pages/group_list_page.dart';
 
 List<IlanModel> ilanList = [];
@@ -37,7 +38,7 @@ class ProfilePage extends StatefulWidget {
 int _pageValue = 0;
 
 class _ProfilePageState extends State<ProfilePage> {
-  BasvuruService basvuruService = new BasvuruService();
+  GetBasvuruService basvuruService = new GetBasvuruService();
 
   void fetchBasvuruListByKullaniciId() async {
     try {
@@ -73,7 +74,9 @@ class _ProfilePageState extends State<ProfilePage> {
         myKullanici = kullanici;
       });
     } catch (e) {
-      debugPrint("hata :$e");
+
+      print("hata :" + e.toString());
+
     }
   }
 
@@ -193,6 +196,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   context,
                   MaterialPageRoute(
                       builder: (context) =>  EditProfilePage(email: widget.email,)));
+
             },
             icon: Icon(Icons.edit_note_rounded)),
         IconButton(
@@ -200,7 +204,7 @@ class _ProfilePageState extends State<ProfilePage> {
           tooltip: 'Bildirimler',
           onPressed: () {
             Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const Notifications()));
+                MaterialPageRoute(builder: (context) =>  Notifications()));
           },
         ),
       ],

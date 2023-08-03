@@ -2,6 +2,7 @@
 
 import 'dart:io';
 
+
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:proje/model/EgitimModel.dart';
@@ -10,12 +11,14 @@ import 'package:proje/pages/screens/notifications/notifications.dart';
 import 'package:proje/service/create_egitim_service.dart';
 import 'package:proje/service/get_kullanici_service.dart';
 import 'package:proje/service/update_kullanici_service.dart';
+import 'package:proje/utils/themecolors/colors.dart';
 
-import '../../../utils/themecolors/colors.dart';
 
 class EditProfilePage extends StatefulWidget {
+
   String email;
   EditProfilePage({Key? key, required this.email}) : super(key: key);
+
 
   @override
   _EditProfilePageState createState() => _EditProfilePageState();
@@ -31,7 +34,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
   ];
 
   final List<String> dropdownOptionsEgitim = [
+
     'Hazırlık',
+
     '1.Sınıf',
     '2.Sınıf',
     '3.Sınıf',
@@ -64,6 +69,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
   @override
   void initState() {
     super.initState();
+
     fetchUser();
 
     _controllerDate = TextEditingController();
@@ -118,6 +124,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
   final UpdateKullaniciService updateService = new UpdateKullaniciService();
   final CreateEgitimService createEgitimService = new CreateEgitimService();
+
 
   @override
   Widget build(BuildContext context) {
@@ -184,10 +191,12 @@ class _EditProfilePageState extends State<EditProfilePage> {
         ));
   }
 
+
   String myOption = "";
   String myEgitimOption = "";
   String dogumTarih = "";
   String adres = "";
+
 
   Widget _hakkimda_edit(BuildContext context) {
     return SingleChildScrollView(
@@ -210,6 +219,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 onSelected: (String selectedOption) {
                   // Handle the selected option
                   myOption = selectedOption;
+
                   print('Selected Option: $selectedOption');
                 },
                 child: Container(
@@ -250,7 +260,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   context: context,
                   builder: (BuildContext context) {
                     return AlertDialog(
-                      actions: <Widget>[
+                      actions: [
                         TextButton(
                           onPressed: () {
                             Navigator.pop(context);
@@ -278,6 +288,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
               controller: _controllerAdres,
               decoration: InputDecoration(
                 hintText: 'Adresinizi Giriniz', // The hint text
+
                 border: UnderlineInputBorder(),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(4),
@@ -307,15 +318,47 @@ class _EditProfilePageState extends State<EditProfilePage> {
           const SizedBox(
             height: 12,
           ),
+          Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: TextField(
+              //maxLength: 20,
+              maxLines: 1,
+              controller: _controllerSirket,
+              decoration: InputDecoration(
+                hintText: 'Hangi Şirkete Çalışıyorsunuz', // The hint text
+                border: UnderlineInputBorder(),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(4),
+                  borderSide: BorderSide(color: Color.fromARGB(0, 38, 11, 214)),
+                ),
+              ),
+              onSubmitted: (String value) async {
+                await showDialog<void>(
+                  barrierColor: OurColor.firstColor,
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      actions: <Widget>[
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: const Text('OK'),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
+            ),
+          ),
           SizedBox(
             height: 16,
           ),
-          _profilHakkindaKaydetButton(
-            context,
+          _profilHakkindaKaydetButton(context,
             myOption,
             _controllerDate.text,
-            _controllerAdres.text,
-          )
+            _controllerAdres.text,)
         ],
       ),
     );
@@ -346,7 +389,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
           tooltip: 'Bildirimler',
           onPressed: () {
             Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const Notifications()));
+                MaterialPageRoute(builder: (context) =>  Notifications()));
           },
         ),
       ],
@@ -370,6 +413,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(4),
                   borderSide:const BorderSide(color: Colors.transparent),
+
                 ),
               ),
               onSubmitted: (String value) async {
@@ -392,7 +436,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
               },
             ),
           ),
-          const SizedBox(
+           SizedBox(
             height: 12,
           ),
           Padding(
@@ -407,6 +451,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(4),
                   borderSide:const BorderSide(color: Colors.transparent),
+
                 ),
               ),
               onSubmitted: (String value) async {
@@ -472,7 +517,45 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 border: UnderlineInputBorder(),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(4),
-                  borderSide:const BorderSide(color: Colors.transparent),
+                  borderSide: BorderSide(color: Colors.transparent),
+                ),
+              ),
+              onSubmitted: (String value) async {
+                await showDialog<void>(
+                  barrierColor: OurColor.firstColor,
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      actions: <Widget>[
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: const Text('OK'),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
+            ),
+          ),
+          const SizedBox(
+            height: 12,
+          ),
+          Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: TextField(
+              //maxLength: 20,
+              maxLines: 1,
+              controller: _controllerAdres,
+              decoration: InputDecoration(
+                hintText: 'Adresnizi Giriniz', // The hint text
+                border: UnderlineInputBorder(),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(4),
+                  borderSide: BorderSide(color: Colors.transparent),
+
                 ),
               ),
               onSubmitted: (String value) async {
@@ -510,6 +593,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(4),
                   borderSide:const BorderSide(color: Color.fromARGB(0, 38, 11, 214)),
+
                 ),
               ),
               onSubmitted: (String value) async {
@@ -532,7 +616,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
               },
             ),
           ),
+
           const SizedBox(
+
             height: 16,
           ),
           _profilEgitimKaydetButton(context)
@@ -576,6 +662,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   });
                 },
                 child: const Text("Hakkımda"),
+
               ),
             ),
             SizedBox(
@@ -633,8 +720,10 @@ class _EditProfilePageState extends State<EditProfilePage> {
     );
   }
 
+
   Padding _profilHakkindaKaydetButton(
       BuildContext context, String cinsiyet, String dogumTarih, String adres) {
+
     return Padding(
       padding: EdgeInsets.all(15.0),
       child: Container(
@@ -733,6 +822,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 kullanici: myKullanici);
             createEgitimService.createEgitim(yeniEgitim);
           },
+
           child: const Text("Kaydet"),
         ),
       ),

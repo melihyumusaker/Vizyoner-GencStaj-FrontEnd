@@ -6,7 +6,9 @@ import 'package:proje/model/IlanModel.dart';
 class IlanService {
 
 
+
 final String url = "http://192.168.150.130:8080/ilanlar";
+
 
 
   Future<List<IlanModel>> fetchIlanList() async {

@@ -5,11 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:proje/model/GonderiModel.dart';
 import 'package:proje/model/GrupModel.dart';
 import 'package:proje/service/get_grup_gonderi.dart';
-import '../../../utils/themecolors/colors.dart';
+import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:flutter/material.dart';
+import 'package:proje/utils/themecolors/colors.dart';
 
 class GroupPage extends StatefulWidget {
   //String email;
   //int kullaniciId;
+
   GrupModel grupModel = new GrupModel();
   GroupPage({
     Key? key,

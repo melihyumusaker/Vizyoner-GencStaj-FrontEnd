@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+
 import 'package:proje/model/GrupModel.dart';
 import 'package:proje/service/get_grup_service.dart';
 import 'package:proje/service/like_service.dart';
+import 'package:proje/utils/themecolors/colors.dart';
 
-import '../../../utils/themecolors/colors.dart';
+
 import '../notifications/notifications.dart';
 import 'group_new_page.dart';
 
@@ -51,6 +53,7 @@ class _GroupListPageState extends State<GroupListPage> {
           builder: (context) => GroupPage(
                 grupModel: grupModel,
               )),
+
     );
 
     // When returning from the GroupPage, check the result and update the button color
@@ -68,7 +71,9 @@ class _GroupListPageState extends State<GroupListPage> {
         body: Center(
           child: ListView.builder(
             scrollDirection: Axis.vertical,
+
             itemCount: grupModelList.length,
+
             itemBuilder: (BuildContext context, int index) {
               return Padding(
                 padding: const EdgeInsets.all(16.0),
@@ -83,7 +88,9 @@ class _GroupListPageState extends State<GroupListPage> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Text(
+ 
                           grupModelList[index].grupAdi.toString(),
+
                           style: TextStyle(
                               fontSize: 18,
                               color: Colors.black87,
@@ -99,6 +106,7 @@ class _GroupListPageState extends State<GroupListPage> {
                           ),
                           onPressed: () =>
                               _navigateToGroupPage(grupModelList[index]),
+
                           child: const Text('Grubu Görüntüle'),
                         ),
                       ],

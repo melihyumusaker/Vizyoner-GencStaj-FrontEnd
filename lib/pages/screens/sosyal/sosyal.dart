@@ -302,7 +302,9 @@ class _SosyalState extends State<Sosyal> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => EtkinlikDetay(
+
                                           resim: base64Data,
+
                                           icerik: etkinlik.icerik!,
                                           baslik: etkinlik.baslik!,
                                         )));
@@ -368,7 +370,9 @@ class _SosyalState extends State<Sosyal> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => BlogDetay(
+
                                     resim: base64Data,
+
                                     icerik: blog.icerik!,
                                     baslik: blog.baslik!,
                                   ),

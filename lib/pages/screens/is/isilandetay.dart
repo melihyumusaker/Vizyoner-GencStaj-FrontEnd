@@ -4,11 +4,9 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:proje/model/BasvuruModel.dart';
 import 'package:proje/model/IlanModel.dart';
-import 'package:proje/service/post_ilan_service.dart';
+import 'package:proje/model/KullaniciModel.dart';
+import 'package:proje/service/get_kullanici_service.dart';
 import 'package:proje/utils/themecolors/colors.dart';
-
-import '../../../model/KullaniciModel.dart';
-import '../../../service/get_kullanici_service.dart';
 
 class IsIlanDetay extends StatefulWidget {
   IlanModel ilanModel;
@@ -106,16 +104,7 @@ class _IsIlanDetayState extends State<IsIlanDetay> {
             borderRadius: BorderRadius.circular(10),
           ),
         ),
-        onPressed: () async {
-          try {
-            int basvuruId = await BasvuruService.saveBasvuru(
-              BasvuruModel(ilan: ilanModel, kullanici: myKullanici),
-            );
-            print('Basvuru saved with ID: $basvuruId');
-          } catch (e) {
-            print('Error saving Basvuru: $e');
-          }
-        },
+        onPressed: () {},
         child: const Text("Başvur"),
       ),
     );
@@ -146,7 +135,7 @@ class _IsIlanDetayState extends State<IsIlanDetay> {
       padding: EdgeInsets.all(8.0),
       child: Text(
         adress,
-        style:const TextStyle(
+        style: TextStyle(
             fontFamily: "OpenSans", color: Colors.black54, fontSize: 18),
       ),
     );
@@ -154,10 +143,10 @@ class _IsIlanDetayState extends State<IsIlanDetay> {
 
   Padding _firmaNameText(String firmaAdi) {
     return Padding(
-      padding:const EdgeInsets.symmetric(vertical: 7.0),
+      padding: EdgeInsets.symmetric(vertical: 7.0),
       child: Text(
         firmaAdi,
-        style:const TextStyle(
+        style: TextStyle(
             fontFamily: "OpenSans", color: Colors.black, fontSize: 18),
       ),
     );
@@ -168,7 +157,7 @@ class _IsIlanDetayState extends State<IsIlanDetay> {
       padding: EdgeInsets.symmetric(vertical: 15.0),
       child: Text(
         ilanBaslG,
-        style:const TextStyle(
+        style: TextStyle(
             fontFamily: "OpenSans", color: Colors.black, fontSize: 18),
       ),
     );
