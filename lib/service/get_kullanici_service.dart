@@ -8,6 +8,7 @@ class GetUserService {
     final response = await http
         .get(Uri.parse('http://192.168.150.39:8080/users/email/$email'));
 
+
     if (response.statusCode == 200) {
       // İstek başarılı oldu, JSON'dan bir Kullanici nesnesi oluşturup döndürelim.
       return KullaniciModel.fromJson(json.decode(response.body));

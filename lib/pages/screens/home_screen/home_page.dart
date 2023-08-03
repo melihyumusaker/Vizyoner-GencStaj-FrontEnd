@@ -1,7 +1,9 @@
 // ignore_for_file: library_private_types_in_public_api
 
-
+import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:proje/model/GonderiModel.dart';
 import 'package:proje/model/KullaniciModel.dart';
 import 'package:proje/pages/auth/login/login.dart';
@@ -11,6 +13,8 @@ import 'package:proje/pages/screens/search_page/search.dart';
 import 'package:proje/pages/screens/sidebar/sidebar_settings.dart';
 import 'package:proje/pages/screens/sidebar/support.dart';
 import 'package:proje/service/get_gonderi_service.dart';
+import 'package:proje/service/get_kullanici_service.dart';
+import 'package:proje/service/like_service.dart';
 
 import '../../../utils/themecolors/colors.dart';
 
@@ -29,12 +33,28 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  KullaniciModel myKullanici = new KullaniciModel();
+  LikeService likeService = new LikeService();
+
+  Future<void> fetchUser() async {
+    try {
+      GetUserService service = GetUserService();
+      KullaniciModel kullanici = await service.getOneUserByEmail(widget.email);
+
+      setState(() {
+        myKullanici = kullanici;
+      });
+    } catch (e) {
+      print("hata :" + e.toString());
+    }
+  }
+
   List<GonderiModel> gonderiList = [];
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+    fetchUser();
     fetchGonderiList();
   }
 
@@ -56,7 +76,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _appBarWidgetForMainPage(),
-      body: _MainPageListViewCard(),
+      body: _MainPageListViewCard(myKullanici, gonderiList),
       drawer: _Drawer(),
     );
   }
@@ -237,11 +257,20 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _MainPageListViewCard() {
+  Widget _MainPageListViewCard(
+      KullaniciModel myKullanici, List<GonderiModel> list) {
     return ListView.builder(
       scrollDirection: Axis.vertical,
-      itemCount: 2,
+      itemCount: list.length,
       itemBuilder: (BuildContext context, int index) {
+        String postResim = list[index].fotografGonderi.toString();
+        int mod4 = postResim.length % 4;
+        if (mod4 > 0) {
+          postResim += '=' * (4 - mod4);
+        }
+        Uint8List bytesImage = const Base64Decoder().convert(postResim);
+        int begeniSayisi = gonderiList[index].sayacBegeni!;
+
         return Card(
           margin: const EdgeInsets.all(30),
           elevation: 20,
@@ -250,20 +279,21 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              infoCardForMainPage(),
+              infoCardForMainPage(index, list),
               Center(
                 child: Column(
                   children: [
                     Padding(
-                      padding: EdgeInsets.all(10.0),
-                      child: Text("deneme" /*gonderiList[0].icerik.toString()*/),
+                      padding: const EdgeInsets.all(10.0),
+                      child: Text(gonderiList[index].icerik.toString()),
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     Padding(
-                      padding: EdgeInsets.all(10.0),
-                      child: Image(
-                        image: NetworkImage(
-                            "https://vizyonergenc.com/storage/1400746/WmHNOeqS4fenlh5jhZNTZa3NDd6Rvh5EIBgjwuYG.jpeg"),
+                      padding: const EdgeInsets.all(10.0),
+                      child: Image.memory(
+                        base64Decode(postResim),
+                        width: 350,
+                        height: 250,
                       ),
                     )
                   ],
@@ -271,7 +301,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 10),
-                child: Text("13 beğeni"),
+                child: Text(begeniSayisi.toString() + " Beğeni"),
               ),
               const Divider(
                 height: 15,
@@ -283,11 +313,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   IconButton(
-                    icon: const Icon(Icons.favorite_border_outlined),
+                    icon: Icon(Icons.favorite_border_outlined),
                     tooltip: 'Beğen',
-                    onPressed: () {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('This is a snackbar')));
+                    onPressed: () async {
+                      await likeService.likePost(gonderiList[index].gonderiId!);
+                      setState(() {
+                        begeniSayisi++;
+                      });
                     },
                   ),
                   IconButton(
@@ -338,7 +370,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-Widget infoCardForMainPage() {
+Widget infoCardForMainPage(int index, List<GonderiModel> list) {
   return ListTile(
     leading: const CircleAvatar(
       backgroundColor: Color(0xACBFE6),
@@ -347,13 +379,7 @@ Widget infoCardForMainPage() {
           'https://play-lh.googleusercontent.com/7429diO-GMzarMlzzfDf7bgeApqwJGibfq3BKqPCa9lS9hd3gLIimTSe5hz9burHeg'),
     ),
     title: Text(
-      "Emine Betül Erdoğan",
-      style: TextStyle(
-        color: OurColor.firstColor,
-      ),
-    ),
-    subtitle: Text(
-      "3 dakika önce",
+      "${list[index].kullanici!.ad.toString()} ${list[index].kullanici!.soyad.toString()}",
       style: TextStyle(
         color: OurColor.firstColor,
       ),
