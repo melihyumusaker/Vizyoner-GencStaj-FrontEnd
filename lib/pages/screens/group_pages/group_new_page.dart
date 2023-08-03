@@ -1,11 +1,17 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:proje/model/GrupModel.dart';
 
 import '../../../utils/themecolors/colors.dart';
-import '../notifications/notifications.dart';
 
 class GroupPage extends StatefulWidget {
-  const GroupPage({Key? key}) : super(key: key);
-
+  //String email;
+  //int kullaniciId;
+  GrupModel grupModel = new GrupModel();
+  GroupPage({
+    Key? key,
+    required this.grupModel,
+  }) : super(key: key);
   @override
   _GroupPageState createState() => _GroupPageState();
 }
@@ -14,31 +20,7 @@ class _GroupPageState extends State<GroupPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          flexibleSpace: Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [OurColor.firstColor, OurColor.secondColor],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
-            ),
-          ),
-          actions: <Widget>[
-            IconButton(
-              icon: const Icon(Icons.notifications_active),
-              tooltip: 'Bildirimler',
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const Notifications()),
-                );
-              },
-            ),
-          ],
-        ),
-        drawer: _Drawer(),
+        appBar: _appBarForGroupMainPage(),
         body: Center(
           child: ListView.builder(
             scrollDirection: Axis.vertical,
@@ -52,7 +34,8 @@ class _GroupPageState extends State<GroupPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    infoCardForMainPage(),
+                    _grupInfoText(),
+                    infoCardForMainPage(widget.grupModel),
                     Center(
                       child: Column(
                         children: const [
@@ -121,162 +104,86 @@ class _GroupPageState extends State<GroupPage> {
         ));
   }
 
-  Widget _Drawer() {
-    return Drawer(
-        child: Container(
-      height: double.infinity,
-      color: const Color(0xFF6688CC),
-      child: SafeArea(
-          child: Column(
-        children: [
-          infoCard(),
-          const Divider(
-            color: Colors.white24,
-            height: 2,
-          ),
-          const Padding(
-            padding: EdgeInsets.only(left: 0, top: 5, bottom: 5),
-          ),
-          Column(
-            children: [
-              Text(
-                "Sosyal".toUpperCase(),
-                style: Theme.of(context)
-                    .textTheme
-                    .titleMedium!
-                    .copyWith(color: Colors.white),
-              ),
-              ListTile(
-                onTap: () {},
-                leading: const SizedBox(
-                  height: 34,
-                  width: 34,
-                  child: Icon(Icons.person_add_alt),
-                ),
-                title: const Text("Yeni Bağlantı Ekle"),
-              ),
-            ],
-          ),
-
-          Column(
-            children: [
-              Text(
-                "İçerik".toUpperCase(),
-                style: Theme.of(context)
-                    .textTheme
-                    .titleMedium!
-                    .copyWith(color: Colors.white),
-              ),
-              const Padding(
-                padding: EdgeInsets.only(left: 5.0),
-              ),
-              ListTile(
-                onTap: () {},
-                leading: const SizedBox(
-                  height: 34,
-                  width: 34,
-                  child: Icon(Icons.assignment_ind),
-                ),
-                title: const Text("Duyurular"),
-              ),
-              Text(
-                "Hesap".toUpperCase(),
-                style: Theme.of(context)
-                    .textTheme
-                    .titleMedium!
-                    .copyWith(color: Colors.white),
-              ),
-            ],
-          ),
-          Column(
-            children: [
-              const Padding(
-                padding: EdgeInsets.only(left: 1.0),
-              ),
-              ListTile(
-                onTap: () {},
-                leading: const SizedBox(
-                  height: 34,
-                  width: 34,
-                  child: Icon(Icons.help_outline_rounded),
-                ),
-                title: const Text("Destek"),
-              ),
-              ListTile(
-                onTap: () {},
-                leading: const SizedBox(
-                  height: 34,
-                  width: 34,
-                  child: Icon(Icons.settings),
-                ),
-                title: const Text("Ayarlar"),
-              ),
-              ListTile(
-                onTap: () {},
-                leading: const SizedBox(
-                  height: 34,
-                  width: 34,
-                  child: Icon(Icons.exit_to_app),
-                ),
-                title: const Text("Çıkış"),
-              ),
-            ],
-          )
-
-          ///
-        ],
-      )),
-    ));
+  Padding _grupInfoText() {
+    return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Align(
+                      alignment: Alignment.centerRight,
+                      child: Text(
+                        widget.grupModel.grupAdi.toString() + " Grubu Gönderisidir",
+                        style: TextStyle(fontFamily: "OpenSans", fontSize: 15 , color: Colors.black54),
+                      ),
+                    ),
+                  );
   }
 
-  Widget infoCard() {
-    return const ListTile(
-      leading: CircleAvatar(
+  AppBar _appBarForGroupMainPage() {
+    return AppBar(
+      flexibleSpace: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [OurColor.firstColor, OurColor.secondColor],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+        ),
+      ),
+      leading: IconButton(
+        icon: Icon(Icons.arrow_back),
+        onPressed: () {
+          // When you're done with the GroupPage, you can pop and pass a result if needed
+          Navigator.pop(context, 'success');
+        },
+      ),
+      title: Center(child: Text("Ankara Staj Grubu")),
+      actions: <Widget>[
+        Container(
+          width: 60,
+          height: 35,
+          child: AnimatedButton(
+            pressEvent: () {
+              AwesomeDialog(
+                context: context,
+                dialogType: DialogType.warning,
+                animType: AnimType.bottomSlide,
+                showCloseIcon: true,
+                title: "Dikkat",
+                desc: "Gruba Katılmak istediğinizden emin misiniz?",
+                btnCancelOnPress: () {},
+                btnOkOnPress: () => {},
+                btnCancelText: "Hayır",
+                btnOkText: "Evet",
+              ).show();
+            },
+            text: "Katıl",
+            buttonTextStyle: TextStyle(color: Colors.white, fontSize: 22),
+            color: OurColor.secondColor,
+          ),
+        )
+      ],
+    );
+  }
+
+  Widget infoCardForMainPage(GrupModel grupModel) {
+    return ListTile(
+      leading: const CircleAvatar(
         backgroundColor: Color(0x00acbfe6),
         radius: 25,
-        backgroundImage: AssetImage('assets/images/circlee.jpg'),
+        backgroundImage: NetworkImage(
+            'https://play-lh.googleusercontent.com/7429diO-GMzarMlzzfDf7bgeApqwJGibfq3BKqPCa9lS9hd3gLIimTSe5hz9burHeg'),
       ),
       title: Text(
-        "Asuman Kiper",
+        "Emine Betül Erdoğan",
         style: TextStyle(
-          color: Colors.white,
+          color: OurColor.firstColor,
         ),
       ),
       subtitle: Text(
-        "asuman.kiper00@gmail.com",
+        "3 dakika Önce",
         style: TextStyle(
-          color: Colors.white,
+          color: OurColor.firstColor,
         ),
       ),
     );
   }
-}
-
-Widget infoCardForMainPage() {
-  return ListTile(
-    leading: const CircleAvatar(
-      backgroundColor: Color(0x00acbfe6),
-      radius: 25,
-      backgroundImage: NetworkImage(
-          'https://play-lh.googleusercontent.com/7429diO-GMzarMlzzfDf7bgeApqwJGibfq3BKqPCa9lS9hd3gLIimTSe5hz9burHeg'),
-    ),
-    title: Text(
-      "Emine Betül Erdoğan",
-      style: TextStyle(
-        color: OurColor.firstColor,
-      ),
-    ),
-    subtitle: Text(
-      "3 dakika Önce",
-      style: TextStyle(
-        color: OurColor.firstColor,
-      ),
-    ),
-  );
-}
-
-@override
-Widget build(BuildContext context) {
-  // TODO: implement build
-  throw UnimplementedError();
 }

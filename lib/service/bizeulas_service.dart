@@ -5,7 +5,9 @@ import 'package:proje/model/BizeUlas.dart';
 
 class BizeUlasService {
 
-  final uri = Uri.parse("http://192.168.1.41:8080/bizeulas");
+
+  final uri = Uri.parse("http://192.168.150.130:8080/bizeulas");
+
 
 
   Future<BizeUlasModel> createPost(String ad, String baslik, String e_mail,

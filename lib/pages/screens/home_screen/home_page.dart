@@ -3,9 +3,9 @@
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:proje/model/GonderiModel.dart';
 import 'package:proje/model/KullaniciModel.dart';
+import 'package:proje/pages/screens/group_pages/group_list_page.dart';
 import 'package:proje/pages/screens/hakkimizda/hakkimizda.dart';
 import 'package:proje/pages/screens/notifications/notifications.dart';
 import 'package:proje/pages/screens/search_page/search.dart';
@@ -78,7 +78,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _Drawer() {
+ Widget _Drawer() {
     return Drawer(
         child: Container(
       height: double.infinity,
@@ -112,8 +112,24 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 title: Text("Yeni Bağlantı Ekle"),
               ),
+              ListTile(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => GroupListPage()),
+                  );
+                  //Navigator.pop(context);
+                },
+                leading: const SizedBox(
+                  height: 34,
+                  width: 34,
+                  child: Icon(Icons.people),
+                ),
+                title: Text("Gruplar"),
+              ),
             ],
           ),
+
           Column(
             children: [
               Text(
@@ -152,7 +168,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ListTile(
                 onTap: () => {
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => const Destek())),
+                      MaterialPageRoute(builder: (context) => Destek())),
                 },
                 leading: const SizedBox(
                   height: 34,
@@ -163,31 +179,27 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               ListTile(
                 onTap: () => {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const Hakkimizda())),
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => Hakkimizda())),
                 },
                 leading: const SizedBox(
                   height: 34,
                   width: 34,
                   child: Icon(Icons.description),
                 ),
-                title: Text("Hakkımızda"),
+                title:const Text("Hakkımızda"),
               ),
               ListTile(
                 onTap: () => {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const SideBarAyarlar()))
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => const SideBarAyarlar()))
                 },
                 leading: const SizedBox(
                   height: 34,
                   width: 34,
                   child: Icon(Icons.settings),
                 ),
-                title: Text("Ayarlar"),
+                title:const Text("Ayarlar"),
               ),
               ListTile(
                 onTap: () {},
@@ -196,7 +208,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   width: 34,
                   child: Icon(Icons.exit_to_app),
                 ),
-                title: Text("Çıkış"),
+                title: const Text("Çıkış"),
               ),
             ],
           )

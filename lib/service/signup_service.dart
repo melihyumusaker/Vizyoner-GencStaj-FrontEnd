@@ -10,7 +10,7 @@ class SignupService {
     String sifre,
   ) async {
 
-    final url = Uri.parse('http://192.168.1.41:8080/users');
+    final url = Uri.parse('http://192.168.150.130:8080/users');
 
    
 

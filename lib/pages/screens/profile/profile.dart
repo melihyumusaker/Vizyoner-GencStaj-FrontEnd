@@ -1,19 +1,32 @@
 // ignore_for_file: library_private_types_in_public_api
 
+import 'dart:convert';
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
+import 'package:proje/model/BasvuruModel.dart';
 import 'package:proje/pages/screens/hakkimizda/hakkimizda.dart';
 import 'package:proje/pages/screens/notifications/notifications.dart';
 import 'package:proje/pages/screens/profile/edit_profile.dart';
 import 'package:proje/pages/screens/sidebar/sidebar_settings.dart';
 import 'package:proje/pages/screens/sidebar/support.dart';
 import 'package:proje/service/get_kullanici_service.dart';
+import 'package:proje/service/post_ilan_service.dart';
+import 'package:proje/service/profil_basvuru_service.dart';
 
+import '../../../model/IlanModel.dart';
 import '../../../model/KullaniciModel.dart';
 import '../../../utils/themecolors/colors.dart';
+import '../group_pages/group_list_page.dart';
+
+List<IlanModel> ilanList = [];
+List<BasvuruModel> appliedIlanList = [];
 
 class ProfilePage extends StatefulWidget {
   String email;
-  ProfilePage({Key? key, required this.email}) : super(key: key);
+  int kullaniciId;
+  ProfilePage({Key? key, required this.email, required this.kullaniciId})
+      : super(key: key);
 
   @override
   _ProfilePageState createState() => _ProfilePageState();
@@ -22,10 +35,26 @@ class ProfilePage extends StatefulWidget {
 int _pageValue = 0;
 
 class _ProfilePageState extends State<ProfilePage> {
-   @override
+  BasvuruService basvuruService = new BasvuruService();
+
+  void fetchBasvuruListByKullaniciId() async {
+    try {
+      GetBasvuruService basvuruService = GetBasvuruService();
+      List<BasvuruModel> basvuruList =
+          await basvuruService.getAllBasvuruByKullaniciId(widget.kullaniciId);
+      setState(() {
+        appliedIlanList = basvuruList;
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  @override
   void initState() {
     super.initState();
     fetchUser();
+    fetchBasvuruListByKullaniciId();
   }
 
   KullaniciModel myKullanici = new KullaniciModel();
@@ -39,9 +68,10 @@ class _ProfilePageState extends State<ProfilePage> {
         myKullanici = kullanici;
       });
     } catch (e) {
-      print("hata :" + e.toString());
+      debugPrint("hata :$e");
     }
   }
+
   final List<String> hakkinda = [
     'Kadın',
     '15.03.2002',
@@ -67,7 +97,7 @@ class _ProfilePageState extends State<ProfilePage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text(myKullanici.ad.toString()),
+                //Text(appliedIlanList[0].ilan!.ilanId.toString()),
                 CircleAvatar(
                   backgroundColor: Color(0xACBFE6),
                   radius: 25,
@@ -81,11 +111,11 @@ class _ProfilePageState extends State<ProfilePage> {
                 const SizedBox(
                   height: 15,
                 ),
-                Text("EMİNE BETÜL ERDOĞAN"),
+           const     Text("EMİNE BETÜL ERDOĞAN"),
                 const SizedBox(
                   height: 15,
                 ),
-                Text("betulerdgn52@gmail.com"),
+          const      Text("betulerdgn52@gmail.com"),
                 const SizedBox(
                   height: 25,
                 ),
@@ -176,11 +206,68 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
+  Widget _ilanCardBuilder() {
+    return Expanded(
+      child: ListView.builder(
+        itemCount: appliedIlanList.length,
+        itemBuilder: (BuildContext context, int index) {
+          Uint8List bytesImageIlan = const Base64Decoder()
+              .convert(appliedIlanList[index].ilan!.resim.toString());
+          return Card(
+            color: OurColor.thirdColor,
+            elevation: 25,
+            margin: const EdgeInsets.all(15),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(18),
+            ),
+            child: InkWell(
+              onTap: () {},
+              child: SizedBox(
+                width: 200,
+                height: 220,
+                child: Row(
+                  children: [
+                    Expanded(
+                      flex: 10,
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(
+                                  top: 20, left: 35, bottom: 10),
+                              child: Text(
+                                appliedIlanList[index]
+                                    .ilan!
+                                    .ilanBaslG
+                                    .toString(),
+                                style: TextStyle(
+                                    fontFamily: "OpenSans", fontSize: 15),
+                              ),
+                            ),
+                          ]),
+                    ),
+                    Expanded(
+                      flex: 6,
+                      child: Container(
+                        padding: const EdgeInsets.only(right: 25),
+                        child: Image.asset("assets/images/facebook.jpg"),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
   Widget _basvurularimBuilder() {
     return Container(
-        width: 150,
+        width: MediaQuery.of(context).size.width - 30,
         height: 300,
-        child: Text("Henüz Başvurunuz Bulunmamaktadır"));
+        child: _ilanCardBuilder());
   }
 
   Center _profilebuttons(BuildContext context) {
@@ -309,6 +396,21 @@ class _ProfilePageState extends State<ProfilePage> {
                   child: Icon(Icons.person_add_alt),
                 ),
                 title: Text("Yeni Bağlantı Ekle"),
+              ),
+              ListTile(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => GroupListPage()),
+                  );
+                  //Navigator.pop(context);
+                },
+                leading: const SizedBox(
+                  height: 34,
+                  width: 34,
+                  child: Icon(Icons.people),
+                ),
+                title: Text("Gruplar"),
               ),
             ],
           ),

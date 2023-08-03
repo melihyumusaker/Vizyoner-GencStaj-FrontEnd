@@ -4,7 +4,7 @@ import 'package:proje/model/EgitimModel.dart';
 
 class CreateEgitimService {
   Future<void> createEgitim(EgitimModel yeniEgitim) async {
-    final String apiUrl = "http://192.168.1.41:8080/egitim/egitim-olustur";
+    final String apiUrl = "http://192.168.150.130:8080/egitim/egitim-olustur";
 
     Map<String, dynamic> egitimData = {
       "okul": yeniEgitim.okul,

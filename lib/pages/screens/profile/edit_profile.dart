@@ -112,7 +112,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
         myKullanici = kullanici;
       });
     } catch (e) {
-      print("hata :" + e.toString());
+      debugPrint("hata :$e");
     }
   }
 
@@ -175,12 +175,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 ),
                 _profilebuttons(context),
                 const SizedBox(height: 20),
-                //_pageValue == 0 ? _gonderilerBuilder() : _basvurularimBuilder()
                 _pageValue == 0
                     ? _hakkimda_edit(context)
-                    : _pageValue == 1
-                        ? _basvurularimBuilder()
-                        : _egitimBilgilerBuilderEdit()
+                    : _egitimBilgilerBuilderEdit()
               ],
             ),
           ),
@@ -369,10 +366,10 @@ class _EditProfilePageState extends State<EditProfilePage> {
               controller: _controllerOkul,
               decoration: InputDecoration(
                 hintText: 'Okul Adınız', // The hint text
-                border: UnderlineInputBorder(),
+                border:const UnderlineInputBorder(),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(4),
-                  borderSide: BorderSide(color: Colors.transparent),
+                  borderSide:const BorderSide(color: Colors.transparent),
                 ),
               ),
               onSubmitted: (String value) async {
@@ -409,7 +406,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 border: UnderlineInputBorder(),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(4),
-                  borderSide: BorderSide(color: Colors.transparent),
+                  borderSide:const BorderSide(color: Colors.transparent),
                 ),
               ),
               onSubmitted: (String value) async {
@@ -475,7 +472,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 border: UnderlineInputBorder(),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(4),
-                  borderSide: BorderSide(color: Colors.transparent),
+                  borderSide:const BorderSide(color: Colors.transparent),
                 ),
               ),
               onSubmitted: (String value) async {
@@ -509,10 +506,10 @@ class _EditProfilePageState extends State<EditProfilePage> {
               controller: _controllerHakkinda,
               decoration: InputDecoration(
                 hintText: 'Hakkınızda', // The hint text
-                border: UnderlineInputBorder(),
+                border:const UnderlineInputBorder(),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(4),
-                  borderSide: BorderSide(color: Color.fromARGB(0, 38, 11, 214)),
+                  borderSide:const BorderSide(color: Color.fromARGB(0, 38, 11, 214)),
                 ),
               ),
               onSubmitted: (String value) async {
@@ -603,33 +600,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 onPressed: () {
                   setState(() {
                     _pageValue = 1;
-                  });
-                },
-                child: const Text("Başvurularım"),
-              ),
-            ),
-            SizedBox(
-              width: 10,
-            ),
-            Container(
-              height: 30,
-              width: 120,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                    shadowColor: Colors.blue,
-                    textStyle: const TextStyle(fontSize: 16),
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 2, vertical: 2),
-                    backgroundColor: _pageValue == 2
-                        ? OurColor.firstColor
-                        : OurColor.thirdColor,
-                    elevation: 10,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(6),
-                    )),
-                onPressed: () {
-                  setState(() {
-                    _pageValue = 2;
                   });
                 },
                 child: const Text("Eğitim Bilgierim"),

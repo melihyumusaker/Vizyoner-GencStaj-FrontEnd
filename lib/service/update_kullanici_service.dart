@@ -5,7 +5,7 @@ import 'package:proje/model/KullaniciModel.dart';
 class UpdateKullaniciService {
 
   Future<void> updateOneUserEmail(String email, KullaniciModel newUser) async {
-    final String apiUrl = "http://192.168.1.41:8080/users/email/$email"; 
+    final String apiUrl = "http://192.168.150.130:8080/users/email/$email"; 
     
     Map<String, dynamic> userData = {
       "adres": newUser.adres,
