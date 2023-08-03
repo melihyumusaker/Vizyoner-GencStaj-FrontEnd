@@ -9,9 +9,7 @@ class SignupService {
     String email,
     String sifre,
   ) async {
-
     final url = Uri.parse('http://192.168.150.39:8080/users');
-
 
     final kullaniciModel = KullaniciModel(
       ad: ad,

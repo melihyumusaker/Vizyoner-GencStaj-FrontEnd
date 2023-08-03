@@ -5,10 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:proje/model/GonderiModel.dart';
 
 class GonderiService {
-
   final String url = "http://192.168.150.39:8080/post";
-
-
 
   Future<List<GonderiModel>> fetchGonderiList() async {
     final response = await http.get(Uri.parse(url));

@@ -97,7 +97,7 @@ class _BottomTabBarState extends State<BottomTabBar> {
   Widget bottomNavBar() {
     return Stack(children: [
       Container(
-        height: 55,
+        height: 60,
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [OurColor.secondColor, OurColor.firstColor],

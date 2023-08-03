@@ -1,7 +1,7 @@
 import 'dart:convert';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:proje/model/IlanModel.dart';
 import 'package:proje/model/KullaniciModel.dart';
 import 'package:proje/model/SirketModel.dart';
 import 'package:proje/pages/screens/is/isilandetay.dart';
@@ -9,8 +9,6 @@ import 'package:proje/pages/screens/is/sirketdetay.dart';
 import 'package:proje/service/get_ilan_service.dart';
 import 'package:proje/service/sirket_service.dart';
 import 'package:proje/utils/themecolors/colors.dart';
-
-import '../../../model/IlanModel.dart';
 import '../hakkimizda/hakkimizda.dart';
 import '../sidebar/sidebar_settings.dart';
 import '../sidebar/support.dart';
@@ -83,6 +81,7 @@ class _IsState extends State<Is> {
   }
 
   Center veriBeklemede() {
+
     return Center(
         child: CircularProgressIndicator(
       valueColor: AlwaysStoppedAnimation<Color>(Colors.green),
@@ -94,9 +93,11 @@ class _IsState extends State<Is> {
       child: ListView.builder(
         itemCount: ilanList.length,
         itemBuilder: (BuildContext context, int index) {
+
         
           IlanModel ilan = ilanList[index];
           String base64Data = ilan.resim!;
+
 
           int mod4 = base64Data.length % 4;
           if (mod4 > 0) {
@@ -154,11 +155,13 @@ class _IsState extends State<Is> {
                               padding: EdgeInsets.symmetric(
                                   vertical: 8.0, horizontal: 25),
                               child: Row(children: [
+
                                 Icon(Icons.apartment),
                                 SizedBox(width: 15),
                                 Text(
                                   ilanList[index].sirket!.sirketAdi.toString(),
                                   style: TextStyle(fontFamily: "OpenSans"),
+
                                 )
                               ]),
                             ),
@@ -178,11 +181,13 @@ class _IsState extends State<Is> {
                               padding: EdgeInsets.symmetric(
                                   vertical: 8.0, horizontal: 25),
                               child: Row(children: [
-                                Icon(Icons.date_range),
-                                SizedBox(width: 15),
+                                const Icon(Icons.date_range),
+                                const SizedBox(width: 15),
                                 Text(
                                   ilanList[index].bitisTarihi.toString(),
-                                  style: TextStyle(fontFamily: "OpenSans"),
+                                  style:
+                                      const TextStyle(fontFamily: "OpenSans"),
+
                                 )
                               ]),
                             ),
@@ -238,7 +243,9 @@ class _IsState extends State<Is> {
                   width: 34,
                   child: Icon(Icons.person_add_alt),
                 ),
-                title: Text("Yeni Bağlantı Ekle"),
+
+                title: const Text("Yeni Bağlantı Ekle"),
+
               ),
             ],
           ),
@@ -262,7 +269,9 @@ class _IsState extends State<Is> {
                   width: 34,
                   child: Icon(Icons.assignment_ind),
                 ),
-                title: Text("Duyurular"),
+
+                title: const Text("Duyurular"),
+
               ),
               Text(
                 "Hesap".toUpperCase(),
@@ -288,7 +297,9 @@ class _IsState extends State<Is> {
                   width: 34,
                   child: Icon(Icons.help_outline_rounded),
                 ),
-                title: Text("Destek"),
+
+                title: const Text("Destek"),
+
               ),
               ListTile(
                 onTap: () => {
@@ -300,7 +311,9 @@ class _IsState extends State<Is> {
                   width: 34,
                   child: Icon(Icons.description),
                 ),
-                title: Text("Hakkımızda"),
+
+                title: const Text("Hakkımızda"),
+
               ),
               ListTile(
                 onTap: () => {
@@ -316,7 +329,9 @@ class _IsState extends State<Is> {
                   width: 34,
                   child: Icon(Icons.settings),
                 ),
-                title: Text("Ayarlar"),
+                title: const Text("Ayarlar"),
+
+
               ),
               ListTile(
                 onTap: () {},
@@ -325,7 +340,9 @@ class _IsState extends State<Is> {
                   width: 34,
                   child: Icon(Icons.exit_to_app),
                 ),
-                title: Text("Çıkış"),
+
+                title: const Text("Çıkış"),
+
               ),
             ],
           )
@@ -339,7 +356,9 @@ class _IsState extends State<Is> {
   Widget infoCard() {
     return const ListTile(
       leading: CircleAvatar(
-        backgroundColor: Color(0xACBFE6),
+
+        backgroundColor: Color(0x00acbfe6),
+
         radius: 25,
         backgroundImage: AssetImage('assets/images/circlee.jpg'),
       ),
@@ -460,6 +479,7 @@ class _IsState extends State<Is> {
       child: ListView.builder(
         itemCount: sirketList.length,
         itemBuilder: (BuildContext context, index) {
+
           SirketModel sirket = sirketList[index];
           String base64Data = sirket.logo!;
           int mod4 = base64Data.length % 4;
@@ -513,6 +533,7 @@ class _IsState extends State<Is> {
                                         firmaAd: sirket.sirketAdi!,
                                         icerik: sirket.sirketAciklamasi!,
                                         logo: base64Data),
+
                                   ));
                             },
                             child: const Text("Detay.."),

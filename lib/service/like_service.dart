@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 
 class LikeService {
   Future<void> likePost(int postId) async {
-    final String apiUrl = "http://192.168.1.41:8080/post/$postId/like";
+    final String apiUrl = "http://192.168.150.39:8080/post/$postId/like";
 
     try {
       final response = await http.post(

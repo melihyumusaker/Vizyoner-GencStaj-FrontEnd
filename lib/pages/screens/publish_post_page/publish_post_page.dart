@@ -7,8 +7,9 @@ import 'package:proje/main.dart';
 import 'package:proje/model/KullaniciModel.dart';
 import 'package:proje/service/get_kullanici_service.dart';
 import 'package:proje/service/post_gonderi_service.dart';
+import 'package:proje/utils/themecolors/colors.dart';
 
-import '../../../utils/themecolors/colors.dart';
+
 
 class PublishPost extends StatefulWidget {
   String email;
@@ -280,6 +281,7 @@ class _PublishPostState extends State<PublishPost> {
                 );
               }).toList();
             },
+
             onSelected: (String x) {
               try {
                 postService.createdPost(

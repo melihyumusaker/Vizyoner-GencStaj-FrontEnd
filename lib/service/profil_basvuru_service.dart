@@ -5,7 +5,8 @@ import 'package:proje/model/BasvuruModel.dart';
 
 class GetBasvuruService {
   Future<List<BasvuruModel>> getAllBasvuruByKullaniciId(int kullaniciId) async {
-    final String baseUrl = 'http://192.168.150.20:8080/basvuru/$kullaniciId';
+    final String baseUrl = 'http://192.168.150.39:8080/basvuru/$kullaniciId';
+
     try {
       final response = await http.get(Uri.parse(baseUrl));
       if (response.statusCode == 200) {

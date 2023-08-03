@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:proje/main.dart';
 import 'package:proje/pages/auth/singup/singup.dart';
 import 'package:proje/service/login_service.dart';
-
-import '../../../utils/reuseable_widgets/auth_reuseable_widgets.dart';
+import 'package:proje/utils/reuseable_widgets/auth_reuseable_widgets.dart';
 import '../reset_password/reset_password.dart';
 
 class Login extends StatefulWidget {
@@ -75,15 +74,29 @@ class _LoginState extends State<Login> {
                     _girisBasarili = sonuc;
                   });
                   debugPrint(_girisBasarili.toString());
+                  _girisBasarili == true
+                      ? Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => BottomTabBar(
+                                    email: _emailTextController.text,
+                                  )))
+                      : showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Text('Giriş'),
+                              content: Text("Mail veya Şifre Hatalı"),
+                              actions: [
+                                TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: Text("Kapat"))
+                              ],
+                            );
+                          });
 
-                  if (_girisBasarili == true) {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => BottomTabBar(
-                                  email: _emailTextController.text,
-                                )));
-                  }
 
                   FirebaseAuth.instance
                       .signInWithEmailAndPassword(

@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 
-import '../../../utils/themecolors/colors.dart';
+import 'package:proje/model/GrupModel.dart';
+import 'package:proje/service/get_grup_service.dart';
+import 'package:proje/service/like_service.dart';
+import 'package:proje/utils/themecolors/colors.dart';
+
+
 import '../notifications/notifications.dart';
 import 'group_new_page.dart';
 
@@ -19,11 +24,36 @@ class GroupListPage extends StatefulWidget {
 class _GroupListPageState extends State<GroupListPage> {
   Color buttonColor = OurColor.firstColor; // Default button color
 
-  _navigateToGroupPage() async {
+  LikeService likeService =  LikeService();
+  List<GrupModel> grupModelList = [];
+
+  @override
+  void initState() {
+    super.initState();
+    fetchGrupList();
+  }
+
+  Future<void> fetchGrupList() async {
+    try {
+      GetGrupService grupService = new GetGrupService();
+      List<GrupModel> list = await grupService.fetchGrupList();
+      setState(() {
+        grupModelList = list;
+      });
+    } catch (e) {
+      print('Hata oluştu: $e');
+    }
+  }
+
+  _navigateToGroupPage(GrupModel grupModel) async {
     // Navigate to the GroupPage using Navigator.push and await the result
     final result = await Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => GroupPage()),
+      MaterialPageRoute(
+          builder: (context) => GroupPage(
+                grupModel: grupModel,
+              )),
+
     );
 
     // When returning from the GroupPage, check the result and update the button color
@@ -41,12 +71,14 @@ class _GroupListPageState extends State<GroupListPage> {
         body: Center(
           child: ListView.builder(
             scrollDirection: Axis.vertical,
-            itemCount: 1,
+
+            itemCount: grupModelList.length,
+
             itemBuilder: (BuildContext context, int index) {
               return Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Card(
-                  margin: EdgeInsets.all(20),
+                  margin: const EdgeInsets.all(20),
                   elevation: 20,
                   shadowColor: Colors.black,
                   clipBehavior: Clip.hardEdge,
@@ -56,7 +88,9 @@ class _GroupListPageState extends State<GroupListPage> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Text(
-                          "Ankara Staj Grubu",
+ 
+                          grupModelList[index].grupAdi.toString(),
+
                           style: TextStyle(
                               fontSize: 18,
                               color: Colors.black87,
@@ -70,7 +104,9 @@ class _GroupListPageState extends State<GroupListPage> {
                             backgroundColor: buttonColor,
                             textStyle: TextStyle(fontSize: 16),
                           ),
-                          onPressed: () => _navigateToGroupPage(),
+                          onPressed: () =>
+                              _navigateToGroupPage(grupModelList[index]),
+
                           child: const Text('Grubu Görüntüle'),
                         ),
                       ],
