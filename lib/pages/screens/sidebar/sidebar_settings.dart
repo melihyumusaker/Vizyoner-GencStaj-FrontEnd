@@ -1,17 +1,27 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:proje/pages/auth/singup/singup.dart';
+import 'package:proje/model/KullaniciModel.dart';
+import 'package:proje/pages/auth/login/login.dart';
+import 'package:proje/service/delete_user_service.dart';
 
 class SideBarAyarlar extends StatefulWidget {
-  const SideBarAyarlar({super.key});
+  KullaniciModel myKullanici;
+   SideBarAyarlar({super.key ,  required this.myKullanici});
 
   @override
   State<SideBarAyarlar> createState() => _SideBarAyarlar();
 }
 
 class _SideBarAyarlar extends State<SideBarAyarlar> {
+
+    @override
+  void initState() {
+    super.initState();
+  }
+  
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0XFF182978),
@@ -32,7 +42,10 @@ class _SideBarAyarlar extends State<SideBarAyarlar> {
                     title: "Dikkat",
                     desc: "Hesabı silmek istediğinizden emin misiniz?",
                     btnCancelOnPress: () {},
-                    btnOkOnPress: () => {Navigator.push(context, MaterialPageRoute(builder: (context)=> Signup()))},
+                    btnOkOnPress: () => {DeleteUserFromDatabase().deleteUser(widget.myKullanici.kullaniciId!),Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => Login()))},
                     btnCancelText: "Hayır",
                     btnOkText: "Evet",
                   ).show();

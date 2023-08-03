@@ -1,21 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:proje/model/KullaniciModel.dart';
 import 'package:proje/pages/screens/hakkimizda/hakkimizda.dart';
 import 'package:proje/pages/screens/sidebar/sidebar_settings.dart';
 import 'package:proje/pages/screens/sidebar/support.dart';
+
 import 'package:quickalert/quickalert.dart';
 
 // 123.satır
 
 class SideBar extends StatefulWidget {
-  const SideBar({super.key});
+  KullaniciModel myKullanici;
+  
+   SideBar({super.key, required this.myKullanici});
 
   @override
   State<SideBar> createState() => _SideBar();
 }
 
 class _SideBar extends State<SideBar> {
-  String _name = "Asuman Kiper";
-  String _email = "asuman.kiper00@gmail.com";
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -126,7 +129,7 @@ class _SideBar extends State<SideBar> {
               ListTile(
                 onTap: () => {
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => SideBarAyarlar()))
+                      MaterialPageRoute(builder: (context) => SideBarAyarlar(myKullanici: widget.myKullanici,)))
                 },
                 leading: SizedBox(
                   height: 34,
@@ -163,13 +166,13 @@ class _SideBar extends State<SideBar> {
         backgroundImage: AssetImage('assets/images/circlee.jpg'),
       ),
       title: Text(
-        "Asuman Kiper",
+        widget.myKullanici.ad.toString(),
         style: TextStyle(
           color: Colors.white,
         ),
       ),
       subtitle: Text(
-        "asuman.kiper00@gmail.com",
+        widget.myKullanici.email.toString(),
         style: TextStyle(
           color: Colors.white,
         ),

@@ -2,21 +2,24 @@
 
 import 'dart:convert';
 import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
+import 'package:proje/model/EgitimModel.dart';
+
 import 'package:proje/model/BasvuruModel.dart';
+import 'package:proje/model/IlanModel.dart';
+import 'package:proje/model/KullaniciModel.dart';
+import 'package:proje/pages/auth/login/login.dart';
 import 'package:proje/pages/screens/hakkimizda/hakkimizda.dart';
 import 'package:proje/pages/screens/notifications/notifications.dart';
 import 'package:proje/pages/screens/profile/edit_profile.dart';
 import 'package:proje/pages/screens/sidebar/sidebar_settings.dart';
 import 'package:proje/pages/screens/sidebar/support.dart';
-import 'package:proje/service/get_kullanici_service.dart';
-import 'package:proje/service/post_ilan_service.dart';
-import 'package:proje/service/profil_basvuru_service.dart';
 
-import '../../../model/IlanModel.dart';
-import '../../../model/KullaniciModel.dart';
-import '../../../utils/themecolors/colors.dart';
+import 'package:proje/service/get_egitim_service.dart';
+import 'package:proje/service/get_kullanici_service.dart';
+
+import 'package:proje/service/profil_basvuru_service.dart';
+import 'package:proje/utils/themecolors/colors.dart';
 import '../group_pages/group_list_page.dart';
 
 List<IlanModel> ilanList = [];
@@ -35,7 +38,7 @@ class ProfilePage extends StatefulWidget {
 int _pageValue = 0;
 
 class _ProfilePageState extends State<ProfilePage> {
-  BasvuruService basvuruService = new BasvuruService();
+  GetBasvuruService basvuruService = new GetBasvuruService();
 
   void fetchBasvuruListByKullaniciId() async {
     try {
@@ -54,41 +57,54 @@ class _ProfilePageState extends State<ProfilePage> {
   void initState() {
     super.initState();
     fetchUser();
+    fetchEgitim();
     fetchBasvuruListByKullaniciId();
   }
 
   KullaniciModel myKullanici = new KullaniciModel();
+  EgitimModel myEgitim = new EgitimModel();
 
   Future<void> fetchUser() async {
     try {
       GetUserService service = GetUserService();
       KullaniciModel kullanici = await service.getOneUserByEmail(widget.email);
+      // EgitimModel egitim = await service.getOneUserByEmail(widget.email);
 
       setState(() {
         myKullanici = kullanici;
+      });
+    } catch (e) {
+
+      print("hata :" + e.toString());
+
+    }
+  }
+
+  Future<void> fetchEgitim() async {
+    try {
+      GetEgitimService egitim_service = GetEgitimService();
+      EgitimModel egitim =
+          await egitim_service.getEgitimBilgileri(widget.kullaniciId);
+
+      setState(() {
+        myEgitim = egitim;
       });
     } catch (e) {
       print("hata :" + e.toString());
     }
   }
 
-  final List<String> hakkinda = [
-    'Kadın',
-    '15.03.2002',
-    'Adres',
-    'Vizyoner Genç',
-  ];
-  final List<String> egitim_bilgileri = [
-    'Abdullah Gül Üniversitesi',
-    'Bilgisayar Mühendisliği',
-    '3. Sınıf',
-    '3.09',
-    'Adres',
-    'Hakkında'
-  ];
+  final List<String> hakkinda = [];
 
   @override
   Widget build(BuildContext context) {
+    hakkinda.addAll([
+      myKullanici.cinsiyet.toString(),
+      myKullanici.dogumTarihi.toString(),
+      myKullanici.adres.toString(),
+      myKullanici.sirket!.sirketAdi.toString()
+    ]);
+
     return Scaffold(
         appBar: _appBarWidget(),
         drawer: _Drawer(),
@@ -97,7 +113,6 @@ class _ProfilePageState extends State<ProfilePage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                //Text(appliedIlanList[0].ilan!.ilanId.toString()),
                 CircleAvatar(
                   backgroundColor: Color(0xACBFE6),
                   radius: 25,
@@ -111,11 +126,14 @@ class _ProfilePageState extends State<ProfilePage> {
                 const SizedBox(
                   height: 15,
                 ),
-                Text("EMİNE BETÜL ERDOĞAN"),
+
+                Text(myKullanici.ad.toString() +
+                    " " +
+                    myKullanici.soyad.toString()),
                 const SizedBox(
                   height: 15,
                 ),
-                Text("betulerdgn52@gmail.com"),
+                Text(widget.email),
                 const SizedBox(
                   height: 25,
                 ),
@@ -141,14 +159,19 @@ class _ProfilePageState extends State<ProfilePage> {
       height: 600,
       child: ListView.builder(
         scrollDirection: Axis.vertical,
-        itemCount: hakkinda.length,
+        itemCount: 4,
         itemBuilder: (context, index) {
-          return Card(
-            child: Padding(
-              padding: EdgeInsets.all(16.0),
-              child: Text(hakkinda[index]),
-            ),
-          );
+          return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: EdgeInsets.all(16.0),
+                  child: Text(hakkinda[index].toString()),
+                ),
+                Divider(
+                  thickness: 2,
+                ),
+              ]);
         },
       ),
     );
@@ -172,7 +195,8 @@ class _ProfilePageState extends State<ProfilePage> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const EditProfilePage()));
+                      builder: (context) =>  EditProfilePage(email: widget.email,)));
+
             },
             icon: Icon(Icons.edit_note_rounded)),
         IconButton(
@@ -180,7 +204,7 @@ class _ProfilePageState extends State<ProfilePage> {
           tooltip: 'Bildirimler',
           onPressed: () {
             Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const Notifications()));
+                MaterialPageRoute(builder: (context) =>  Notifications()));
           },
         ),
       ],
@@ -192,14 +216,42 @@ class _ProfilePageState extends State<ProfilePage> {
       width: MediaQuery.of(context).size.width - 70,
       height: 600,
       child: ListView.builder(
-        scrollDirection: Axis.vertical,
-        itemCount: egitim_bilgileri.length,
+        itemCount: 1,
         itemBuilder: (context, index) {
-          return Card(
-            child: Padding(
-              padding: EdgeInsets.all(16.0),
-              child: Text(egitim_bilgileri[index]),
-            ),
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text(myEgitim.okul.toString()),
+              ),
+              Divider(thickness: 2),
+              Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text(myEgitim.bolum.toString()),
+              ),
+              Divider(thickness: 2),
+              Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text(myEgitim.sinif.toString() + ".sınıf"),
+              ),
+              Divider(thickness: 2),
+              Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text(myEgitim.ortalama.toString()),
+              ),
+              Divider(thickness: 2),
+              Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text(myEgitim.kullanici!.adres.toString()),
+              ),
+              Divider(thickness: 2),
+              Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text(myEgitim.hakkinda.toString()),
+              ),
+              Divider(thickness: 2),
+            ],
           );
         },
       ),
@@ -300,7 +352,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     _pageValue = 0;
                   });
                 },
-                child: const Text("Hakımda"),
+                child: const Text("Hakkımda"),
               ),
             ),
             SizedBox(
@@ -354,7 +406,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     _pageValue = 2;
                   });
                 },
-                child: const Text("Eğitim Bilgierim"),
+                child: const Text("Eğitim Bilgilerim"),
               ),
             )
           ],
@@ -476,8 +528,11 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
               ListTile(
                 onTap: () => {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => SideBarAyarlar()))
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              SideBarAyarlar(myKullanici: myKullanici)))
                 },
                 leading: const SizedBox(
                   height: 34,
@@ -487,7 +542,10 @@ class _ProfilePageState extends State<ProfilePage> {
                 title: Text("Ayarlar"),
               ),
               ListTile(
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => Login()));
+                },
                 leading: const SizedBox(
                   height: 34,
                   width: 34,
@@ -505,20 +563,20 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Widget infoCard() {
-    return const ListTile(
+    return ListTile(
       leading: CircleAvatar(
         backgroundColor: Color(0xACBFE6),
         radius: 25,
         backgroundImage: AssetImage('assets/images/circlee.jpg'),
       ),
       title: Text(
-        "Asuman Kiper",
+        myKullanici.ad.toString() + " " + myKullanici.soyad.toString(),
         style: TextStyle(
           color: Colors.white,
         ),
       ),
       subtitle: Text(
-        "asuman.kiper00@gmail.com",
+        myKullanici.email.toString(),
         style: TextStyle(
           color: Colors.white,
         ),

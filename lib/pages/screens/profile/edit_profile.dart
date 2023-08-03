@@ -2,14 +2,23 @@
 
 import 'dart:io';
 
+
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:proje/model/EgitimModel.dart';
+import 'package:proje/model/KullaniciModel.dart';
 import 'package:proje/pages/screens/notifications/notifications.dart';
+import 'package:proje/service/create_egitim_service.dart';
+import 'package:proje/service/get_kullanici_service.dart';
+import 'package:proje/service/update_kullanici_service.dart';
+import 'package:proje/utils/themecolors/colors.dart';
 
-import '../../../utils/themecolors/colors.dart';
 
 class EditProfilePage extends StatefulWidget {
-  const EditProfilePage({Key? key}) : super(key: key);
+
+  String email;
+  EditProfilePage({Key? key, required this.email}) : super(key: key);
+
 
   @override
   _EditProfilePageState createState() => _EditProfilePageState();
@@ -25,7 +34,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
   ];
 
   final List<String> dropdownOptionsEgitim = [
-    'Hazırlı',
+
+    'Hazırlık',
+
     '1.Sınıf',
     '2.Sınıf',
     '3.Sınıf',
@@ -58,6 +69,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
   @override
   void initState() {
     super.initState();
+
+    fetchUser();
+
     _controllerDate = TextEditingController();
     _controllerUyruk = TextEditingController();
     _controllerAdres = TextEditingController();
@@ -92,6 +106,25 @@ class _EditProfilePageState extends State<EditProfilePage> {
     // Use the gpa variable wherever you want to save or process the GPA value
     // Your database or other logic goes here
   }
+
+  KullaniciModel myKullanici = new KullaniciModel();
+
+  Future<void> fetchUser() async {
+    try {
+      GetUserService service = GetUserService();
+      KullaniciModel kullanici = await service.getOneUserByEmail(widget.email);
+
+      setState(() {
+        myKullanici = kullanici;
+      });
+    } catch (e) {
+      debugPrint("hata :$e");
+    }
+  }
+
+  final UpdateKullaniciService updateService = new UpdateKullaniciService();
+  final CreateEgitimService createEgitimService = new CreateEgitimService();
+
 
   @override
   Widget build(BuildContext context) {
@@ -158,6 +191,13 @@ class _EditProfilePageState extends State<EditProfilePage> {
         ));
   }
 
+
+  String myOption = "";
+  String myEgitimOption = "";
+  String dogumTarih = "";
+  String adres = "";
+
+
   Widget _hakkimda_edit(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
@@ -178,6 +218,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 },
                 onSelected: (String selectedOption) {
                   // Handle the selected option
+                  myOption = selectedOption;
+
                   print('Selected Option: $selectedOption');
                 },
                 child: Container(
@@ -218,7 +260,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   context: context,
                   builder: (BuildContext context) {
                     return AlertDialog(
-                      actions: <Widget>[
+                      actions: [
                         TextButton(
                           onPressed: () {
                             Navigator.pop(context);
@@ -245,7 +287,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
               maxLines: 1,
               controller: _controllerAdres,
               decoration: InputDecoration(
-                hintText: 'Adresnizi Giriniz', // The hint text
+                hintText: 'Adresinizi Giriniz', // The hint text
+
                 border: UnderlineInputBorder(),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(4),
@@ -312,7 +355,10 @@ class _EditProfilePageState extends State<EditProfilePage> {
           SizedBox(
             height: 16,
           ),
-          _profilHakkindaKaydetButton(context)
+          _profilHakkindaKaydetButton(context,
+            myOption,
+            _controllerDate.text,
+            _controllerAdres.text,)
         ],
       ),
     );
@@ -343,7 +389,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
           tooltip: 'Bildirimler',
           onPressed: () {
             Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const Notifications()));
+                MaterialPageRoute(builder: (context) =>  Notifications()));
           },
         ),
       ],
@@ -363,10 +409,11 @@ class _EditProfilePageState extends State<EditProfilePage> {
               controller: _controllerOkul,
               decoration: InputDecoration(
                 hintText: 'Okul Adınız', // The hint text
-                border: UnderlineInputBorder(),
+                border:const UnderlineInputBorder(),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(4),
-                  borderSide: BorderSide(color: Colors.transparent),
+                  borderSide:const BorderSide(color: Colors.transparent),
+
                 ),
               ),
               onSubmitted: (String value) async {
@@ -389,7 +436,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
               },
             ),
           ),
-          const SizedBox(
+           SizedBox(
             height: 12,
           ),
           Padding(
@@ -403,7 +450,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 border: UnderlineInputBorder(),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(4),
-                  borderSide: BorderSide(color: Colors.transparent),
+                  borderSide:const BorderSide(color: Colors.transparent),
+
                 ),
               ),
               onSubmitted: (String value) async {
@@ -439,7 +487,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
               },
               onSelected: (String selectedOption) {
                 // Handle the selected option
-                print('Selected Option: $selectedOption');
+                myEgitimOption = selectedOption;
+                print('Selected Option: $myEgitimOption');
               },
               child: Container(
                 padding: const EdgeInsets.all(4),
@@ -506,6 +555,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(4),
                   borderSide: BorderSide(color: Colors.transparent),
+
                 ),
               ),
               onSubmitted: (String value) async {
@@ -538,11 +588,12 @@ class _EditProfilePageState extends State<EditProfilePage> {
               maxLines: 1,
               controller: _controllerHakkinda,
               decoration: InputDecoration(
-                hintText: 'Hankkınızda', // The hint text
-                border: UnderlineInputBorder(),
+                hintText: 'Hakkınızda', // The hint text
+                border:const UnderlineInputBorder(),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(4),
-                  borderSide: BorderSide(color: Color.fromARGB(0, 38, 11, 214)),
+                  borderSide:const BorderSide(color: Color.fromARGB(0, 38, 11, 214)),
+
                 ),
               ),
               onSubmitted: (String value) async {
@@ -565,7 +616,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
               },
             ),
           ),
-          SizedBox(
+
+          const SizedBox(
+
             height: 16,
           ),
           _profilEgitimKaydetButton(context)
@@ -608,7 +661,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     _pageValue = 0;
                   });
                 },
-                child: const Text("Hakımda"),
+                child: const Text("Hakkımda"),
+
               ),
             ),
             SizedBox(
@@ -666,7 +720,10 @@ class _EditProfilePageState extends State<EditProfilePage> {
     );
   }
 
-  Padding _profilHakkindaKaydetButton(BuildContext context) {
+
+  Padding _profilHakkindaKaydetButton(
+      BuildContext context, String cinsiyet, String dogumTarih, String adres) {
+
     return Padding(
       padding: EdgeInsets.all(15.0),
       child: Container(
@@ -681,7 +738,43 @@ class _EditProfilePageState extends State<EditProfilePage> {
             foregroundColor: Colors.white,
             elevation: 10,
           ),
-          onPressed: () {},
+          onPressed: () async {
+            setState(() {
+              debugPrint(cinsiyet + " " + dogumTarih + " " + adres);
+            });
+            try {
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: const Center(child: Text('Kullanıcı Bilgileri')),
+                      content: const Text("Güncelleme Kaydedildi"),
+                      actions: [
+                        TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: const Text("Kapat"))
+                      ],
+                    );
+                  });
+              KullaniciModel updatedKullanici = KullaniciModel(
+                // Mevcut kullanıcının bilgilerini burada tutuyoruz
+                email: myKullanici.email,
+                sifre: myKullanici.sifre,
+                ad: myKullanici.ad,
+                soyad: myKullanici.soyad,
+                // Güncellenen bilgileri burada alıyoruz
+                adres: adres,
+                dogumTarihi: dogumTarih,
+                cinsiyet: cinsiyet,
+              );
+              await updateService.updateOneUserEmail(
+                  widget.email, updatedKullanici);
+            } catch (e) {
+              print(e);
+            }
+          },
           child: const Text("Kaydet"),
         ),
       ),
@@ -703,7 +796,33 @@ class _EditProfilePageState extends State<EditProfilePage> {
             foregroundColor: Colors.white,
             elevation: 10,
           ),
-          onPressed: () {},
+          onPressed: () async {
+            showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: const Center(child: Text('Eğitim')),
+                    content: const Text("Güncelleme Kaydedildi"),
+                    actions: [
+                      TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: const Text("Kapat"))
+                    ],
+                  );
+                });
+            EgitimModel yeniEgitim = EgitimModel(
+                okul: _controllerOkul.text,
+                ortalama:
+                    double.parse(_controllerGPA.text.replaceAll(',', '.')),
+                sinif: myEgitimOption,
+                bolum: _controllerBolum.text,
+                hakkinda: _controllerHakkinda.text,
+                kullanici: myKullanici);
+            createEgitimService.createEgitim(yeniEgitim);
+          },
+
           child: const Text("Kaydet"),
         ),
       ),

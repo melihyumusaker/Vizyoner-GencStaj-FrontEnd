@@ -1,15 +1,21 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:proje/main.dart';
+import 'package:proje/model/KullaniciModel.dart';
+import 'package:proje/service/get_kullanici_service.dart';
+import 'package:proje/service/post_gonderi_service.dart';
+import 'package:proje/utils/themecolors/colors.dart';
 
-import '../../../utils/themecolors/colors.dart';
+
 
 class PublishPost extends StatefulWidget {
   String email;
-
-  PublishPost({Key? key, required this.email}) : super(key: key);
+  int id;
+  PublishPost({Key? key, required this.email, required this.id})
+      : super(key: key);
 
   @override
   _PublishPostState createState() => _PublishPostState();
@@ -20,7 +26,26 @@ final List<String> dropdownOptions = [
 ];
 
 class _PublishPostState extends State<PublishPost> {
+  Future<PostGonderiService>? _postService;
+  KullaniciModel myKullanici = new KullaniciModel();
+
+  PostGonderiService postService = new PostGonderiService();
+
+  Future<void> fetchUser() async {
+    try {
+      GetUserService service = GetUserService();
+      KullaniciModel kullanici = await service.getOneUserByEmail(widget.email);
+
+      setState(() {
+        myKullanici = kullanici;
+      });
+    } catch (e) {
+      print("hata :" + e.toString());
+    }
+  }
+
   int _currentIndex = 0; // Keep track of the selected tab index
+  String? _base64Image;
 
   File? _image;
 
@@ -29,6 +54,14 @@ class _PublishPostState extends State<PublishPost> {
     if (image != null) {
       setState(() {
         _image = File(image.path);
+      });
+
+      List<int> imageBytes = await _image!.readAsBytesSync();
+      String base64Image = base64Encode(imageBytes);
+
+      setState(() {
+        _base64Image = base64Image;
+        
       });
     }
   }
@@ -39,15 +72,25 @@ class _PublishPostState extends State<PublishPost> {
       setState(() {
         _image = File(image.path);
       });
+
+      List<int> imageBytes = await _image!.readAsBytesSync();
+      String base64Image = base64Encode(imageBytes);
+
+      setState(() {
+
+        _base64Image = base64Image;
+        print(_base64Image.toString());
+      });
     }
   }
 
-  late TextEditingController _controller;
+  TextEditingController _controller = TextEditingController();
 
   @override
   void initState() {
     super.initState();
     _controller = TextEditingController();
+    fetchUser();
   }
 
   @override
@@ -60,75 +103,77 @@ class _PublishPostState extends State<PublishPost> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: _appBarWidgetPublishPage(),
-        body: Column(
-          children: [
-            infoCardForPostPage(),
-            Padding(
-              padding: const EdgeInsets.all(6.0),
-              child: SizedBox(
-                height: 100,
-                child: TextField(
-                  maxLength: 100,
-                  maxLines: 2,
-                  controller: _controller,
-                  onSubmitted: (String value) async {
-                    await showDialog<void>(
-                      barrierColor: OurColor.firstColor,
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          actions: <Widget>[
-                            TextButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              child: const Text('OK'),
-                            ),
-                          ],
-                        );
-                      },
-                    );
-                  },
-                ),
-              ),
-            ),
-            _image != null
-                ? Image.file(
-                    _image!,
-                    height: 100,
-                  )
-                : const Icon(
-                    Icons.photo,
-                    size: 100,
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              infoCardForPostPage(),
+              Padding(
+                padding: const EdgeInsets.all(6.0),
+                child: SizedBox(
+                  height: 100,
+                  child: TextField(
+                    maxLength: 100,
+                    maxLines: 2,
+                    controller: _controller,
+                    onSubmitted: (String value) async {
+                      await showDialog<void>(
+                        barrierColor: OurColor.firstColor,
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            actions: <Widget>[
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: const Text('OK'),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    },
                   ),
-            const SizedBox(
-              height: 5,
-            ),
-            SizedBox(
-              height: 50,
-              width: MediaQuery.of(context).size.width - 50,
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    IconButton(
-                      icon: Icon(Icons.photo),
-                      onPressed: _getImageFromGallery,
-                    ),
-                    IconButton(
-                      icon: Icon(Icons.camera_alt),
-                      onPressed: _getImageFromCamera,
-                    ),
-                    IconButton(
-                      icon: const Icon(Icons.public),
-                      onPressed: () {},
-                    ),
-                  ],
                 ),
               ),
-            ),
-          ],
+              _base64Image != null
+                  ? Image.memory(
+                      base64Decode(_base64Image.toString()),
+                      height: 100,
+                    )
+                  : const Icon(
+                      Icons.photo,
+                      size: 100,
+                    ),
+              const SizedBox(
+                height: 5,
+              ),
+              SizedBox(
+                height: 50,
+                width: MediaQuery.of(context).size.width - 50,
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      IconButton(
+                        icon: Icon(Icons.photo),
+                        onPressed: _getImageFromGallery,
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.camera_alt),
+                        onPressed: _getImageFromCamera,
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.public),
+                        onPressed: () {},
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
         ));
   }
 
@@ -242,8 +287,15 @@ class _PublishPostState extends State<PublishPost> {
                 );
               }).toList();
             },
-            onSelected: (String selectedOption) {
-              //print('Selected Option: $selectedOption');
+
+            onSelected: (String x) {
+              try {
+                postService.createdPost(
+                    _controller.text, _base64Image!, myKullanici);
+                print("Post başarılı");
+              } catch (ex) {
+                print(ex);
+              }
             },
             child: Container(
               padding: const EdgeInsets.all(5),
@@ -273,7 +325,7 @@ Widget infoCardForPostPage() {
           'https://play-lh.googleusercontent.com/7429diO-GMzarMlzzfDf7bgeApqwJGibfq3BKqPCa9lS9hd3gLIimTSe5hz9burHeg'),
     ),
     title: Text(
-      "Emine Betül Erdoğan",
+    "Emine Betul Erdogan",
       style: TextStyle(
         color: OurColor.firstColor,
       ),

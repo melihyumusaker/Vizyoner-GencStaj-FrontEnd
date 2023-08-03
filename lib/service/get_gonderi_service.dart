@@ -1,8 +1,8 @@
 import 'dart:convert';
+
 // ignore: depend_on_referenced_packages
 import 'package:http/http.dart' as http;
 import 'package:proje/model/GonderiModel.dart';
-import 'package:proje/model/SirketModel.dart';
 
 class GonderiService {
   final String url = "http://192.168.150.20:8080/post";

@@ -1,22 +1,23 @@
 import 'dart:convert';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:proje/model/IlanModel.dart';
+import 'package:proje/model/KullaniciModel.dart';
 import 'package:proje/model/SirketModel.dart';
 import 'package:proje/pages/screens/is/isilandetay.dart';
 import 'package:proje/pages/screens/is/sirketdetay.dart';
 import 'package:proje/service/get_ilan_service.dart';
 import 'package:proje/service/sirket_service.dart';
 import 'package:proje/utils/themecolors/colors.dart';
-
-import '../../../model/IlanModel.dart';
 import '../hakkimizda/hakkimizda.dart';
 import '../sidebar/sidebar_settings.dart';
 import '../sidebar/support.dart';
 
 class Is extends StatefulWidget {
   String email;
-  Is({super.key, required this.email});
+  KullaniciModel myKullanici;
+  Is({super.key, required this.email, required this.myKullanici});
+
 
   @override
   State<Is> createState() => _IsState();
@@ -81,6 +82,7 @@ class _IsState extends State<Is> {
   }
 
   Center veriBeklemede() {
+
     return Center(
         child: CircularProgressIndicator(
       valueColor: AlwaysStoppedAnimation<Color>(Colors.green),
@@ -92,8 +94,16 @@ class _IsState extends State<Is> {
       child: ListView.builder(
         itemCount: ilanList.length,
         itemBuilder: (BuildContext context, int index) {
-          Uint8List bytesImageIlan =
-              const Base64Decoder().convert(ilanList[index].resim!);
+
+          IlanModel ilan = ilanList[index];
+          String base64Data = ilan.resim!;
+          int mod4 = base64Data.length % 4;
+          if (mod4 > 0) {
+            base64Data += '=' * (4 - mod4);
+          }
+          Uint8List bytesImage = base64.decode(base64Data);
+
+
           return Card(
             color: OurColor.thirdColor,
             elevation: 25,
@@ -112,7 +122,7 @@ class _IsState extends State<Is> {
                         ilanBaslG: ilanList[index].ilanBaslG ??=
                             "Fallback Value",
                         metin: ilanList[index].ilanMetni ??= "Fallback Value",
-                        resim: ilanList[index].resim ??= "Fallback Value",
+                        resim: base64Data,
                         firmaAdi: ilanList[index].sirket!.sirketAdi ??=
                             "Fallback Value",
                         adress: ilanList[index].sirket!.adres ??=
@@ -144,11 +154,13 @@ class _IsState extends State<Is> {
                               padding: EdgeInsets.symmetric(
                                   vertical: 8.0, horizontal: 25),
                               child: Row(children: [
+
                                 Icon(Icons.apartment),
                                 SizedBox(width: 15),
                                 Text(
                                   ilanList[index].sirket!.sirketAdi.toString(),
                                   style: TextStyle(fontFamily: "OpenSans"),
+
                                 )
                               ]),
                             ),
@@ -168,11 +180,13 @@ class _IsState extends State<Is> {
                               padding: EdgeInsets.symmetric(
                                   vertical: 8.0, horizontal: 25),
                               child: Row(children: [
-                                Icon(Icons.date_range),
-                                SizedBox(width: 15),
+                                const Icon(Icons.date_range),
+                                const SizedBox(width: 15),
                                 Text(
                                   ilanList[index].bitisTarihi.toString(),
-                                  style: TextStyle(fontFamily: "OpenSans"),
+                                  style:
+                                      const TextStyle(fontFamily: "OpenSans"),
+
                                 )
                               ]),
                             ),
@@ -227,7 +241,9 @@ class _IsState extends State<Is> {
                   width: 34,
                   child: Icon(Icons.person_add_alt),
                 ),
-                title: Text("Yeni Bağlantı Ekle"),
+
+                title: const Text("Yeni Bağlantı Ekle"),
+
               ),
             ],
           ),
@@ -251,7 +267,9 @@ class _IsState extends State<Is> {
                   width: 34,
                   child: Icon(Icons.assignment_ind),
                 ),
-                title: Text("Duyurular"),
+
+                title: const Text("Duyurular"),
+
               ),
               Text(
                 "Hesap".toUpperCase(),
@@ -277,7 +295,9 @@ class _IsState extends State<Is> {
                   width: 34,
                   child: Icon(Icons.help_outline_rounded),
                 ),
-                title: Text("Destek"),
+
+                title: const Text("Destek"),
+
               ),
               ListTile(
                 onTap: () => {
@@ -289,19 +309,27 @@ class _IsState extends State<Is> {
                   width: 34,
                   child: Icon(Icons.description),
                 ),
-                title: Text("Hakkımızda"),
+
+                title: const Text("Hakkımızda"),
+
               ),
               ListTile(
                 onTap: () => {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => SideBarAyarlar()))
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => SideBarAyarlar(
+                                myKullanici: widget.myKullanici,
+                              )))
                 },
                 leading: const SizedBox(
                   height: 34,
                   width: 34,
                   child: Icon(Icons.settings),
                 ),
-                title: Text("Ayarlar"),
+                title: const Text("Ayarlar"),
+
+
               ),
               ListTile(
                 onTap: () {},
@@ -310,7 +338,9 @@ class _IsState extends State<Is> {
                   width: 34,
                   child: Icon(Icons.exit_to_app),
                 ),
-                title: Text("Çıkış"),
+
+                title: const Text("Çıkış"),
+
               ),
             ],
           )
@@ -324,7 +354,9 @@ class _IsState extends State<Is> {
   Widget infoCard() {
     return const ListTile(
       leading: CircleAvatar(
-        backgroundColor: Color(0xACBFE6),
+
+        backgroundColor: Color(0x00acbfe6),
+
         radius: 25,
         backgroundImage: AssetImage('assets/images/circlee.jpg'),
       ),
@@ -444,9 +476,17 @@ class _IsState extends State<Is> {
     return Expanded(
       child: ListView.builder(
         itemCount: sirketList.length,
-        itemBuilder: (BuildContext context, int index) {
-          Uint8List bytesImage =
-              const Base64Decoder().convert(sirketList[index].logo!);
+        itemBuilder: (BuildContext context, index) {
+
+          SirketModel sirket = sirketList[index];
+          String base64Data = sirket.logo!;
+          int mod4 = base64Data.length % 4;
+          if (mod4 > 0) {
+            base64Data += '=' * (4 - mod4);
+          }
+
+          Uint8List bytesImage = base64.decode(base64Data);
+
           return Card(
             color: OurColor.thirdColor,
             elevation: 25,
@@ -488,10 +528,12 @@ class _IsState extends State<Is> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => SirketDetay(
-                                        firmaAd: sirketList[index].sirketAdi!,
-                                        icerik:
-                                            sirketList[index].sirketAciklamasi!,
-                                        logo: sirketList[index].logo!),
+
+                                      firmaAd: sirket.sirketAdi!,
+                                      icerik: sirket.sirketAciklamasi!,
+                                      logo: base64Data,
+                                    ),
+
                                   ));
                             },
                             child: const Text("Detay.."),

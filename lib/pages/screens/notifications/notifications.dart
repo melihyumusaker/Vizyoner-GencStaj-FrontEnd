@@ -21,8 +21,11 @@ class _Notifications extends State<Notifications> {
       body: ListView(
         //height: double.infinity,
         children: [
-          _ListTileMethod("Asuman Kiper", "bağlantı isteğini kabul etti." ,"20 saat önce"),
+          _ListTileMethod("Asuman Kiper", "bağlantı isteğini kabul etti." ,"2 saat önce"),
           Divider(),
+          _ListTileMethod("Emine Betül Erdoğan", "sizinle bağlantı kurmak istiyor." ,"7 saat önce"),
+          Divider(),
+          
         ],
       ),
     );

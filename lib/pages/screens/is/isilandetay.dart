@@ -4,11 +4,9 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:proje/model/BasvuruModel.dart';
 import 'package:proje/model/IlanModel.dart';
-import 'package:proje/service/post_ilan_service.dart';
+import 'package:proje/model/KullaniciModel.dart';
+import 'package:proje/service/get_kullanici_service.dart';
 import 'package:proje/utils/themecolors/colors.dart';
-
-import '../../../model/KullaniciModel.dart';
-import '../../../service/get_kullanici_service.dart';
 
 class IsIlanDetay extends StatefulWidget {
   IlanModel ilanModel;
@@ -106,16 +104,7 @@ class _IsIlanDetayState extends State<IsIlanDetay> {
             borderRadius: BorderRadius.circular(10),
           ),
         ),
-        onPressed: () async {
-          try {
-            int basvuruId = await BasvuruService.saveBasvuru(
-              BasvuruModel(ilan: ilanModel, kullanici: myKullanici),
-            );
-            print('Basvuru saved with ID: $basvuruId');
-          } catch (e) {
-            print('Error saving Basvuru: $e');
-          }
-        },
+        onPressed: () {},
         child: const Text("Başvur"),
       ),
     );
