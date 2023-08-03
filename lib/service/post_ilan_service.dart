@@ -1,52 +1,43 @@
-import 'dart:convert';
 import 'dart:developer';
-import 'dart:typed_data';
 
 import "package:http/http.dart" as http;
-import 'package:http_parser/http_parser.dart';
 
 import '../model/BasvuruModel.dart';
 
 class BasvuruService {
   static Future<int> saveBasvuru(BasvuruModel basvuru) async {
     try {
-      final Map<String, String> headers = {
-        'Content-Type': 'multipart/form-data',
-      };
+      final Map<String, String> headers = {"Connection": "keep-alive"};
       log(basvuru.kullanici!.kullaniciId.toString());
       log(basvuru.ilan!.ilanId.toString());
 
-      Uint8List bytesImageIlan =
-          const Base64Decoder().convert(basvuru.ilan!.resim!);
-      final imageFile = http.MultipartFile.fromBytes(
-        'resim',
-        bytesImageIlan,
-        filename: 'resim.png',
-        contentType: MediaType('image', 'png'),
-      );
-
-      final request = http.MultipartRequest(
+      final request = http.Request(
         "POST",
         Uri.parse("http://192.168.150.20:8080/basvuru"),
       );
 
       request.headers.addAll(headers);
 
-      request.fields['kullaniciId'] = basvuru.kullanici!.kullaniciId.toString();
-      request.fields['ilan_id'] = basvuru.ilan!.ilanId.toString();
-
-      request.files.add(imageFile);
-
-      final response = await request.send();
+      final response = await http.post(
+          Uri.parse("http://192.168.150.20:8080/basvuru"),
+          headers: headers,
+          body: {
+            "kullaniciId": basvuru.kullanici!.kullaniciId,
+            "ilan_id": basvuru.ilan!.ilanId
+          });
 
       if (response.statusCode == 200) {
-        final responseBody = await response.stream.bytesToString();
+        /**
+         *  final responseBody = await response.stream.bytesToString();
 
         final Map<String, dynamic> parsedJson = jsonDecode(responseBody);
 
         final int basvuruId = parsedJson['basvuru_id'];
 
         return basvuruId;
+         */
+
+        return 4;
       } else {
         throw Exception('Failed to save Basvuru.');
       }
@@ -56,7 +47,6 @@ class BasvuruService {
     }
   }
 }
-
 
 /**
  * class BasvuruService {

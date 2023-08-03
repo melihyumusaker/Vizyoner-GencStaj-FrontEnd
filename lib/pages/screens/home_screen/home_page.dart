@@ -1,9 +1,9 @@
 // ignore_for_file: library_private_types_in_public_api
 
 import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:proje/model/GonderiModel.dart';
 import 'package:proje/model/KullaniciModel.dart';
 import 'package:proje/pages/screens/hakkimizda/hakkimizda.dart';
@@ -18,7 +18,7 @@ import 'package:proje/service/like_service.dart';
 import '../../../utils/themecolors/colors.dart';
 
 class HomeScreen extends StatefulWidget {
-  String email;
+  final String email;
 
   HomeScreen({
     Key? key,
@@ -32,6 +32,18 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   KullaniciModel myKullanici = new KullaniciModel();
   LikeService likeService = new LikeService();
+
+  @override
+  void initState() {
+    super.initState();
+    fetchGonderiList();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    fetchUser();
+  }
 
   Future<void> fetchUser() async {
     try {
@@ -47,13 +59,6 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   List<GonderiModel> gonderiList = [];
-
-  @override
-  void initState() {
-    super.initState();
-    fetchUser();
-    fetchGonderiList();
-  }
 
   Future<void> fetchGonderiList() async {
     try {
@@ -73,7 +78,21 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _appBarWidgetForMainPage(),
-      body: _MainPageListViewCard(myKullanici, gonderiList),
+      body: FutureBuilder(
+        future: Future.wait([fetchUser(), fetchGonderiList()]),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            // While data is being fetched, show a loading indicator
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            // If there's an error during data fetching, show an error message
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else {
+            // When data is successfully fetched, show the main content
+            return _MainPageListViewCard(myKullanici, gonderiList);
+          }
+        },
+      ),
       drawer: _Drawer(),
     );
   }
