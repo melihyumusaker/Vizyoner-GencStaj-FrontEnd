@@ -1,6 +1,11 @@
+import 'dart:convert';
+
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:proje/model/GonderiModel.dart';
 import 'package:proje/model/GrupModel.dart';
+import 'package:proje/service/get_grup_gonderi.dart';
+import 'package:proje/service/get_grup_service.dart';
 
 import '../../../utils/themecolors/colors.dart';
 
@@ -17,6 +22,38 @@ class GroupPage extends StatefulWidget {
 }
 
 class _GroupPageState extends State<GroupPage> {
+  final GetGrupGonderiService grupService = new GetGrupGonderiService();
+  List<GonderiModel> myList = [];
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    fetchGrupGonderi();
+  }
+
+  void fetchGrupGonderi() async {
+    List<dynamic> kullaniciIDListesiDynamic = widget.grupModel.uyeler!
+        .map((kullanici) => kullanici.kullaniciId)
+        .toList();
+
+    List<int> kullaniciIDListesi = kullaniciIDListesiDynamic.map((item) {
+      if (item is int) {
+        return item;
+      } else if (item is String) {
+        return int.tryParse(item) ?? 0;
+      } else {
+        return 0;
+      }
+    }).toList();
+
+    List<GonderiModel> list =
+        await grupService.getGrupGonderileri(kullaniciIDListesi);
+
+    setState(() {
+      myList = list;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,8 +61,13 @@ class _GroupPageState extends State<GroupPage> {
         body: Center(
           child: ListView.builder(
             scrollDirection: Axis.vertical,
-            itemCount: 2,
+            itemCount: myList.length,
             itemBuilder: (BuildContext context, int index) {
+              String postResim = myList[index].fotografGonderi.toString();
+              int mod4 = postResim.length % 4;
+              if (mod4 > 0) {
+                postResim += '=' * (4 - mod4);
+              }
               return Card(
                 margin: const EdgeInsets.all(30),
                 elevation: 20,
@@ -35,21 +77,22 @@ class _GroupPageState extends State<GroupPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     _grupInfoText(),
-                    infoCardForMainPage(widget.grupModel),
+                    infoCardForMainPage(widget.grupModel, index),
                     Center(
                       child: Column(
-                        children: const [
+                        children: [
                           Padding(
                             padding: EdgeInsets.all(10.0),
-                            child: Text(
-                                "Seat&Cupra Pazarlama Proje Bazlı #Stajyer İlanı\nGENEL NİTELİKLER\n• Üniversitelerin #Mühendislik , #işletme , #iletişim , #iktisadi ve İdari Bilimler Fakültesinde son sınıf #Öğrencisi veya #Mezun ,\n• En az 4 iş günü çalışabilecek,\n• İyi derecede İngilizce bilen,\n• İletişim becerileri yüksek,\n• Takım çalışmasına yatkın,"),
+                            child: Text(myList[index].icerik.toString()),
                           ),
                           SizedBox(height: 10),
                           Padding(
                             padding: EdgeInsets.all(10.0),
-                            child: Image(
-                                image: NetworkImage(
-                                    "https://vizyonergenc.com/storage/1400746/WmHNOeqS4fenlh5jhZNTZa3NDd6Rvh5EIBgjwuYG.jpeg")),
+                            child: Image.memory(
+                              base64Decode(postResim),
+                              width: 350,
+                              height: 250,
+                            ),
                           )
                         ],
                       ),
@@ -106,15 +149,16 @@ class _GroupPageState extends State<GroupPage> {
 
   Padding _grupInfoText() {
     return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Align(
-                      alignment: Alignment.centerRight,
-                      child: Text(
-                        widget.grupModel.grupAdi.toString() + " Grubu Gönderisidir",
-                        style: TextStyle(fontFamily: "OpenSans", fontSize: 15 , color: Colors.black54),
-                      ),
-                    ),
-                  );
+      padding: const EdgeInsets.all(8.0),
+      child: Align(
+        alignment: Alignment.centerRight,
+        child: Text(
+          widget.grupModel.grupAdi.toString() + " Grubu Gönderisidir",
+          style: TextStyle(
+              fontFamily: "OpenSans", fontSize: 15, color: Colors.black54),
+        ),
+      ),
+    );
   }
 
   AppBar _appBarForGroupMainPage() {
@@ -135,7 +179,7 @@ class _GroupPageState extends State<GroupPage> {
           Navigator.pop(context, 'success');
         },
       ),
-      title: Center(child: Text("Ankara Staj Grubu")),
+      title: Center(child: Text(widget.grupModel.grupAdi.toString())),
       actions: <Widget>[
         Container(
           width: 60,
@@ -164,7 +208,7 @@ class _GroupPageState extends State<GroupPage> {
     );
   }
 
-  Widget infoCardForMainPage(GrupModel grupModel) {
+  Widget infoCardForMainPage(GrupModel grupModel, int index) {
     return ListTile(
       leading: const CircleAvatar(
         backgroundColor: Color(0x00acbfe6),
@@ -173,13 +217,9 @@ class _GroupPageState extends State<GroupPage> {
             'https://play-lh.googleusercontent.com/7429diO-GMzarMlzzfDf7bgeApqwJGibfq3BKqPCa9lS9hd3gLIimTSe5hz9burHeg'),
       ),
       title: Text(
-        "Emine Betül Erdoğan",
-        style: TextStyle(
-          color: OurColor.firstColor,
-        ),
-      ),
-      subtitle: Text(
-        "3 dakika Önce",
+        myList[index].kullanici!.ad.toString() +
+            " " +
+            myList[index].kullanici!.soyad.toString(),
         style: TextStyle(
           color: OurColor.firstColor,
         ),
