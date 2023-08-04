@@ -2,10 +2,10 @@
 
 import 'dart:convert';
 import 'dart:typed_data';
-import 'package:flutter/material.dart';
-import 'package:proje/model/EgitimModel.dart';
 
+import 'package:flutter/material.dart';
 import 'package:proje/model/BasvuruModel.dart';
+import 'package:proje/model/EgitimModel.dart';
 import 'package:proje/model/IlanModel.dart';
 import 'package:proje/model/KullaniciModel.dart';
 import 'package:proje/pages/auth/login/login.dart';
@@ -14,12 +14,11 @@ import 'package:proje/pages/screens/notifications/notifications.dart';
 import 'package:proje/pages/screens/profile/edit_profile.dart';
 import 'package:proje/pages/screens/sidebar/sidebar_settings.dart';
 import 'package:proje/pages/screens/sidebar/support.dart';
-
 import 'package:proje/service/get_egitim_service.dart';
 import 'package:proje/service/get_kullanici_service.dart';
-
 import 'package:proje/service/profil_basvuru_service.dart';
 import 'package:proje/utils/themecolors/colors.dart';
+
 import '../group_pages/group_list_page.dart';
 
 List<IlanModel> ilanList = [];
@@ -74,9 +73,7 @@ class _ProfilePageState extends State<ProfilePage> {
         myKullanici = kullanici;
       });
     } catch (e) {
-
       print("hata :" + e.toString());
-
     }
   }
 
@@ -126,7 +123,6 @@ class _ProfilePageState extends State<ProfilePage> {
                 const SizedBox(
                   height: 15,
                 ),
-
                 Text(myKullanici.ad.toString() +
                     " " +
                     myKullanici.soyad.toString()),
@@ -195,8 +191,9 @@ class _ProfilePageState extends State<ProfilePage> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) =>  EditProfilePage(email: widget.email,)));
-
+                      builder: (context) => EditProfilePage(
+                            email: widget.email,
+                          )));
             },
             icon: Icon(Icons.edit_note_rounded)),
         IconButton(
@@ -204,7 +201,7 @@ class _ProfilePageState extends State<ProfilePage> {
           tooltip: 'Bildirimler',
           onPressed: () {
             Navigator.push(context,
-                MaterialPageRoute(builder: (context) =>  Notifications()));
+                MaterialPageRoute(builder: (context) => Notifications()));
           },
         ),
       ],
@@ -277,35 +274,34 @@ class _ProfilePageState extends State<ProfilePage> {
               child: SizedBox(
                 width: 200,
                 height: 220,
-                child: Row(
-                  children: [
-                    Expanded(
-                      flex: 10,
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(
-                                  top: 20, left: 35, bottom: 10),
-                              child: Text(
-                                appliedIlanList[index]
-                                    .ilan!
-                                    .ilanBaslG
-                                    .toString(),
-                                style: TextStyle(
-                                    fontFamily: "OpenSans", fontSize: 15),
-                              ),
+                child: Expanded(
+                  flex: 10,
+                  child: Column(
+
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding:
+                              EdgeInsets.only(top: 20),
+                          child: Center(
+                            child: Text(
+                              appliedIlanList[index].ilan!.ilanBaslG.toString(),
+                              style: TextStyle(
+                                  fontFamily: "OpenSans",
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold),
                             ),
-                          ]),
-                    ),
-                    Expanded(
-                      flex: 6,
-                      child: Container(
-                        padding: const EdgeInsets.only(right: 25),
-                        child: Image.asset("assets/images/facebook.jpg"),
-                      ),
-                    )
-                  ],
+                          ),
+                        ),
+                        Expanded(
+                          flex: 6,
+                          child: Container(
+                            padding: const EdgeInsets.only(top: 15),
+                            child: Image.memory(bytesImageIlan,
+                                height: 170, width: 150),
+                          ),
+                        )
+                      ]),
                 ),
               ),
             ),

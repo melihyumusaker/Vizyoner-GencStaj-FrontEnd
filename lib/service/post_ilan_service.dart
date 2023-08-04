@@ -13,13 +13,13 @@ class BasvuruService {
 
       final request = http.Request(
         "POST",
-        Uri.parse("http://192.168.150.20:8080/basvuru"),
+        Uri.parse("http://192.168.150.39:8080/basvuru"),
       );
 
       request.headers.addAll(headers);
 
       final response = await http.post(
-          Uri.parse("http://192.168.150.20:8080/basvuru"),
+          Uri.parse("http://192.168.150.39:8080/basvuru"),
           headers: headers,
           body: {
             "kullaniciId": basvuru.kullanici!.kullaniciId,

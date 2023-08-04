@@ -22,7 +22,7 @@ class Misyon extends StatelessWidget {
 
   Container _bgimage(BuildContext context) {
     return Container(
-        width: MediaQuery.of(context).size.width - 75,
+        width: MediaQuery.of(context).size.width ,
         height: MediaQuery.of(context).size.height - 75,
         decoration: const BoxDecoration(
           image: DecorationImage(

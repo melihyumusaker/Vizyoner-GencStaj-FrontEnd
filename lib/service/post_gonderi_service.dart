@@ -12,7 +12,7 @@ class PostGonderiService {
     Map<String, dynamic> request = {
       'icerik': icerik,
       'fotografGonderi': fotograf,
-      'kullanici_id': kullanici.kullaniciId
+      'kullaniciId': kullanici.kullaniciId
     };
 
     final Map<String, String> headers = {

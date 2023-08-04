@@ -4,6 +4,7 @@ import 'package:proje/main.dart';
 import 'package:proje/pages/auth/singup/singup.dart';
 import 'package:proje/service/login_service.dart';
 import 'package:proje/utils/reuseable_widgets/auth_reuseable_widgets.dart';
+
 import '../reset_password/reset_password.dart';
 
 class Login extends StatefulWidget {
@@ -41,8 +42,8 @@ class _LoginState extends State<Login> {
                   height: 250,
                   width: 250,
                   child: const Image(
-                    image: NetworkImage(
-                        "https://vizyonergenc.com/company/vg800600.png"),
+                    image: AssetImage(
+                        "assets/images/vizyonergenc.png"),
                     fit: BoxFit.fill,
                   ),
                 ),

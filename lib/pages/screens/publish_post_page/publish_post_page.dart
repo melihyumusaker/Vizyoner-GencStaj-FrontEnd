@@ -5,11 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:proje/main.dart';
 import 'package:proje/model/KullaniciModel.dart';
-import 'package:proje/service/get_kullanici_service.dart';
 import 'package:proje/service/post_gonderi_service.dart';
 import 'package:proje/utils/themecolors/colors.dart';
-
-
 
 class PublishPost extends StatefulWidget {
   String email;
@@ -26,18 +23,13 @@ class PublishPost extends StatefulWidget {
   _PublishPostState createState() => _PublishPostState();
 }
 
-final List<String> dropdownOptions = [
-  'Ankara Staj Grubu',
-];
+final List<String> dropdownOptions = ["Adanalilar"];
 
 class _PublishPostState extends State<PublishPost> {
   Future<PostGonderiService>? _postService;
   KullaniciModel myKullanici = new KullaniciModel();
 
   PostGonderiService postService = new PostGonderiService();
-
-
-
   int _currentIndex = 0; // Keep track of the selected tab index
   String? _base64Image;
 
@@ -55,6 +47,7 @@ class _PublishPostState extends State<PublishPost> {
 
       setState(() {
         _base64Image = base64Image;
+         print(_base64Image.toString());
       });
     }
   }
@@ -82,7 +75,6 @@ class _PublishPostState extends State<PublishPost> {
   void initState() {
     super.initState();
     _controller = TextEditingController();
-
   }
 
   @override
@@ -170,8 +162,6 @@ class _PublishPostState extends State<PublishPost> {
   }
 
   Widget publish() {
-
-
     return Column(
       children: [
         infoCardForPostPage(myKullanici),
@@ -281,7 +271,6 @@ class _PublishPostState extends State<PublishPost> {
                 );
               }).toList();
             },
-
             onSelected: (String x) {
               try {
                 postService.createdPost(
@@ -318,7 +307,6 @@ Widget infoCardForPostPage(KullaniciModel user) {
       backgroundImage: AssetImage('assets/images/circlee.jpg'),
     ),
     title: Text(
-
       user.ad.toString() + " " + user.soyad.toString(),
       style: TextStyle(
         color: OurColor.firstColor,

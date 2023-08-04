@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:proje/model/GrupModel.dart';
 import 'package:http/http.dart' as http;
+import 'package:proje/model/GrupModel.dart';
 
 class GetGrupService {
   Future<List<GrupModel>> fetchGrupList() async {

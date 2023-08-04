@@ -2,7 +2,6 @@
 
 import 'dart:io';
 
-
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:proje/model/EgitimModel.dart';
@@ -28,7 +27,7 @@ int _pageValue = 0;
 
 class _EditProfilePageState extends State<EditProfilePage> {
   final List<String> dropdownOptions = [
-    'Kadın',
+    'Kadin',
     'Erkek',
     'Belirtmek İstemiyorum'
   ];
@@ -161,11 +160,11 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 const SizedBox(
                   height: 15,
                 ),
-                Text("EMİNE BETÜL ERDOĞAN"),
+                Text(myKullanici.ad.toString()+""+myKullanici.soyad.toString()),
                 const SizedBox(
                   height: 15,
                 ),
-                Text("betulerdgn52@gmail.com"),
+                Text(myKullanici.email.toString()),
                 const SizedBox(
                   height: 25,
                 ),

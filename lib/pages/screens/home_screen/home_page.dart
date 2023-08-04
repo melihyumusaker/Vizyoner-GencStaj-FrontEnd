@@ -71,6 +71,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
       setState(() {
         gonderiList = list;
+        gonderiList.shuffle();
+
       });
     } catch (e) {
       print("hata :" + e.toString());

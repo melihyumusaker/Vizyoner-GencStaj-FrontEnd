@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:proje/main.dart';
+import 'package:proje/model/IlanModel.dart';
+import 'package:proje/pages/screens/profile/profile.dart';
+import 'package:proje/service/get_ilan_service.dart';
 import 'package:proje/utils/themecolors/colors.dart';
 
 class SearchPage extends StatefulWidget {
@@ -26,6 +29,7 @@ class _SearchPageState extends State<SearchPage> {
     super.initState();
     _filteredData = _data;
     _searchController.addListener(_performSearch);
+    fetchIlanList();
   }
 
   @override
@@ -50,6 +54,21 @@ class _SearchPageState extends State<SearchPage> {
           .toList();
       _isLoading = false;
     });
+  }
+
+
+  List<IlanModel> ilanList = [];
+
+    Future<void> fetchIlanList() async {
+    try {
+      IlanService service = IlanService();
+      List<IlanModel> list = await service.fetchIlanList();
+      setState(() {
+        ilanList = list;
+      });
+    } catch (e) {
+      print('Hata oluştu: $e');
+    }
   }
 
   @override
@@ -111,10 +130,10 @@ class _SearchPageState extends State<SearchPage> {
                 child: CircularProgressIndicator(color: OurColor.firstColor),
               )
             : ListView.builder(
-                itemCount: _filteredData.length,
+                itemCount: ilanList.length,
                 itemBuilder: (context, index) => ListTile(
                   title: Text(
-                    _filteredData[index],
+                    ilanList[index].ilanBaslG.toString(),
                     style: TextStyle(color: OurColor.firstColor),
                   ),
                 ),

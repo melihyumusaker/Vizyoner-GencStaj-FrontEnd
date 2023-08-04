@@ -52,6 +52,7 @@ class _GroupPageState extends State<GroupPage> {
 
     setState(() {
       myList = list;
+      myList.shuffle();
     });
   }
 
