@@ -14,7 +14,12 @@ The backend of the application is made with Spring Boot
 If you have any questions or need further assistance, you can reach out to our team at [vizyonergencexpended@gmail.com].
 
 
+**VG Expanded Backend Repo:**
 
+https://github.com/hilalyrt/vg_backend
+
+**Quick Into to aour Mobile App
+**
 
 https://github.com/melihyumusaker/Vizyoner-GencStaj-FrontEnd/assets/115775094/aba39968-1673-4164-bc4c-2167fba5e106
 
