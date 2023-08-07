@@ -1,16 +1,15 @@
-# proje
+**Introduction**
 
-A new Flutter project.
+VG Expanded is a versatile platform that serves as a freelancing marketplace, job search platform, social media platform, and networking tool all in one. This app empowers users to find freelance work, create and join groups, share posts, and showcase their skills and educational background.
 
-## Getting Started
+**Features**
+Search and apply for freelance jobs
+Create and manage groups for specific interests (e.g., Internship Group)
+Post and share updates, photos, and text content
+Add personal and educational information to your profile
+You can use it as a networking platform 
+The backend of the application is made with Spring Boot
 
-This project is a starting point for a Flutter application.
+**Contact**
+If you have any questions or need further assistance, you can reach out to our team at [vizyonergencexpended@gmail.com].
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
